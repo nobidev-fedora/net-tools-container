@@ -1,7 +1,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 4
+Release: 6
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -56,6 +56,12 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
 
 %changelog
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
 * Fri Apr 12 2002 Jeremy Katz <katzj@redhat.com>
 - fix nstrcmp() to be correct in the case where there are many devices 
   of the same type, eg, "eth10" > "eth1"  (#61436)
