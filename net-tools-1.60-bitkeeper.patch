@@ -1,5 +1,5 @@
---- net-tools-1.60/netplug-1.2.7/Makefile.kill_bitkeeper	2005-01-10 11:36:32.000000000 +0100
-+++ net-tools-1.60/netplug-1.2.7/Makefile	2005-01-10 11:38:01.796744224 +0100
+--- net-tools-1.60/netplug-1.2.9/Makefile.kill_bitkeeper	2005-01-10 11:36:32.000000000 +0100
++++ net-tools-1.60/netplug-1.2.9/Makefile	2005-01-10 11:38:01.796744224 +0100
 @@ -24,10 +24,12 @@
  	install $(install_opts) -m 755 scripts/rc.netplugd $(initdir)/netplugd
  	install -C $(install_opts) -m 444 man/man8/netplugd.8 $(mandir)/man8

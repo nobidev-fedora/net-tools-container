@@ -1,9 +1,9 @@
-%define npversion	1.2.7
+%define npversion	1.2.9
 
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 43
+Release: 44
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -23,12 +23,9 @@ Patch9: net-tools-1.60-man.patch
 Patch10: net-tools-1.60-gcc33.patch
 Patch11: net-tools-1.60-trailingblank.patch
 Patch12: net-tools-1.60-interface.patch
-Patch13: netplug-1.2.1-init.patch
 Patch14: net-tools-1.60-gcc34.patch
 Patch15: net-tools-1.60-overflow.patch
 Patch16: net-tools-1.60-execshield.patch
-Patch17: netplug-1.2.7-compiler.patch
-Patch18: netplug-1.2.7-installopts.patch
 Patch19: net-tools-1.60-siunits.patch
 Patch20: net-tools-1.60-trunc.patch
 Patch21: net-tools-1.60-return.patch
@@ -66,12 +63,9 @@ ifconfig, netstat, route, and others.
 %patch10 -p1 -b .gcc33
 %patch11 -p1 -b .trailingblank
 %patch12 -p1 -b .interface
-%patch13 -p1 -b .init
 %patch14 -p1 -b .gcc34
 %patch15 -p1 -b .overflow
 %patch16 -p1 -b .execshield
-%patch17 -p1 -b .compiler
-%patch18 -p1 -b .installopts
 %patch19 -p1 -b .siunits
 %patch20 -p1 -b .trunc
 %patch21 -p1 -b .return
@@ -188,6 +182,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Feb 07 2005 Radek Vokal <rvokal@redhat.com> 1.60-44
+- net-plug-1.2.9 - no changes, upstream included Red Hat patches
+- ether-wake-1.08 - few changes in implementation (#145718)
+
 * Mon Jan 10 2005 Radek Vokal <rvokal@redhat.com> 1.60-43
 - don't report statistics for virtual devices (#143981) <kzak@redhat.com>
 - fixing translation headers - content type format
