@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 45
+Release: 46
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -43,6 +43,7 @@ Patch31: net-tools-1.60-statalias.patch
 Patch32: net-tools-1.60-isofix.patch
 Patch33: net-tools-1.60-bitkeeper.patch
 Patch34: net-tools-1.60-ifconfig_ib.patch
+Patch35: net-tools-1.60-de.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -85,6 +86,7 @@ ifconfig, netstat, route, and others.
 %patch32 -p1 -b .isofix
 %patch33 -p1 -b .bitkeeper
 %patch34 -p1 -b .ifconfig_ib
+%patch35 -p1
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -186,6 +188,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Feb 16 2005 Radek Vokal <rvokal@redhat.com> 1.60-46
+- small typo in german translation (#148775)
+
 * Wed Feb 09 2005 Radek Vokal <rvokal@redhat.com> 1.60-45
 - included infiniband support (#147396) <tduffy@sun.com>
 - added etherwake man page
