@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 36
+Release: 37
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -74,6 +74,25 @@ cp %SOURCE4 .
 perl -pi -e "s|-O2||" Makefile
 %endif
 
+#man pages conversion
+#french 
+iconv -f iso8859-1 -t utf-8 -o arp.tmp man/fr_FR/arp.8 && mv arp.tmp man/fr_FR/arp.8
+iconv -f iso8859-1 -t utf-8 -o ethers.tmp man/fr_FR/ethers.5 && mv ethers.tmp man/fr_FR/ethers.5
+iconv -f iso8859-1 -t utf-8 -o hostname.tmp man/fr_FR/hostname.1 && mv hostname.tmp man/fr_FR/hostname.1
+iconv -f iso8859-1 -t utf-8 -o ifconfig.tmp man/fr_FR/ifconfig.8 && mv ifconfig.tmp man/fr_FR/ifconfig.8
+iconv -f iso8859-1 -t utf-8 -o netstat.tmp man/fr_FR/netstat.8 && mv netstat.tmp man/fr_FR/netstat.8
+iconv -f iso8859-1 -t utf-8 -o plipconfig.tmp man/fr_FR/plipconfig.8 && mv plipconfig.tmp man/fr_FR/plipconfig.8
+iconv -f iso8859-1 -t utf-8 -o rarp.tmp man/fr_FR/rarp.8 && mv rarp.tmp man/fr_FR/rarp.8
+iconv -f iso8859-1 -t utf-8 -o route.tmp man/fr_FR/route.8 && mv route.tmp man/fr_FR/route.8
+iconv -f iso8859-1 -t utf-8 -o slattach.tmp man/fr_FR/slattach.8 && mv slattach.tmp man/fr_FR/slattach.8
+#portugal
+iconv -f iso8859-1 -t utf-8 -o arp.tmp man/pt_BR/arp.8 && mv arp.tmp man/pt_BR/arp.8
+iconv -f iso8859-1 -t utf-8 -o hostname.tmp man/pt_BR/hostname.1 && mv hostname.tmp man/pt_BR/hostname.1
+iconv -f iso8859-1 -t utf-8 -o ifconfig.tmp man/pt_BR/ifconfig.8 && mv ifconfig.tmp man/pt_BR/ifconfig.8
+iconv -f iso8859-1 -t utf-8 -o netstat.tmp man/pt_BR/netstat.8 && mv netstat.tmp man/pt_BR/netstat.8
+iconv -f iso8859-1 -t utf-8 -o rarp.tmp man/pt_BR/rarp.8 && mv rarp.tmp man/pt_BR/rarp.8
+iconv -f iso8859-1 -t utf-8 -o route.tmp man/pt_BR/route.8 && mv route.tmp man/pt_BR/route.8
+
 %build
 make
 gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
@@ -137,6 +156,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Sep 29 2004 Radek Vokal <rvokal@redhat.com> 1.60-37
+- spec file updated, added conversion for french and portugal man pages to UTF-8
+
 * Mon Sep 06 2004 Radek Vokal <rvokal@redhat.com> 1.60-36
 - parse error fixed (#131539)
 
