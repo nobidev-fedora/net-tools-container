@@ -1,18 +1,25 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 12
+Release: 20.1
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
 Source3: ether-wake.c
-Patch4: net-tools-1.57-bug22040.patch
-Patch5: net-tools-1.60-miiioctl.patch
-Patch6: net-tools-1.60-manydevs.patch
-Patch7: net-tools-1.60-virtualname.patch
-Patch8: net-tools-1.60-cycle.patch
+Patch1: net-tools-1.57-bug22040.patch
+Patch2: net-tools-1.60-miiioctl.patch
+Patch3: net-tools-1.60-manydevs.patch
+Patch4: net-tools-1.60-virtualname.patch
+Patch5: net-tools-1.60-cycle.patch
+Patch6: net-tools-1.60-nameif.patch
+Patch7: net-tools-1.60-ipx.patch
+Patch8: net-tools-1.60-inet6-lookup.patch
+Patch9: net-tools-1.60-man.patch
+Patch10: net-tools-1.60-gcc33.patch
+Patch11: net-tools-1.60-trailingblank.patch
+Patch12: net-tools-1.60-interface.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
@@ -21,15 +28,26 @@ ifconfig, netstat, route, and others.
 
 %prep
 %setup -q
-%patch4 -p 1 -b .bug22040
-%patch5 -p 1 -b .miiioctl
-%patch6 -p 0 -b .manydevs
-%patch7 -p 1 -b .virtualname
-%patch8 -p 1 -b .cycle
+%patch1 -p 1 -b .bug22040
+%patch2 -p 1 -b .miiioctl
+%patch3 -p 0 -b .manydevs
+%patch4 -p 1 -b .virtualname
+%patch5 -p 1 -b .cycle
+%patch6 -p 1 -b .nameif
+%patch7 -p 1 -b .ipx
+%patch8 -p 1 -b .inet6-lookup
+%patch9 -p 1 -b .man
+%patch10 -p1 -b .gcc33
+%patch11 -p1 -b .trailingblank
+%patch12 -p1 -b .interface
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
 cp %SOURCE3 .
+
+%ifarch alpha
+perl -pi -e "s|-O2||" Makefile
+%endif
 
 %build
 make
@@ -37,6 +55,10 @@ gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+mv man/de_DE man/de
+mv man/fr_FR man/fr
+mv man/pt_BR man/pt
 
 make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
@@ -55,12 +77,59 @@ rm -rf $RPM_BUILD_ROOT
 /bin/*
 /sbin/*
 %{_mandir}/man[158]/*
-%lang(de_DE)	%{_mandir}/de_DE/man[158]/*
-%lang(fr_FR)	%{_mandir}/fr_FR/man[158]/*
-%lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
+%lang(de)	%{_mandir}/de/man[158]/*
+%lang(fr)	%{_mandir}/fr/man[158]/*
+%lang(pt)	%{_mandir}/pt/man[158]/*
 
 %changelog
-* Fri Feb 07 2003 Phil Knirsch <pknirsch@redhat.com>
+* Mon Aug 25 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-20.1
+-rebuilt
+
+* Mon Aug 25 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-20
+- interface option now works as described in the man page (#61113).
+
+* Tue Aug 19 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-19.1
+- rebuilt
+
+* Tue Aug 19 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-19
+- Fixed trailing blank bug in hostname output (#101263).
+- Remove -O2 fir alpha (#78955).
+- Updated netstat statistic output, was still broken.
+
+* Tue Jun 17 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-18.1
+- rebuilt
+
+* Tue Jun 17 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-18
+- fix ether-wake.c build with gcc 3.3
+- rebuilt
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Wed Jun 04 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-16.1
+- Bumped release and rebuilt
+
+* Fri May 23 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-16
+- Fixed ether-wake usage output (#55801).
+
+* Thu May 22 2003 Jeremy Katz <katzj@redhat.com> 1.60-15
+- fix build with gcc 3.3
+
+* Thu May 22 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-14
+- Fixed wrong manpage (#55473).
+
+* Wed May 21 2003 Phil Knirsch <pknirsch@redhat.com>
+- Added inet6-lookup patch from John van Krieken (#84108).
+- Fixed outdated link in ifconfig manpage (#91287).
+
+* Tue May 20 2003 Phil Knirsch <pknirsch@redhat.com>
+- Fixed incorrect address display for ipx (#46434).
+- Fixed wrongly installed manpage dirs (#50664).
+
+* Wed Mar 19 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-13
+- Fixed nameif problem (#85748).
+
+* Fri Feb 07 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-12
 - Fixed -s parameter.
 - Fix /proc statistics for -nic operation.
 - Fixed -i operation in general.
