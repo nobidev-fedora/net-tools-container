@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 40
+Release: 41
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -38,6 +38,8 @@ Patch24: net-tools-1.60-ulong.patch
 Patch25: net-tools-1.60-bcast.patch
 Patch26: net-tools-1.60-mii-tool-obsolete.patch
 Patch27: net-tools-1.60-netstat_ulong.patch
+Patch28: net-tools-1.60-note.patch
+Patch29: net-tools-1.60-num-ports.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -75,6 +77,8 @@ ifconfig, netstat, route, and others.
 %patch25 -p1 -b .bcast
 %patch26 -p1 -b .obsolete
 %patch27 -p1 -b .netstat_ulong
+%patch28 -p1 -b .note
+%patch29 -p1 -b .num-ports
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -166,9 +170,13 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Nov 25 2004 Radek Vokal <rvokal@redhat.com> 1.60-41
+- added note to hostname(1) (#140239)
+- fixed --num-ports option for netstat (#115100)
+
 * Thu Nov 11 2004 Radek Vokal <rvokal@redhat.com> 1.60-40
 - mii-tool(8) fixed, labeled as obsolete, added info (#138687)
-- netstat crashing on i64 fixed (#138804)
+- netstat crashing on i64 fixed (#138804) Patch by <Andreas.Hirstius@cern.ch>
 
 * Thu Nov 04 2004 Radek Vokal <rvokal@redhat.com> 1.60-39
 - IBM patch for netstat -s returning negative values on 64bit arch (#144064)
