@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 50
+Release: 51
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -51,6 +51,7 @@ Patch36: netplug-1.2.9-execshield.patch
 Patch37: net-tools-1.60-pie.patch
 Patch38: net-tools-1.60-ifaceopt.patch
 Patch39: net-tools-1.60-trim_iface.patch
+Patch40: net-tools-1.60-stdo.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -98,6 +99,7 @@ ifconfig, netstat, route, and others.
 %patch37 -p1 -b .pie
 %patch38 -p1 -b .ifaceopt
 %patch39 -p1 -b .trim-iface
+%patch40 -p1 -b .stdo
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -205,6 +207,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Apr 05 2005 Radek Vokal <rvokal@redhat.com> 1.60-51
+- flush output in mii-tool (#152568)
+
 * Wed Mar 30 2005 Radek Vokal <rvokal@redhat.com> 1.60-50
 - added mii-diag tool
 - added newer ether-wake
