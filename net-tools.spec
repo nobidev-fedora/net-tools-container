@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 42
+Release: 43
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -41,6 +41,9 @@ Patch27: net-tools-1.60-netstat_ulong.patch
 Patch28: net-tools-1.60-note.patch
 Patch29: net-tools-1.60-num-ports.patch
 Patch30: net-tools-1.60-duplicate-tcp.patch
+Patch31: net-tools-1.60-statalias.patch
+Patch32: net-tools-1.60-isofix.patch
+Patch33: net-tools-1.60-bitkeeper.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -81,6 +84,9 @@ ifconfig, netstat, route, and others.
 %patch28 -p1 -b .note
 %patch29 -p1 -b .num-ports
 %patch30 -p1 -b .dup-tcp
+%patch31 -p1 -b .statalias
+%patch32 -p1 -b .isofix
+%patch33 -p1 -b .bitkeeper
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -92,22 +98,32 @@ perl -pi -e "s|-O2||" Makefile
 
 #man pages conversion
 #french 
-iconv -f iso8859-1 -t utf-8 -o arp.tmp man/fr_FR/arp.8 && mv arp.tmp man/fr_FR/arp.8
-iconv -f iso8859-1 -t utf-8 -o ethers.tmp man/fr_FR/ethers.5 && mv ethers.tmp man/fr_FR/ethers.5
-iconv -f iso8859-1 -t utf-8 -o hostname.tmp man/fr_FR/hostname.1 && mv hostname.tmp man/fr_FR/hostname.1
-iconv -f iso8859-1 -t utf-8 -o ifconfig.tmp man/fr_FR/ifconfig.8 && mv ifconfig.tmp man/fr_FR/ifconfig.8
-iconv -f iso8859-1 -t utf-8 -o netstat.tmp man/fr_FR/netstat.8 && mv netstat.tmp man/fr_FR/netstat.8
-iconv -f iso8859-1 -t utf-8 -o plipconfig.tmp man/fr_FR/plipconfig.8 && mv plipconfig.tmp man/fr_FR/plipconfig.8
-iconv -f iso8859-1 -t utf-8 -o rarp.tmp man/fr_FR/rarp.8 && mv rarp.tmp man/fr_FR/rarp.8
-iconv -f iso8859-1 -t utf-8 -o route.tmp man/fr_FR/route.8 && mv route.tmp man/fr_FR/route.8
-iconv -f iso8859-1 -t utf-8 -o slattach.tmp man/fr_FR/slattach.8 && mv slattach.tmp man/fr_FR/slattach.8
+iconv -f iso-8859-1 -t utf-8 -o arp.tmp man/fr_FR/arp.8 && mv arp.tmp man/fr_FR/arp.8
+iconv -f iso-8859-1 -t utf-8 -o ethers.tmp man/fr_FR/ethers.5 && mv ethers.tmp man/fr_FR/ethers.5
+iconv -f iso-8859-1 -t utf-8 -o hostname.tmp man/fr_FR/hostname.1 && mv hostname.tmp man/fr_FR/hostname.1
+iconv -f iso-8859-1 -t utf-8 -o ifconfig.tmp man/fr_FR/ifconfig.8 && mv ifconfig.tmp man/fr_FR/ifconfig.8
+iconv -f iso-8859-1 -t utf-8 -o netstat.tmp man/fr_FR/netstat.8 && mv netstat.tmp man/fr_FR/netstat.8
+iconv -f iso-8859-1 -t utf-8 -o plipconfig.tmp man/fr_FR/plipconfig.8 && mv plipconfig.tmp man/fr_FR/plipconfig.8
+iconv -f iso-8859-1 -t utf-8 -o rarp.tmp man/fr_FR/rarp.8 && mv rarp.tmp man/fr_FR/rarp.8
+iconv -f iso-8859-1 -t utf-8 -o route.tmp man/fr_FR/route.8 && mv route.tmp man/fr_FR/route.8
+iconv -f iso-8859-1 -t utf-8 -o slattach.tmp man/fr_FR/slattach.8 && mv slattach.tmp man/fr_FR/slattach.8
 #portugal
-iconv -f iso8859-1 -t utf-8 -o arp.tmp man/pt_BR/arp.8 && mv arp.tmp man/pt_BR/arp.8
-iconv -f iso8859-1 -t utf-8 -o hostname.tmp man/pt_BR/hostname.1 && mv hostname.tmp man/pt_BR/hostname.1
-iconv -f iso8859-1 -t utf-8 -o ifconfig.tmp man/pt_BR/ifconfig.8 && mv ifconfig.tmp man/pt_BR/ifconfig.8
-iconv -f iso8859-1 -t utf-8 -o netstat.tmp man/pt_BR/netstat.8 && mv netstat.tmp man/pt_BR/netstat.8
-iconv -f iso8859-1 -t utf-8 -o rarp.tmp man/pt_BR/rarp.8 && mv rarp.tmp man/pt_BR/rarp.8
-iconv -f iso8859-1 -t utf-8 -o route.tmp man/pt_BR/route.8 && mv route.tmp man/pt_BR/route.8
+iconv -f iso-8859-1 -t utf-8 -o arp.tmp man/pt_BR/arp.8 && mv arp.tmp man/pt_BR/arp.8
+iconv -f iso-8859-1 -t utf-8 -o hostname.tmp man/pt_BR/hostname.1 && mv hostname.tmp man/pt_BR/hostname.1
+iconv -f iso-8859-1 -t utf-8 -o ifconfig.tmp man/pt_BR/ifconfig.8 && mv ifconfig.tmp man/pt_BR/ifconfig.8
+iconv -f iso-8859-1 -t utf-8 -o netstat.tmp man/pt_BR/netstat.8 && mv netstat.tmp man/pt_BR/netstat.8
+iconv -f iso-8859-1 -t utf-8 -o rarp.tmp man/pt_BR/rarp.8 && mv rarp.tmp man/pt_BR/rarp.8
+iconv -f iso-8859-1 -t utf-8 -o route.tmp man/pt_BR/route.8 && mv route.tmp man/pt_BR/route.8
+#german
+iconv -f iso-8859-1 -t utf-8 -o arp.tmp man/de_DE/arp.8 && mv arp.tmp man/fr_FR/arp.8
+iconv -f iso-8859-1 -t utf-8 -o ethers.tmp man/de_DE/ethers.5 && mv ethers.tmp man/fr_FR/ethers.5
+iconv -f iso-8859-1 -t utf-8 -o hostname.tmp man/de_DE/hostname.1 && mv hostname.tmp man/fr_FR/hostname.1
+iconv -f iso-8859-1 -t utf-8 -o ifconfig.tmp man/de_DE/ifconfig.8 && mv ifconfig.tmp man/fr_FR/ifconfig.8
+iconv -f iso-8859-1 -t utf-8 -o netstat.tmp man/de_DE/netstat.8 && mv netstat.tmp man/fr_FR/netstat.8
+iconv -f iso-8859-1 -t utf-8 -o plipconfig.tmp man/de_DE/plipconfig.8 && mv plipconfig.tmp man/fr_FR/plipconfig.8
+iconv -f iso-8859-1 -t utf-8 -o rarp.tmp man/de_DE/rarp.8 && mv rarp.tmp man/fr_FR/rarp.8
+iconv -f iso-8859-1 -t utf-8 -o route.tmp man/de_DE/route.8 && mv route.tmp man/fr_FR/route.8
+iconv -f iso-8859-1 -t utf-8 -o slattach.tmp man/de_DE/slattach.8 && mv slattach.tmp man/fr_FR/slattach.8
 
 %build
 make
@@ -172,6 +188,11 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Jan 10 2005 Radek Vokal <rvokal@redhat.com> 1.60-43
+- don't report statistics for virtual devices (#143981) <kzak@redhat.com>
+- fixing translation headers - content type format
+- kill bitkeeper warning messages
+
 * Fri Dec 03 2004 Radek Vokal <rvokal@redhat.com> 1.60-42
 - filter out duplicate tcp entries (#139407)
 
