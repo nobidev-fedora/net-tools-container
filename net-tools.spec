@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 41
+Release: 42
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -40,6 +40,7 @@ Patch26: net-tools-1.60-mii-tool-obsolete.patch
 Patch27: net-tools-1.60-netstat_ulong.patch
 Patch28: net-tools-1.60-note.patch
 Patch29: net-tools-1.60-num-ports.patch
+Patch30: net-tools-1.60-duplicate-tcp.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -79,6 +80,7 @@ ifconfig, netstat, route, and others.
 %patch27 -p1 -b .netstat_ulong
 %patch28 -p1 -b .note
 %patch29 -p1 -b .num-ports
+%patch30 -p1 -b .dup-tcp
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -170,6 +172,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Fri Dec 03 2004 Radek Vokal <rvokal@redhat.com> 1.60-42
+- filter out duplicate tcp entries (#139407)
+
 * Thu Nov 25 2004 Radek Vokal <rvokal@redhat.com> 1.60-41
 - added note to hostname(1) (#140239)
 - fixed --num-ports option for netstat (#115100)
