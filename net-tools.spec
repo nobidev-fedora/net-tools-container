@@ -1,8 +1,8 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 7
-Copyright: GPL
+Release: 12
+License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
@@ -12,6 +12,7 @@ Patch4: net-tools-1.57-bug22040.patch
 Patch5: net-tools-1.60-miiioctl.patch
 Patch6: net-tools-1.60-manydevs.patch
 Patch7: net-tools-1.60-virtualname.patch
+Patch8: net-tools-1.60-cycle.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
@@ -24,6 +25,7 @@ ifconfig, netstat, route, and others.
 %patch5 -p 1 -b .miiioctl
 %patch6 -p 0 -b .manydevs
 %patch7 -p 1 -b .virtualname
+%patch8 -p 1 -b .cycle
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -58,6 +60,24 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
 
 %changelog
+* Fri Feb 07 2003 Phil Knirsch <pknirsch@redhat.com>
+- Fixed -s parameter.
+- Fix /proc statistics for -nic operation.
+- Fixed -i operation in general.
+
+* Mon Jan 27 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-11
+- Disable smp build.
+
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com> 1.60-10
+- rebuilt
+
+* Tue Dec 17 2002 Phil Knirsch <pknirsch@redhat.com> 1.60-9
+- Rebuild
+- Copyright -> License.
+
+* Thu Dec 05 2002 Elliot Lee <sopwith@redhat.com> 1.60-8
+- Rebuild
+
 * Tue Aug 06 2002 Phil Knirsch <pknirsch@redhat.com> 
 - Added patch from Norm for a corrected output.
 
