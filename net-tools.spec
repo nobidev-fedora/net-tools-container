@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 47
+Release: 48
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -47,6 +47,7 @@ Patch34: net-tools-1.60-ifconfig_ib.patch
 Patch35: net-tools-1.60-de.patch
 Patch36: netplug-1.2.9-execshield.patch
 Patch37: net-tools-1.60-pie.patch
+Patch38: net-tools-1.60-ifaceopt.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -92,6 +93,7 @@ ifconfig, netstat, route, and others.
 %patch35 -p1 
 %patch36 -p1 -b .execshield
 %patch37 -p1 -b .pie
+%patch38 -p1 -b .ifaceopt
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -195,6 +197,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Mar 01 2005 Radek Vokal <rvokal@redhat.com> 1.60-48
+- behaviour of netstat -i option changed (#115987)
+- netstat -i shows all interface, -I<Iface> only one
+
 * Mon Feb 28 2005 Radek Vokal <rvokal@redhat.com> 1.60-47
 - added RPM_OPT_FLAGS
 - execshield patch for netplug <t8m@redhat.com>
