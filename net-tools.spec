@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 23
+Release: 25
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -24,6 +24,8 @@ Patch10: net-tools-1.60-gcc33.patch
 Patch11: net-tools-1.60-trailingblank.patch
 Patch12: net-tools-1.60-interface.patch
 Patch13: netplug-1.2.1-init.patch
+Patch14: net-tools-1.60-gcc34.patch
+Patch15: net-tools-1.60-overflow.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 
@@ -46,6 +48,8 @@ ifconfig, netstat, route, and others.
 %patch11 -p1 -b .trailingblank
 %patch12 -p1 -b .interface
 %patch13 -p1 -b .init
+%patch14 -p1 -b .gcc34
+%patch15 -p1 -b .overflow
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -118,6 +122,12 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Apr 15 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-25
+- Fixed several possible buffer overflows (#120343)
+
+* Tue Mar 30 2004 Harald Hoyer <harald@redhat.com> - 1.60-24
+- fixed compilation with gcc34
+
 * Tue Mar 23 2004 Karsten Hopp <karsten@redhat.de> 1.60-23 
 - add chkconfig call in post and preun, fix init script (#116555)
 
