@@ -1,7 +1,7 @@
-Summary: The basic tools for setting up networking.
+Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 2
+Release: 3
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -9,15 +9,17 @@ Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
 Source3: ether-wake.c
 Patch4: net-tools-1.57-bug22040.patch
+Patch5: net-tools-1.60-miiioctl.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
-The net-tools package contains the basic tools needed for setting up
-networking:  ethers, route and others.
+The net-tools package contains basic networking tools, including
+ifconfig, netstat, route, and others.
 
 %prep
 %setup -q
 %patch4 -p 1 -b .bug22040
+%patch5 -p 1 -b .miiioctl
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -52,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
 
 %changelog
+* Tue Jul 31 2001 Bill Nottingham <notting@redhat.com>
+- do *not* use SIOCDEVPRIVATE for MII ioctls
+
 * Fri Jun  1 2001 Preston Brown <pbrown@redhat.com>
 - include wake-on-lan wakeup utility, ether-wake by Donald Becker
 
