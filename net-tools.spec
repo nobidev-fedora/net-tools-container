@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 46
+Release: 47
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -26,7 +26,8 @@ Patch11: net-tools-1.60-trailingblank.patch
 Patch12: net-tools-1.60-interface.patch
 Patch14: net-tools-1.60-gcc34.patch
 Patch15: net-tools-1.60-overflow.patch
-Patch16: net-tools-1.60-execshield.patch
+#included in netlpug-execshield.patch
+#Patch16: net-tools-1.60-execshield.patch
 Patch19: net-tools-1.60-siunits.patch
 Patch20: net-tools-1.60-trunc.patch
 Patch21: net-tools-1.60-return.patch
@@ -44,6 +45,8 @@ Patch32: net-tools-1.60-isofix.patch
 Patch33: net-tools-1.60-bitkeeper.patch
 Patch34: net-tools-1.60-ifconfig_ib.patch
 Patch35: net-tools-1.60-de.patch
+Patch36: netplug-1.2.9-execshield.patch
+Patch37: net-tools-1.60-pie.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -69,7 +72,7 @@ ifconfig, netstat, route, and others.
 %patch12 -p1 -b .interface
 %patch14 -p1 -b .gcc34
 %patch15 -p1 -b .overflow
-%patch16 -p1 -b .execshield
+#%patch16 -p1 -b .execshield
 %patch19 -p1 -b .siunits
 %patch20 -p1 -b .trunc
 %patch21 -p1 -b .return
@@ -86,7 +89,9 @@ ifconfig, netstat, route, and others.
 %patch32 -p1 -b .isofix
 %patch33 -p1 -b .bitkeeper
 %patch34 -p1 -b .ifconfig_ib
-%patch35 -p1
+%patch35 -p1 
+%patch36 -p1 -b .execshield
+%patch37 -p1 -b .pie
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -127,6 +132,8 @@ iconv -f iso-8859-1 -t utf-8 -o route.tmp man/de_DE/route.8 && mv route.tmp man/
 iconv -f iso-8859-1 -t utf-8 -o slattach.tmp man/de_DE/slattach.8 && mv slattach.tmp man/fr_FR/slattach.8
 
 %build
+export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
+
 make
 gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
 pushd netplug-%{npversion}
@@ -188,6 +195,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Feb 28 2005 Radek Vokal <rvokal@redhat.com> 1.60-47
+- added RPM_OPT_FLAGS
+- execshield patch for netplug <t8m@redhat.com>
+
 * Wed Feb 16 2005 Radek Vokal <rvokal@redhat.com> 1.60-46
 - small typo in german translation (#148775)
 
