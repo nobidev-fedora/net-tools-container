@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 44
+Release: 45
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -11,6 +11,7 @@ Source1: netplug-%{npversion}.tar.bz2
 Source2: net-tools-%{version}-config.h
 Source3: net-tools-%{version}-config.make
 Source4: ether-wake.c
+Source5: etherwake.8
 Patch1: net-tools-1.57-bug22040.patch
 Patch2: net-tools-1.60-miiioctl.patch
 Patch3: net-tools-1.60-manydevs.patch
@@ -41,6 +42,8 @@ Patch30: net-tools-1.60-duplicate-tcp.patch
 Patch31: net-tools-1.60-statalias.patch
 Patch32: net-tools-1.60-isofix.patch
 Patch33: net-tools-1.60-bitkeeper.patch
+Patch34: net-tools-1.60-ifconfig_ib.patch
+
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -81,10 +84,12 @@ ifconfig, netstat, route, and others.
 %patch31 -p1 -b .statalias
 %patch32 -p1 -b .isofix
 %patch33 -p1 -b .bitkeeper
+%patch34 -p1 -b .ifconfig_ib
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
 cp %SOURCE4 .
+cp %SOURCE5 ./man/en_US
 
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
@@ -128,7 +133,6 @@ popd
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 mv man/de_DE man/de
 mv man/fr_FR man/fr
 mv man/pt_BR man/pt
@@ -182,6 +186,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Feb 09 2005 Radek Vokal <rvokal@redhat.com> 1.60-45
+- included infiniband support (#147396) <tduffy@sun.com>
+- added etherwake man page
+
 * Mon Feb 07 2005 Radek Vokal <rvokal@redhat.com> 1.60-44
 - net-plug-1.2.9 - no changes, upstream included Red Hat patches
 - ether-wake-1.08 - few changes in implementation (#145718)
