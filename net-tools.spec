@@ -37,6 +37,7 @@ Patch23: net-tools-1.60-netmask.patch
 Patch24: net-tools-1.60-ulong.patch
 Patch25: net-tools-1.60-bcast.patch
 Patch26: net-tools-1.60-mii-tool-obsolete.patch
+Patch27: net-tools-1.60-netstat_ulong.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -73,6 +74,7 @@ ifconfig, netstat, route, and others.
 %patch24 -p1 -b .ulong
 %patch25 -p1 -b .bcast
 %patch26 -p1 -b .obsolete
+%patch27 -p1 -b .netstat_ulong
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -166,6 +168,7 @@ exit 0
 %changelog
 * Thu Nov 11 2004 Radek Vokal <rvokal@redhat.com> 1.60-40
 - mii-tool(8) fixed, labeled as obsolete, added info (#138687)
+- netstat crashing on i64 fixed (#138804)
 
 * Thu Nov 04 2004 Radek Vokal <rvokal@redhat.com> 1.60-39
 - IBM patch for netstat -s returning negative values on 64bit arch (#144064)
