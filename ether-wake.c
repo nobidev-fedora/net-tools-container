@@ -1,10 +1,10 @@
 /* ether-wake.c: Send a magic packet to wake up sleeping machines. */
 
 static char version_msg[] =
-"ether-wake.c: v1.08 3/31/2003 Donald Becker, http://www.scyld.com/";
+"ether-wake.c: v1.09 11/12/2003 Donald Becker, http://www.scyld.com/";
 static char brief_usage_msg[] =
 "usage: ether-wake [-i <ifname>] [-p aa:bb:cc:dd[:ee:ff]] 00:11:22:33:44:55\n"
-"  Use '-u' to see the complete set of options.\n";
+"   Use '-u' to see the complete set of options.\n";
 static char usage_msg[] =
 "usage: ether-wake [-i <ifname>] [-p aa:bb:cc:dd[:ee:ff]] 00:11:22:33:44:55\n"
 "\n"
@@ -46,23 +46,8 @@ static char usage_msg[] =
 
 	The author may be reached as becker@scyld, or C/O
 	 Scyld Computing Corporation
-	 410 Severn Ave., Suite 210
+	 914 Bay Ridge Road, Suite 220
 	 Annapolis MD 21403
-
-	The single required parameter is the Ethernet MAC (station) address
-	of the machine to wake.  This is typically retrieved with the 'arp'
-	program while the target machine is awake.
-
-	Options:
-		-b	Send wake-up packet to the broadcast address.
-		-D	Increase the debug level.
-		-i ifname	Use interface IFNAME instead of the default "eth0".
-		-p <pw>		Append the four or six byte password PW to the packet.
-					A password is only required for a few adapter types.
-					The password may be specified in ethernet hex format
-					or dotted decimal (Internet address)
-		-p 00:22:44:66:88:aa
-		-p 192.168.1.1
 
   Notes:
   On some systems dropping root capability allows the process to be
@@ -74,7 +59,7 @@ static char usage_msg[] =
   doing so only works with adapters configured for unicast+broadcast Rx
   filter.  That configuration consumes more power.
 */
-
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -111,9 +96,6 @@ extern int setsockopt __P ((int __fd, int __level, int __optname,
 							__ptr_t __optval, int __optlen));
 #else				/* New, correct head files.  */
 #include <sys/socket.h>
-#endif
-#ifdef USE_SENDMSG
-#include <iovec.h>
 #endif
 
 u_char outpack[1000];
@@ -177,7 +159,7 @@ int main(int argc, char *argv[])
 #endif
 	if (s < 0) {
 		if (errno == EPERM)
-			fprintf(stderr, "etherwake: This program must be run as root.\n");
+			fprintf(stderr, "ether-wake: This program must be run as root.\n");
 		else
 			perror("ether-wake: socket");
 		perm_failure++;
@@ -265,14 +247,14 @@ int main(int argc, char *argv[])
 		printf("Sendto worked ! %d.\n", i);
 
 #ifdef USE_SEND
-	if (bind(s, &whereto, sizeof(whereto)) < 0)
+	if (bind(s, (struct sockaddr *)&whereto, sizeof(whereto)) < 0)
 		perror("bind");
 	else if (send(s, outpack, 100, 0) < 0)
 		perror("send");
 #endif
 #ifdef USE_SENDMSG
 	{
-		struct msghdr msghdr;
+		struct msghdr msghdr = { 0,};
 		struct iovec iovector[1];
 		msghdr.msg_name = &whereto;
 		msghdr.msg_namelen = sizeof(whereto);

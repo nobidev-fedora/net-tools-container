@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 49
+Release: 50
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -12,6 +12,8 @@ Source2: net-tools-%{version}-config.h
 Source3: net-tools-%{version}-config.make
 Source4: ether-wake.c
 Source5: etherwake.8
+Source6: mii-diag.c
+Source7: mii-diag.8
 Patch1: net-tools-1.57-bug22040.patch
 Patch2: net-tools-1.60-miiioctl.patch
 Patch3: net-tools-1.60-manydevs.patch
@@ -48,6 +50,7 @@ Patch35: net-tools-1.60-de.patch
 Patch36: netplug-1.2.9-execshield.patch
 Patch37: net-tools-1.60-pie.patch
 Patch38: net-tools-1.60-ifaceopt.patch
+Patch39: net-tools-1.60-trim_iface.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -94,11 +97,14 @@ ifconfig, netstat, route, and others.
 %patch36 -p1 -b .execshield
 %patch37 -p1 -b .pie
 %patch38 -p1 -b .ifaceopt
+%patch39 -p1 -b .trim-iface
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
 cp %SOURCE4 .
 cp %SOURCE5 ./man/en_US
+cp %SOURCE6 .
+cp %SOURCE7 ./man/en_US
 
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
@@ -138,6 +144,7 @@ export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
 
 make
 gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
+gcc $RPM_OPT_FLAGS -o mii-diag mii-diag.c
 pushd netplug-%{npversion}
 make
 popd
@@ -151,6 +158,7 @@ mv man/pt_BR man/pt
 make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 install -m 755 ether-wake %{buildroot}/sbin
+install -m 755 mii-diag %{buildroot}/sbin
 
 pushd netplug-%{npversion}
 make install prefix=$RPM_BUILD_ROOT \
@@ -197,6 +205,12 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Mar 30 2005 Radek Vokal <rvokal@redhat.com> 1.60-50
+- added mii-diag tool
+- added newer ether-wake
+- remove useless -i option from ifconfig
+- stop trimming interface names (#152457)
+
 * Wed Mar 16 2005 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
