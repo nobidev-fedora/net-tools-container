@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 35
+Release: 36
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -32,6 +32,7 @@ Patch18: netplug-1.2.7-installopts.patch
 Patch19: net-tools-1.60-siunits.patch
 Patch20: net-tools-1.60-trunc.patch
 Patch21: net-tools-1.60-return.patch
+Patch22: net-tools-1.60-parse.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -63,6 +64,7 @@ ifconfig, netstat, route, and others.
 %patch19 -p1 -b .siunits
 %patch20 -p1 -b .trunc
 %patch21 -p1 -b .return
+%patch22 -p1 -b .parse
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -135,6 +137,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Sep 06 2004 Radek Vokal <rvokal@redhat.com> 1.60-36
+- parse error fixed (#131539)
+
 * Fri Sep 03 2004 Radek Vokal <rvokal@redhat.com> 1.60-35
 - The return value of nameif was wrong (#129032) - patch from Fujitsu QA 
 
