@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 37
+Release: 38
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -33,6 +33,7 @@ Patch19: net-tools-1.60-siunits.patch
 Patch20: net-tools-1.60-trunc.patch
 Patch21: net-tools-1.60-return.patch
 Patch22: net-tools-1.60-parse.patch
+Patch23: net-tools-1.60-netmask.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -65,6 +66,7 @@ ifconfig, netstat, route, and others.
 %patch20 -p1 -b .trunc
 %patch21 -p1 -b .return
 %patch22 -p1 -b .parse
+%patch23 -p1 -b .netmask
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -156,6 +158,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Nov 02 2004 Radek Vokal <rvokal@redhat.com> 1.60-38
+- fixed fail to assign the specified netmask before adress is assigned
+- patch by Malita, Florin <florin.malita@glenayre.com>
+
 * Wed Sep 29 2004 Radek Vokal <rvokal@redhat.com> 1.60-37
 - spec file updated, added conversion for french and portugal man pages to UTF-8
 
