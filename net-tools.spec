@@ -1,15 +1,19 @@
 Summary: The basic tools for setting up networking.
 Name: net-tools
 Version: 1.57
-Release: 1
+Release: 6
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
-Patch0: net-tools-1.56-fhs.patch
+Patch0: net-tools-1.57-fhs.patch
 Patch1: net-tools-1.57-bug9215.patch
 Patch2: net-tools-1.57-bug9129.patch
+Patch3: net-tools-1.57-bug20570.patch
+Patch4: net-tools-1.57-bug22040.patch
+Patch5: net-tools-1.57-bug25474.patch
+Patch6: net-tools-1.57-bug25921.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
@@ -21,6 +25,10 @@ networking:  ethers, route and others.
 %patch0 -p 1 -b .fhs
 %patch1 -p 1 -b .bug9215
 %patch2 -p 1 -b .bug9129
+%patch3 -p 1 -b .bug20570
+%patch4 -p 1 -b .bug22040
+%patch5 -p 1 -b .bug25474
+%patch6 -p 1 -b .bug25921
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -33,24 +41,42 @@ rm -rf $RPM_BUILD_ROOT
 
 make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
+rm %{buildroot}/sbin/rarp
+rm %{buildroot}%{_mandir}/man8/rarp.8*
+
+%find_lang %{name}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
 /bin/*
 /sbin/*
 %{_mandir}/man[158]/*
-%lang(cs)	%{_datadir}/locale/cs/LC_MESSAGES/net-tools.mo
-%lang(de)	%{_mandir}/de_DE/man[158]/*
-%lang(de)	%{_datadir}/locale/de/LC_MESSAGES/net-tools.mo
-%lang(et)	%{_datadir}/locale/et_EE/LC_MESSAGES/net-tools.mo
-%lang(fr)	%{_mandir}/fr_FR/man[158]/*
-%lang(fr)	%{_datadir}/locale/fr/LC_MESSAGES/net-tools.mo
-%lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
-%lang(pt_BR)	%{_datadir}/locale/pt_BR/LC_MESSAGES/net-tools.mo
+%lang(de)	%{_mandir}/de/man[158]/*
+%lang(fr)	%{_mandir}/fr/man[158]/*
+%lang(pt_BR)	%{_mandir}/pt/man[158]/*
 
 %changelog
+* Sun Apr  8 2001 Preston Brown <pbrown@redhat.com>
+- use find_lang macro
+- less specific locale dirs for man pages
+
+* Mon Apr  2 2001 Preston Brown <pbrown@redhat.com>
+- don't use this version of rarp, doesn't work with our 2.4.
+
+* Tue Feb  6 2001 Crutcher Dunnavant <crutcher@redhat.com>
+- fixed man page typo, closing bug #25921
+
+* Fri Feb  1 2001 Crutcher Dunnavant <crutcher@redhat.com>
+- applied twaugh's patch to close bug #25474
+- which was a buffer length bug.
+
+* Wed Dec 27 2000 Jeff Johnson <jbj@redhat.com>
+- locales not initialized correctly (#20570).
+- arp: document -e option (#22040).
+
 * Sat Oct  7 2000 Jeff Johnson <jbj@redhat.com>
 - update to 1.57.
 - MTU (and other) option(s) not parsed correctly (#9215).
