@@ -1,12 +1,13 @@
 Summary: The basic tools for setting up networking.
 Name: net-tools
 Version: 1.60
-Release: 1
+Release: 2
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
+Source3: ether-wake.c
 Patch4: net-tools-1.57-bug22040.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
@@ -20,14 +21,18 @@ networking:  ethers, route and others.
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
+cp %SOURCE3 .
 
 %build
 make
+gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
+
+install -m 755 ether-wake %{buildroot}/sbin
 
 rm %{buildroot}/sbin/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
@@ -47,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
 
 %changelog
+* Fri Jun  1 2001 Preston Brown <pbrown@redhat.com>
+- include wake-on-lan wakeup utility, ether-wake by Donald Becker
+
 * Wed Apr 18 2001 Crutcher Dunnavant <crutcher@redhat.com>
 - itterate to 1.60
 
