@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 30
+Release: 31
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -30,6 +30,7 @@ Patch16: net-tools-1.60-execshield.patch
 Patch17: netplug-1.2.7-compiler.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
+BuildRequires: gettext
 
 %description
 The net-tools package contains basic networking tools, including
@@ -126,6 +127,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Sun Aug 08 2004 Alan Cox <alan@redhat.com> 1.60-31
+- Build requires gettext.
+
 * Mon Aug 02 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-30
 - Update to latest netplugd version.
 
