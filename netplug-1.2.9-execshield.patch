@@ -1,6 +1,77 @@
---- net-tools-1.60/netplug-1.2.9/main.c.execshield2	2004-05-15 04:57:33.000000000 +0200
-+++ net-tools-1.60/netplug-1.2.9/main.c	2005-02-28 12:26:32.157391408 +0100
-@@ -166,6 +166,23 @@
+--- net-tools-1.60/netplug-1.2.9/if_info.c.execshield	2005-01-08 06:57:08.000000000 +0100
++++ net-tools-1.60/netplug-1.2.9/if_info.c	2005-02-28 14:13:13.845186936 +0100
+@@ -95,15 +95,16 @@
+     return buf;
+ }
+ 
+-void
+-for_each_iface(int (*func)(struct if_info *))
++struct if_info *
++for_each_iface(int (*func)(struct if_info *, long), long param)
+ {
+     for(int i = 0; i < INFOHASHSZ; i++) {
+         for(struct if_info *info = if_info[i]; info != NULL; info = info->next) {
+-            if ((*func)(info))
+-                return;
++            if ((*func)(info, param))
++                return info;
+         }
+     }
++    return NULL;
+ }
+ 
+ /* Reevaluate the state machine based on the current state and flag settings */
+@@ -285,22 +286,20 @@
+ }
+ 
+ /* handle a script termination and update the state accordingly */
++int find_pid(struct if_info *i, long param) {
++    if (i->worker == param) {
++        return 1;
++    }
++    return 0;
++}
++
+ void ifsm_scriptdone(pid_t pid, int exitstatus)
+ {
+     int exitok = WIFEXITED(exitstatus) && WEXITSTATUS(exitstatus) == 0;
+     struct if_info *info;
+     assert(WIFEXITED(exitstatus) || WIFSIGNALED(exitstatus));
+ 
+-    int find_pid(struct if_info *i) {
+-        if (i->worker == pid) {
+-            info = i;
+-            return 1;
+-        }
+-        return 0;
+-    }
+-
+-    info = NULL;
+-    for_each_iface(find_pid);
++    info = for_each_iface(find_pid, pid);
+ 
+     if (info == NULL) {
+         do_log(LOG_INFO, "Unexpected child %d exited with status %d",
+--- net-tools-1.60/netplug-1.2.9/netplug.h.execshield	2005-01-08 06:57:09.000000000 +0100
++++ net-tools-1.60/netplug-1.2.9/netplug.h	2005-02-28 14:13:13.846186784 +0100
+@@ -83,7 +83,7 @@
+                                          struct rtattr *attrs[]);
+ int if_info_save_interface(struct nlmsghdr *hdr, void *arg);
+ void parse_rtattrs(struct rtattr *tb[], int max, struct rtattr *rta, int len);
+-void for_each_iface(int (*func)(struct if_info *));
++struct if_info *for_each_iface(int (*func)(struct if_info *, long), long param);
+ 
+ void ifsm_flagpoll(struct if_info *info);
+ void ifsm_flagchange(struct if_info *info, unsigned int newflags);
+--- net-tools-1.60/netplug-1.2.9/main.c.execshield	2005-01-08 06:57:09.000000000 +0100
++++ net-tools-1.60/netplug-1.2.9/main.c	2005-02-28 14:15:20.553924280 +0100
+@@ -161,11 +161,28 @@
+     ce.pid = info->si_pid;
+     ret = waitpid(info->si_pid, &ce.status, 0);
+     if (ret == info->si_pid)
+-        write(child_handler_pipe[1], &ce, sizeof(ce));
++        (void)write(child_handler_pipe[1], &ce, sizeof(ce));
+ }
  
  /* Poll the existing interface state, so we can catch any state
     changes for which we may not have neen a netlink message. */
@@ -55,7 +126,7 @@
  }
  
  int debug = 0;
-@@ -329,17 +335,11 @@
+@@ -331,17 +337,11 @@
          { child_handler_pipe[0], POLLIN, 0 },
      };
  
@@ -78,68 +149,3 @@
  
      for(;;) {
          int ret;
---- net-tools-1.60/netplug-1.2.9/if_info.c.execshield2	2004-04-25 05:55:15.000000000 +0200
-+++ net-tools-1.60/netplug-1.2.9/if_info.c	2005-02-28 12:26:32.155391712 +0100
-@@ -95,15 +95,16 @@
-     return buf;
- }
- 
--void
--for_each_iface(int (*func)(struct if_info *))
-+struct if_info *
-+for_each_iface(int (*func)(struct if_info *, long), long param)
- {
-     for(int i = 0; i < INFOHASHSZ; i++) {
-         for(struct if_info *info = if_info[i]; info != NULL; info = info->next) {
--            if ((*func)(info))
--                return;
-+            if ((*func)(info, param))
-+                return info;
-         }
-     }
-+    return NULL;
- }
- 
- /* Reevaluate the state machine based on the current state and flag settings */
-@@ -285,22 +286,20 @@
- }
- 
- /* handle a script termination and update the state accordingly */
-+int find_pid(struct if_info *i, long param) {
-+    if (i->worker == param) {
-+        return 1;
-+    }
-+    return 0;
-+}
-+
- void ifsm_scriptdone(pid_t pid, int exitstatus)
- {
-     int exitok = WIFEXITED(exitstatus) && WEXITSTATUS(exitstatus) == 0;
-     struct if_info *info;
-     assert(WIFEXITED(exitstatus) || WIFSIGNALED(exitstatus));
- 
--    int find_pid(struct if_info *i) {
--        if (i->worker == pid) {
--            info = i;
--            return 1;
--        }
--        return 0;
--    }
--
--    info = NULL;
--    for_each_iface(find_pid);
-+    info = for_each_iface(find_pid, pid);
- 
-     if (info == NULL) {
-         do_log(LOG_INFO, "Unexpected child %d exited with status %d",
---- net-tools-1.60/netplug-1.2.9/netplug.h.execshield2	2004-04-25 05:55:15.000000000 +0200
-+++ net-tools-1.60/netplug-1.2.9/netplug.h	2005-02-28 12:26:32.154391864 +0100
-@@ -83,7 +83,7 @@
-                                          struct rtattr *attrs[]);
- int if_info_save_interface(struct nlmsghdr *hdr, void *arg);
- void parse_rtattrs(struct rtattr *tb[], int max, struct rtattr *rta, int len);
--void for_each_iface(int (*func)(struct if_info *));
-+struct if_info *for_each_iface(int (*func)(struct if_info *, long), long param);
- 
- void ifsm_flagpoll(struct if_info *info);
- void ifsm_flagchange(struct if_info *info, unsigned int newflags);
