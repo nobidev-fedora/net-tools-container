@@ -1,5 +1,5 @@
 --- net-tools-1.60/netplug-1.2.9/if_info.c.execshield	2005-01-08 06:57:08.000000000 +0100
-+++ net-tools-1.60/netplug-1.2.9/if_info.c	2005-02-28 14:13:13.845186936 +0100
++++ net-tools-1.60/netplug-1.2.9/if_info.c	2005-02-28 14:43:05.596799288 +0100
 @@ -95,15 +95,16 @@
      return buf;
  }
@@ -53,7 +53,7 @@
      if (info == NULL) {
          do_log(LOG_INFO, "Unexpected child %d exited with status %d",
 --- net-tools-1.60/netplug-1.2.9/netplug.h.execshield	2005-01-08 06:57:09.000000000 +0100
-+++ net-tools-1.60/netplug-1.2.9/netplug.h	2005-02-28 14:13:13.846186784 +0100
++++ net-tools-1.60/netplug-1.2.9/netplug.h	2005-02-28 14:43:05.597799136 +0100
 @@ -83,7 +83,7 @@
                                           struct rtattr *attrs[]);
  int if_info_save_interface(struct nlmsghdr *hdr, void *arg);
@@ -63,8 +63,21 @@
  
  void ifsm_flagpoll(struct if_info *info);
  void ifsm_flagchange(struct if_info *info, unsigned int newflags);
+--- net-tools-1.60/netplug-1.2.9/Makefile.execshield	2005-02-28 14:43:05.000000000 +0100
++++ net-tools-1.60/netplug-1.2.9/Makefile	2005-02-28 14:47:42.123760800 +0100
+@@ -9,8 +9,8 @@
+ 
+ install_opts :=
+ 
+-CFLAGS += -Wall -Werror -std=gnu99 -DNP_ETC_DIR='"$(etcdir)"' \
+-	-DNP_SCRIPT_DIR='"$(scriptdir)"' -ggdb3 -O3 -DNP_VERSION='"$(version)"'
++CFLAGS += -std=gnu99 -DNP_ETC_DIR='"$(etcdir)"' \
++	-DNP_SCRIPT_DIR='"$(scriptdir)"' -DNP_VERSION='"$(version)"'
+ 
+ netplugd: config.o netlink.o lib.o if_info.o main.o
+ 	$(CC) $(LDFLAGS) -o $@ $^
 --- net-tools-1.60/netplug-1.2.9/main.c.execshield	2005-01-08 06:57:09.000000000 +0100
-+++ net-tools-1.60/netplug-1.2.9/main.c	2005-02-28 14:15:20.553924280 +0100
++++ net-tools-1.60/netplug-1.2.9/main.c	2005-02-28 14:43:05.599798832 +0100
 @@ -161,11 +161,28 @@
      ce.pid = info->si_pid;
      ret = waitpid(info->si_pid, &ce.status, 0);
