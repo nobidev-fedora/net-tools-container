@@ -1,13 +1,16 @@
+%define npversion	1.2.1
+
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 20.1
+Release: 23
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
-Source1: net-tools-%{version}-config.h
-Source2: net-tools-%{version}-config.make
-Source3: ether-wake.c
+Source1: netplug-%{npversion}.tar.bz2
+Source2: net-tools-%{version}-config.h
+Source3: net-tools-%{version}-config.make
+Source4: ether-wake.c
 Patch1: net-tools-1.57-bug22040.patch
 Patch2: net-tools-1.60-miiioctl.patch
 Patch3: net-tools-1.60-manydevs.patch
@@ -20,14 +23,16 @@ Patch9: net-tools-1.60-man.patch
 Patch10: net-tools-1.60-gcc33.patch
 Patch11: net-tools-1.60-trailingblank.patch
 Patch12: net-tools-1.60-interface.patch
+Patch13: netplug-1.2.1-init.patch
 BuildRoot: %{_tmppath}/%{name}-root
+Requires(post,preun): chkconfig
 
 %description
 The net-tools package contains basic networking tools, including
 ifconfig, netstat, route, and others.
 
 %prep
-%setup -q
+%setup -q -a 1
 %patch1 -p 1 -b .bug22040
 %patch2 -p 1 -b .miiioctl
 %patch3 -p 0 -b .manydevs
@@ -40,10 +45,11 @@ ifconfig, netstat, route, and others.
 %patch10 -p1 -b .gcc33
 %patch11 -p1 -b .trailingblank
 %patch12 -p1 -b .interface
+%patch13 -p1 -b .init
 
-cp %SOURCE1 ./config.h
-cp %SOURCE2 ./config.make
-cp %SOURCE3 .
+cp %SOURCE2 ./config.h
+cp %SOURCE3 ./config.make
+cp %SOURCE4 .
 
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
@@ -52,6 +58,9 @@ perl -pi -e "s|-O2||" Makefile
 %build
 make
 gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
+pushd netplug-%{npversion}
+make
+popd
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -64,6 +73,14 @@ make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
 
 install -m 755 ether-wake %{buildroot}/sbin
 
+pushd netplug-%{npversion}
+make install prefix=$RPM_BUILD_ROOT \
+        initdir=$RPM_BUILD_ROOT/%{_initrddir} \
+        mandir=$RPM_BUILD_ROOT/%{_mandir}
+mv README README.netplugd
+mv TODO TODO.netplugd
+popd
+
 rm %{buildroot}/sbin/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
 
@@ -72,16 +89,44 @@ rm %{buildroot}%{_mandir}/man8/rarp.8*
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+  /sbin/chkconfig --add netplugd
+  exit 0
+
+%preun
+if [ "$1" = "0" ]; then
+  /sbin/chkconfig --del netplugd || :
+  /sbin/service netplugd stop &> /dev/null || :
+fi
+exit 0
+
+%postun
+  /sbin/service netplugd condrestart >/dev/null 2>&1 || :
+  exit 0
+
 %files -f %{name}.lang
 %defattr(-,root,root)
+%doc netplug-%{npversion}/TODO.netplugd netplug-%{npversion}/README.netplugd COPYING
 /bin/*
 /sbin/*
 %{_mandir}/man[158]/*
 %lang(de)	%{_mandir}/de/man[158]/*
 %lang(fr)	%{_mandir}/fr/man[158]/*
 %lang(pt)	%{_mandir}/pt/man[158]/*
+%config %{_sysconfdir}/netplug/netplugd.conf
+%{_sysconfdir}/netplug.d
+%{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Mar 23 2004 Karsten Hopp <karsten@redhat.de> 1.60-23 
+- add chkconfig call in post and preun, fix init script (#116555)
+
+* Thu Feb 19 2004 Phil Knirsch <pknirsch@redhat.com>
+- Added netplug-1.2.1 to net-tools (FR #103419).
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Mon Aug 25 2003 Phil Knirsch <pknirsch@redhat.com> 1.60-20.1
 -rebuilt
 
