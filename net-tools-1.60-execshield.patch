@@ -1,6 +1,6 @@
-diff -urN net-tools-1.60/netplug-1.2.3/main.c net-tools-1.60.new/netplug-1.2.3/main.c
---- net-tools-1.60/netplug-1.2.3/main.c	2004-02-22 06:52:14.000000000 +0100
-+++ net-tools-1.60.new/netplug-1.2.3/main.c	2004-05-06 18:28:22.845977718 +0200
+diff -urN net-tools-1.60/netplug-1.2.6/main.c net-tools-1.60.new/netplug-1.2.6/main.c
+--- net-tools-1.60/netplug-1.2.6/main.c	2004-02-22 06:52:14.000000000 +0100
++++ net-tools-1.60.new/netplug-1.2.6/main.c	2004-05-06 18:28:22.845977718 +0200
 @@ -149,10 +149,10 @@
  
  /* Poll the existing interface state, so we can catch any state
