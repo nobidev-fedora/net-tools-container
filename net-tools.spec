@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 31
+Release: 32
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -28,6 +28,7 @@ Patch14: net-tools-1.60-gcc34.patch
 Patch15: net-tools-1.60-overflow.patch
 Patch16: net-tools-1.60-execshield.patch
 Patch17: netplug-1.2.7-compiler.patch
+Patch18: netplug-1.2.7-installopts.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -38,15 +39,15 @@ ifconfig, netstat, route, and others.
 
 %prep
 %setup -q -a 1
-%patch1 -p 1 -b .bug22040
-%patch2 -p 1 -b .miiioctl
-%patch3 -p 0 -b .manydevs
-%patch4 -p 1 -b .virtualname
-%patch5 -p 1 -b .cycle
-%patch6 -p 1 -b .nameif
-%patch7 -p 1 -b .ipx
-%patch8 -p 1 -b .inet6-lookup
-%patch9 -p 1 -b .man
+%patch1 -p1 -b .bug22040
+%patch2 -p1 -b .miiioctl
+%patch3 -p0 -b .manydevs
+%patch4 -p1 -b .virtualname
+%patch5 -p1 -b .cycle
+%patch6 -p1 -b .nameif
+%patch7 -p1 -b .ipx
+%patch8 -p1 -b .inet6-lookup
+%patch9 -p1 -b .man
 %patch10 -p1 -b .gcc33
 %patch11 -p1 -b .trailingblank
 %patch12 -p1 -b .interface
@@ -55,6 +56,7 @@ ifconfig, netstat, route, and others.
 %patch15 -p1 -b .overflow
 %patch16 -p1 -b .execshield
 %patch17 -p1 -b .compiler
+%patch18 -p1 -b .installopts
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -127,6 +129,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Aug 17 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-32
+- Fix installopts for netplug.
+
 * Sun Aug 08 2004 Alan Cox <alan@redhat.com> 1.60-31
 - Build requires gettext.
 
