@@ -1,9 +1,9 @@
-%define npversion	1.2.1
+%define npversion	1.2.3
 
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 25
+Release: 26
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -26,6 +26,7 @@ Patch12: net-tools-1.60-interface.patch
 Patch13: netplug-1.2.1-init.patch
 Patch14: net-tools-1.60-gcc34.patch
 Patch15: net-tools-1.60-overflow.patch
+Patch16: net-tools-1.60-execshield.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 
@@ -50,6 +51,7 @@ ifconfig, netstat, route, and others.
 %patch13 -p1 -b .init
 %patch14 -p1 -b .gcc34
 %patch15 -p1 -b .overflow
+%patch16 -p1 -b .execshield
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -122,6 +124,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu May 06 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-26
+- Updated netplugd to latest upstream version.
+- Fixed execshield problem in main.c of netplugd.
+
 * Thu Apr 15 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-25
 - Fixed several possible buffer overflows (#120343)
 
