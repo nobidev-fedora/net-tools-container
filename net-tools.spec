@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 38
+Release: 39
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -34,6 +34,8 @@ Patch20: net-tools-1.60-trunc.patch
 Patch21: net-tools-1.60-return.patch
 Patch22: net-tools-1.60-parse.patch
 Patch23: net-tools-1.60-netmask.patch
+Patch24: net-tools-1.60-ulong.patch
+Patch25: net-tools-1.60-bcast.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -67,6 +69,8 @@ ifconfig, netstat, route, and others.
 %patch21 -p1 -b .return
 %patch22 -p1 -b .parse
 %patch23 -p1 -b .netmask
+%patch24 -p1 -b .ulong
+%patch25 -p1 -b .bcast
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -158,6 +162,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Nov 04 2004 Radek Vokal <rvokal@redhat.com> 1.60-39
+- IBM patch for netstat -s returning negative values on 64bit arch (#144064)
+- broadcast calulated if only netmask provided (#60509)
+
 * Tue Nov 02 2004 Radek Vokal <rvokal@redhat.com> 1.60-38
 - fixed fail to assign the specified netmask before adress is assigned
 - patch by Malita, Florin <florin.malita@glenayre.com>
