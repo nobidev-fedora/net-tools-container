@@ -1,15 +1,15 @@
 Summary: The basic tools for setting up networking.
 Name: net-tools
-Version: 1.56
-Release: 2
+Version: 1.57
+Release: 1
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
-Source1: net-tools-1.54-config.h
-Source2: net-tools-1.54-config.make
+Source1: net-tools-%{version}-config.h
+Source2: net-tools-%{version}-config.make
 Patch0: net-tools-1.56-fhs.patch
-# XXX dunno minimum required kernel version
-#BuildRequires: kernel-headers >= 2.1.100
+Patch1: net-tools-1.57-bug9215.patch
+Patch2: net-tools-1.57-bug9129.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
@@ -19,6 +19,8 @@ networking:  ethers, route and others.
 %prep
 %setup -q
 %patch0 -p 1 -b .fhs
+%patch1 -p 1 -b .bug9215
+%patch2 -p 1 -b .bug9129
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -28,34 +30,16 @@ make
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/{bin,sbin}
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man{1,5,8}
 
 make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
-
-{ cd $RPM_BUILD_ROOT
-  strip ./sbin/* ./bin/* || :
-} 
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-/bin/dnsdomainname
-/bin/domainname
-/bin/hostname
-/bin/netstat
-/bin/nisdomainname
-/bin/ypdomainname
-/sbin/arp
-/sbin/ifconfig
-/sbin/ipmaddr
-/sbin/iptunnel
-/sbin/plipconfig
-/sbin/rarp
-/sbin/route
-/sbin/slattach
+/bin/*
+/sbin/*
 %{_mandir}/man[158]/*
 %lang(cs)	%{_datadir}/locale/cs/LC_MESSAGES/net-tools.mo
 %lang(de)	%{_mandir}/de_DE/man[158]/*
@@ -63,10 +47,15 @@ rm -rf $RPM_BUILD_ROOT
 %lang(et)	%{_datadir}/locale/et_EE/LC_MESSAGES/net-tools.mo
 %lang(fr)	%{_mandir}/fr_FR/man[158]/*
 %lang(fr)	%{_datadir}/locale/fr/LC_MESSAGES/net-tools.mo
-%lang(pt_BR)	%{_mandir}/pt_BR/man[18]/*
+%lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
 %lang(pt_BR)	%{_datadir}/locale/pt_BR/LC_MESSAGES/net-tools.mo
 
 %changelog
+* Sat Oct  7 2000 Jeff Johnson <jbj@redhat.com>
+- update to 1.57.
+- MTU (and other) option(s) not parsed correctly (#9215).
+- allow more granularity iwth --numeric (#9129).
+
 * Wed Jul 12 2000 Prospector <bugzilla@redhat.com>
 - automatic rebuild
 
