@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 32
+Release: 33
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -29,6 +29,7 @@ Patch15: net-tools-1.60-overflow.patch
 Patch16: net-tools-1.60-execshield.patch
 Patch17: netplug-1.2.7-compiler.patch
 Patch18: netplug-1.2.7-installopts.patch
+Patch19: net-tools-1.60-siunits.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext
@@ -57,6 +58,7 @@ ifconfig, netstat, route, and others.
 %patch16 -p1 -b .execshield
 %patch17 -p1 -b .compiler
 %patch18 -p1 -b .installopts
+%patch19 -p1 -b .siunits
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -129,6 +131,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Aug 30 2004 Radek Vokal <rvokal@redhat.com> 1.60-33
+- Added patch for SI units by Tom "spot" Callaway <tcallawa@redhat.com> #118006
+
 * Tue Aug 17 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-32
 - Fix installopts for netplug.
 
