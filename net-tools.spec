@@ -1,9 +1,9 @@
-%define npversion	1.2.6
+%define npversion	1.2.7
 
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 29
+Release: 30
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -27,7 +27,7 @@ Patch13: netplug-1.2.1-init.patch
 Patch14: net-tools-1.60-gcc34.patch
 Patch15: net-tools-1.60-overflow.patch
 Patch16: net-tools-1.60-execshield.patch
-Patch17: netplug-1.2.6-compiler.patch
+Patch17: netplug-1.2.7-compiler.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 
@@ -126,6 +126,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Aug 02 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-30
+- Update to latest netplugd version.
+
 * Mon Jul 12 2004 Phil Knirsch <pknirsch@redhat.com> 1.60-29
 - Fixed initscript patch for netplug (#127351)
 
