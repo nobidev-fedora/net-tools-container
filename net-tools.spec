@@ -1,7 +1,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 3
+Release: 3msdw.2
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -10,6 +10,7 @@ Source2: net-tools-%{version}-config.make
 Source3: ether-wake.c
 Patch4: net-tools-1.57-bug22040.patch
 Patch5: net-tools-1.60-miiioctl.patch
+Patch6: net-tools-1.60-virtualname.patch 
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
@@ -20,7 +21,7 @@ ifconfig, netstat, route, and others.
 %setup -q
 %patch4 -p 1 -b .bug22040
 %patch5 -p 1 -b .miiioctl
-
+%patch6 -p 1
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
 cp %SOURCE3 .
