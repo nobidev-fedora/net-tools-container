@@ -1,19 +1,13 @@
 Summary: The basic tools for setting up networking.
 Name: net-tools
-Version: 1.57
-Release: 6
+Version: 1.60
+Release: 1
 Copyright: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
-Patch0: net-tools-1.57-fhs.patch
-Patch1: net-tools-1.57-bug9215.patch
-Patch2: net-tools-1.57-bug9129.patch
-Patch3: net-tools-1.57-bug20570.patch
 Patch4: net-tools-1.57-bug22040.patch
-Patch5: net-tools-1.57-bug25474.patch
-Patch6: net-tools-1.57-bug25921.patch
 BuildRoot: %{_tmppath}/%{name}-root
 
 %description
@@ -22,13 +16,7 @@ networking:  ethers, route and others.
 
 %prep
 %setup -q
-%patch0 -p 1 -b .fhs
-%patch1 -p 1 -b .bug9215
-%patch2 -p 1 -b .bug9129
-%patch3 -p 1 -b .bug20570
 %patch4 -p 1 -b .bug22040
-%patch5 -p 1 -b .bug25474
-%patch6 -p 1 -b .bug25921
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -54,11 +42,14 @@ rm -rf $RPM_BUILD_ROOT
 /bin/*
 /sbin/*
 %{_mandir}/man[158]/*
-%lang(de)	%{_mandir}/de/man[158]/*
-%lang(fr)	%{_mandir}/fr/man[158]/*
-%lang(pt_BR)	%{_mandir}/pt/man[158]/*
+%lang(de_DE)	%{_mandir}/de_DE/man[158]/*
+%lang(fr_FR)	%{_mandir}/fr_FR/man[158]/*
+%lang(pt_BR)	%{_mandir}/pt_BR/man[158]/*
 
 %changelog
+* Wed Apr 18 2001 Crutcher Dunnavant <crutcher@redhat.com>
+- itterate to 1.60
+
 * Sun Apr  8 2001 Preston Brown <pbrown@redhat.com>
 - use find_lang macro
 - less specific locale dirs for man pages
