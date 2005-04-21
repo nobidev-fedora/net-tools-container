@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 51
+Release: 51.test1
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -202,11 +202,14 @@ exit 0
 %lang(de)	%{_mandir}/de/man[158]/*
 %lang(fr)	%{_mandir}/fr/man[158]/*
 %lang(pt)	%{_mandir}/pt/man[158]/*
+%dir	%{_sysconfdir}/netplug
 %config %{_sysconfdir}/netplug/netplugd.conf
 %{_sysconfdir}/netplug.d
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+- /etc/neplug is owned by net-tools (#130621)
+
 * Tue Apr 05 2005 Radek Vokal <rvokal@redhat.com> 1.60-51
 - flush output in mii-tool (#152568)
 
