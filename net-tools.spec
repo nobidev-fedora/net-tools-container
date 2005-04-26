@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 51.test1
+Release: 52
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -52,6 +52,7 @@ Patch37: net-tools-1.60-pie.patch
 Patch38: net-tools-1.60-ifaceopt.patch
 Patch39: net-tools-1.60-trim_iface.patch
 Patch40: net-tools-1.60-stdo.patch
+Patch41: net-tools-1.60-statistics.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -100,6 +101,7 @@ ifconfig, netstat, route, and others.
 %patch38 -p1 -b .ifaceopt
 %patch39 -p1 -b .trim-iface
 %patch40 -p1 -b .stdo
+%patch41 -p1 -b .statistics
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -208,6 +210,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Apr 26 2005 Radek Vokal <rvokal@redhat.com> 1.60-52
+- don't show "duplicate line" warning (#143933)
+- netstat has new statistcs (#133032)
 - /etc/neplug is owned by net-tools (#130621)
 
 * Tue Apr 05 2005 Radek Vokal <rvokal@redhat.com> 1.60-51

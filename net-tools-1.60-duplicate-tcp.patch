@@ -177,7 +177,7 @@
 +    /* make sure that we haven't seen this socket pair before */
 +    if (tcp_node_hash_check_and_append(local_addr, local_port,
 +				       rem_addr, rem_port) < 0) {
-+      fprintf(stderr, _("warning, got duplicate tcp line.\n"));
++  /*  fprintf(stderr, _("warning, got duplicate tcp line.\n")); */
 +      return;
 +    }
 +
