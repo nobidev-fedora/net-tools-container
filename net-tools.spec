@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 52
+Release: 53
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -11,7 +11,7 @@ Source1: netplug-%{npversion}.tar.bz2
 Source2: net-tools-%{version}-config.h
 Source3: net-tools-%{version}-config.make
 Source4: ether-wake.c
-Source5: etherwake.8
+Source5: ether-wake.8
 Source6: mii-diag.c
 Source7: mii-diag.8
 Patch1: net-tools-1.57-bug22040.patch
@@ -210,6 +210,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Jun 06 2005 Radek Vokal <rvokal@redhat.com> 1.60-53
+- etherwake man page changed to ether-wake (#159156)
+
 * Tue Apr 26 2005 Radek Vokal <rvokal@redhat.com> 1.60-52
 - don't show "duplicate line" warning (#143933)
 - netstat has new statistcs (#133032)
