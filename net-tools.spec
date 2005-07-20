@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 54
+Release: 55
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -53,6 +53,7 @@ Patch38: net-tools-1.60-ifaceopt.patch
 Patch39: net-tools-1.60-trim_iface.patch
 Patch40: net-tools-1.60-stdo.patch
 Patch41: net-tools-1.60-statistics.patch
+Patch42: net-tools-1.60-ifconfig.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -102,6 +103,7 @@ ifconfig, netstat, route, and others.
 %patch39 -p1 -b .trim-iface
 %patch40 -p1 -b .stdo
 %patch41 -p1 -b .statistics
+%patch42 -p1 -b .iface_drop
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -210,6 +212,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Jul 20 2005 Radek Vokal <rvokal@redhat.com> 1.60-55
+- ifconfig - fixed virtual interface dropping (#162888)
+
 * Wed Jun 22 2005 Radek Vokal <rvokal@redhat.com> 1.60-54
 - fr man pages are back (#159702)
 
