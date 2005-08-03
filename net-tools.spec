@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 55
+Release: 56
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -54,6 +54,7 @@ Patch39: net-tools-1.60-trim_iface.patch
 Patch40: net-tools-1.60-stdo.patch
 Patch41: net-tools-1.60-statistics.patch
 Patch42: net-tools-1.60-ifconfig.patch
+Patch43: net-tools-1.60-arp_overflow.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -104,6 +105,7 @@ ifconfig, netstat, route, and others.
 %patch40 -p1 -b .stdo
 %patch41 -p1 -b .statistics
 %patch42 -p1 -b .iface_drop
+%patch43 -p1 -b .overflow
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -212,6 +214,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Aug 03 2005 Radek Vokal <rvokal@redhat.com> 1.60-56
+- fixed buffer overflow in arp (#164695)
+
 * Wed Jul 20 2005 Radek Vokal <rvokal@redhat.com> 1.60-55
 - ifconfig - fixed virtual interface dropping (#162888)
 
