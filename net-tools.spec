@@ -178,6 +178,9 @@ popd
 
 rm %{buildroot}/sbin/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
+rm %{buildroot}%{_mandir}/de/man8/rarp.8*
+rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
+rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
 %find_lang %{name}
 
@@ -214,6 +217,8 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+- don't ship any rarp man page (#170537)
+
 * Wed Aug 03 2005 Radek Vokal <rvokal@redhat.com> 1.60-56
 - fixed buffer overflow in arp (#164695)
 
