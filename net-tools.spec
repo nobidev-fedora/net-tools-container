@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 56
+Release: 57
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -55,6 +55,7 @@ Patch40: net-tools-1.60-stdo.patch
 Patch41: net-tools-1.60-statistics.patch
 Patch42: net-tools-1.60-ifconfig.patch
 Patch43: net-tools-1.60-arp_overflow.patch
+Patch44: net-tools-1.60-hostname_man.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -106,6 +107,7 @@ ifconfig, netstat, route, and others.
 %patch41 -p1 -b .statistics
 %patch42 -p1 -b .iface_drop
 %patch43 -p1 -b .overflow
+%patch44 -p1 -b .hostname_man
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -217,6 +219,8 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Sat Oct 15 2005 Radek Vokal <rvokal@redhat.com> 1.60-57
+- add note to hostname man page about gethostbyname() (#166581)
 - don't ship any rarp man page (#170537)
 
 * Wed Aug 03 2005 Radek Vokal <rvokal@redhat.com> 1.60-56
