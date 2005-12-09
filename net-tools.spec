@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 57
+Release: 57.1
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -219,6 +219,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Sat Oct 15 2005 Radek Vokal <rvokal@redhat.com> 1.60-57
 - add note to hostname man page about gethostbyname() (#166581)
 - don't ship any rarp man page (#170537)
