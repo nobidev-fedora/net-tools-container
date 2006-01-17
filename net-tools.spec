@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 58
+Release: 59
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -57,6 +57,7 @@ Patch42: net-tools-1.60-ifconfig.patch
 Patch43: net-tools-1.60-arp_overflow.patch
 Patch44: net-tools-1.60-hostname_man.patch
 Patch45: net-tools-1.60-interface_stack.patch
+Patch46: net-tools-1.60-selinux.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -110,6 +111,7 @@ ifconfig, netstat, route, and others.
 %patch43 -p1 -b .overflow
 %patch44 -p1 -b .hostname_man
 %patch45 -p0 -b .stack
+%patch46 -p1 -b .selinux
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -221,6 +223,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Jan 17 2006 Radek Vokal <rvokal@redhat.com> 1.60-59
+- new option for nestat, -Z shows selinux context. Patch by <dwalsh@redhat.com>
+
 * Mon Jan 02 2006 Radek Vokal <rvokal@redhat.com> 1.60-58
 - clear static buffers in interface.c by <drepper@redhat.com> (#176714)
 
