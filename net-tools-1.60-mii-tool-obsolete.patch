@@ -8,7 +8,7 @@
 +.P 
 +This program is obsolete. Valid media are only \fB100baseT4\fR, 
 +\fB100baseTx-FD\fR,\fB100baseTx-HD\fR, \fB10baseT-FD\fR and 
-+\fB10baseT-HD\fR ethernet cards. For replacement check \fBeth-tool\fB.
++\fB10baseT-HD\fR ethernet cards. For replacement check \fBethtool\fB.
 +
  .SH DESCRIPTION
  This utility checks or sets the status of a network interface's Media
