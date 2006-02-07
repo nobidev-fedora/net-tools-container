@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 61
+Release: 61.1
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -223,6 +223,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 1.60-61.1
+- rebuilt for new gcc4.1 snapshot and glibc changes
+
 * Mon Feb 06 2006 Radek Vokál <rvokal@redhat.com> 1.60-61
 - mii-tool manpage fixed (#180055)
 
