@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 61.1
+Release: 62
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -58,6 +58,7 @@ Patch43: net-tools-1.60-arp_overflow.patch
 Patch44: net-tools-1.60-hostname_man.patch
 Patch45: net-tools-1.60-interface_stack.patch
 Patch46: net-tools-1.60-selinux.patch
+Patch47: net-tools-1.60-netstat_stop_trim.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -112,6 +113,7 @@ ifconfig, netstat, route, and others.
 %patch44 -p1 -b .hostname_man
 %patch45 -p0 -b .stack
 %patch46 -p1 -b .selinux
+%patch47 -p1 -b .trim
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -223,6 +225,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Fri Feb 10 2006 Radek Vokál <rvokal@redhat.com> - 1.60-62
+- new option for netstat - -T stops trimming remote and local addresses (#176465)
+
 * Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 1.60-61.1
 - rebuilt for new gcc4.1 snapshot and glibc changes
 
