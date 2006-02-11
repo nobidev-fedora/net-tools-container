@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 62
+Release: 62.1
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -225,6 +225,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1.60-62.1
+- bump again for double-long bug on ppc(64)
+
 * Fri Feb 10 2006 Radek Vokál <rvokal@redhat.com> - 1.60-62
 - new option for netstat - -T stops trimming remote and local addresses (#176465)
 
