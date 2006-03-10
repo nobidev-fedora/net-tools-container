@@ -63,7 +63,7 @@ Patch48: net-tools-1.60-netstat_inode.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
-BuildRequires: gettext
+BuildRequires: gettext, libselinux
 
 %description
 The net-tools package contains basic networking tools, including
