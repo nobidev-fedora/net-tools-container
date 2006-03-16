@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 63
+Release: 64
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -60,6 +60,7 @@ Patch45: net-tools-1.60-interface_stack.patch
 Patch46: net-tools-1.60-selinux.patch
 Patch47: net-tools-1.60-netstat_stop_trim.patch
 Patch48: net-tools-1.60-netstat_inode.patch
+Patch49: net-tools-1.60-fgets.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -116,6 +117,7 @@ ifconfig, netstat, route, and others.
 %patch46 -p1 -b .selinux
 %patch47 -p1 -b .trim
 %patch48 -p1 -b .inode
+%patch49 -p1 -b .fgets
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -227,6 +229,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Mar 16 2006 Radek Vokál <rvokal@redhat.com> - 1.60-54
+- remove duplicate arp entries (#185604)
+
 * Thu Feb 23 2006 Radek Vokál <rvokal@redhat.com> - 1.60-63
 - show inodes in netstat (#180974)
 
