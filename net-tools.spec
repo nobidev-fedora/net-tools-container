@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 64
+Release: 65
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -61,6 +61,7 @@ Patch46: net-tools-1.60-selinux.patch
 Patch47: net-tools-1.60-netstat_stop_trim.patch
 Patch48: net-tools-1.60-netstat_inode.patch
 Patch49: net-tools-1.60-fgets.patch
+Patch50: net-tools-1.60-ifconfig_man.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -118,6 +119,7 @@ ifconfig, netstat, route, and others.
 %patch47 -p1 -b .trim
 %patch48 -p1 -b .inode
 %patch49 -p1 -b .fgets
+%patch50 -p1 -b .inet_addr
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -229,6 +231,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Mar 30 2006 Radek Vokál <rvokal@redhat.com> - 1.60-55
+- add note to ifconfig(8) about supported format for IPv4 addresses (#176661)
+
 * Thu Mar 16 2006 Radek Vokál <rvokal@redhat.com> - 1.60-54
 - remove duplicate arp entries (#185604)
 
