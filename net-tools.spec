@@ -231,10 +231,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
-* Thu Mar 30 2006 Radek Vokál <rvokal@redhat.com> - 1.60-55
+* Thu Mar 30 2006 Radek Vokál <rvokal@redhat.com> - 1.60-65
 - add note to ifconfig(8) about supported format for IPv4 addresses (#176661)
 
-* Thu Mar 16 2006 Radek Vokál <rvokal@redhat.com> - 1.60-54
+* Thu Mar 16 2006 Radek Vokál <rvokal@redhat.com> - 1.60-64
 - remove duplicate arp entries (#185604)
 
 * Thu Feb 23 2006 Radek Vokál <rvokal@redhat.com> - 1.60-63
