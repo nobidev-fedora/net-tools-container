@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 65
+Release: 66
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -231,6 +231,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Apr 06 2006 Radek Vokál <rvokal@redhat.com> - 1.60-66
+- add note about -T to netstat
+
 * Thu Mar 30 2006 Radek Vokál <rvokal@redhat.com> - 1.60-65
 - add note to ifconfig(8) about supported format for IPv4 addresses (#176661)
 

@@ -78,3 +78,15 @@
  	}
  
      if(argc == optind + 1) {
+--- net-tools-1.60/netstat.c.trim2	2006-04-06 16:12:02.000000000 +0200
++++ net-tools-1.60/netstat.c	2006-04-06 16:18:09.000000000 +0200
+@@ -1737,7 +1737,8 @@
+     fprintf(stderr, _("        -a, --all, --listening     display all sockets (default: connected)\n"));
+     fprintf(stderr, _("        -o, --timers               display timers\n"));
+     fprintf(stderr, _("        -F, --fib                  display Forwarding Information Base (default)\n"));
+-    fprintf(stderr, _("        -C, --cache                display routing cache instead of FIB\n\n"));
++    fprintf(stderr, _("        -C, --cache                display routing cache instead of FIB\n"));
++    fprintf(stderr, _("        -T, --trim                 stop trimming long addresses\n"));
+     fprintf(stderr, _("        -Z, --context              display SELinux security context for sockets\n\n"));
+ 
+     fprintf(stderr, _("  <Iface>: Name of interface to monitor/list.\n"));
