@@ -62,6 +62,7 @@ Patch47: net-tools-1.60-netstat_stop_trim.patch
 Patch48: net-tools-1.60-netstat_inode.patch
 Patch49: net-tools-1.60-fgets.patch
 Patch50: net-tools-1.60-ifconfig_man.patch
+Patch51: net-tools-1.60-x25-proc.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -120,6 +121,7 @@ ifconfig, netstat, route, and others.
 %patch48 -p1 -b .inode
 %patch49 -p1 -b .fgets
 %patch50 -p1 -b .inet_addr
+%patch51 -p1 -b .x25
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -231,6 +233,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Apr 13 2006 Radek Vokál <rvokal@redhat.com> - 1.60-67
+- fix wrong definition of _PATH_PROCNET_X25_ROUTE (#188786)
+
 * Thu Apr 06 2006 Radek Vokál <rvokal@redhat.com> - 1.60-66
 - add note about -T to netstat
 
