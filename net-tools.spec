@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 67
+Release: 68
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -63,6 +63,7 @@ Patch48: net-tools-1.60-netstat_inode.patch
 Patch49: net-tools-1.60-fgets.patch
 Patch50: net-tools-1.60-ifconfig_man.patch
 Patch51: net-tools-1.60-x25-proc.patch
+Patch52: net-tools-1.60-sctp.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -122,6 +123,7 @@ ifconfig, netstat, route, and others.
 %patch49 -p1 -b .fgets
 %patch50 -p1 -b .inet_addr
 %patch51 -p1 -b .x25
+%patch52 -p1 -b .sctp
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -233,6 +235,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Fri Apr 14 2006 Radek Vokál <rvokal@redhat.com> - 1.60-68
+- display sctp connections using netstat -S <jbj@redhat.com>
+
 * Thu Apr 13 2006 Radek Vokál <rvokal@redhat.com> - 1.60-67
 - fix wrong definition of _PATH_PROCNET_X25_ROUTE (#188786)
 
