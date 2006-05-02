@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 68
+Release: 69
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -64,6 +64,7 @@ Patch49: net-tools-1.60-fgets.patch
 Patch50: net-tools-1.60-ifconfig_man.patch
 Patch51: net-tools-1.60-x25-proc.patch
 Patch52: net-tools-1.60-sctp.patch
+Patch53: net-tools-1.60-arp_man.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -124,6 +125,7 @@ ifconfig, netstat, route, and others.
 %patch50 -p1 -b .inet_addr
 %patch51 -p1 -b .x25
 %patch52 -p1 -b .sctp
+%patch53 -p1
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -235,6 +237,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue May 02 2006 Radek Vokál <rvokal@redhat.com> - 1.60-69
+- fix arp man page to correspond to man ethers (#190425)
+
 * Fri Apr 14 2006 Radek Vokál <rvokal@redhat.com> - 1.60-68
 - display sctp connections using netstat -S <jbj@redhat.com>
 
