@@ -65,6 +65,8 @@ Patch50: net-tools-1.60-ifconfig_man.patch
 Patch51: net-tools-1.60-x25-proc.patch
 Patch52: net-tools-1.60-sctp.patch
 Patch53: net-tools-1.60-arp_man.patch
+Patch54: net-tools-1.60-ifconfig-long-iface-crasher.patch
+Patch55: net-tools-1.60-netdevice.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -126,6 +128,8 @@ ifconfig, netstat, route, and others.
 %patch51 -p1 -b .x25
 %patch52 -p1 -b .sctp
 %patch53 -p1
+%patch54 -p1 -b .long_iface
+%patch55 -p1 -b .netdevice
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -237,6 +241,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue May 09 2006 Radek Vokál <rvokal@redhat.com> - 1.60-70
+- add netdevice.h, fix x25
+- fix ifconfig crash when interface name is too long (#190703)
+
 * Tue May 02 2006 Radek Vokál <rvokal@redhat.com> - 1.60-69
 - fix arp man page to correspond to man ethers (#190425)
 
