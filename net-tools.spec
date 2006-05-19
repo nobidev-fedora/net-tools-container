@@ -71,6 +71,7 @@ Patch55: net-tools-1.60-netdevice.patch
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
 BuildRequires: gettext, libselinux
+BuildRequires: libselinux-devel
 
 %description
 The net-tools package contains basic networking tools, including
@@ -241,6 +242,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Fri May 19 2006 Radek Vokal <rvokal@redhat.com> - 1.60-71
+- BuildRequires: libselinux-devel (#191737)
+
 * Tue May 09 2006 Radek Vokál <rvokal@redhat.com> - 1.60-70
 - add netdevice.h, fix x25
 - fix ifconfig crash when interface name is too long (#190703)
