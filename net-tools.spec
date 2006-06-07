@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 71
+Release: 72
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -242,6 +242,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Jun  7 2006 Radek Vokal <rvokal@redhat.com> - 1.60-72
+- switch --trim to --notrim .. make it less confusing 
+
 * Fri May 19 2006 Radek Vokal <rvokal@redhat.com> - 1.60-71
 - BuildRequires: libselinux-devel (#191737)
 
