@@ -131,7 +131,7 @@ ifconfig, netstat, route, and others.
 %patch52 -p1 -b .sctp
 %patch53 -p1
 %patch54 -p1 -b .long_iface
-#%patch55 -p1 -b .netdevice
+%patch55 -p1 -b .netdevice
 %patch56 -p1 -b .skip
 
 cp %SOURCE2 ./config.h
