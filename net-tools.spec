@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 72.1
+Release: 73
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -67,6 +67,7 @@ Patch52: net-tools-1.60-sctp.patch
 Patch53: net-tools-1.60-arp_man.patch
 Patch54: net-tools-1.60-ifconfig-long-iface-crasher.patch
 Patch55: net-tools-1.60-netdevice.patch
+Patch56: net-tools-1.60-skip.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -130,7 +131,8 @@ ifconfig, netstat, route, and others.
 %patch52 -p1 -b .sctp
 %patch53 -p1
 %patch54 -p1 -b .long_iface
-%patch55 -p1 -b .netdevice
+#%patch55 -p1 -b .netdevice
+%patch56 -p1 -b .skip
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -242,6 +244,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Aug  7 2006 Radek Vokal <rvokal@redhat.com> - 1.60-73
+- directory entries . and .. should be skipped
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1.60-72.1
 - rebuild
 
