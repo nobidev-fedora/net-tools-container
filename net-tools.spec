@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 73
+Release: 74%{?dist}
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -68,6 +68,7 @@ Patch53: net-tools-1.60-arp_man.patch
 Patch54: net-tools-1.60-ifconfig-long-iface-crasher.patch
 Patch55: net-tools-1.60-netdevice.patch
 Patch56: net-tools-1.60-skip.patch
+Patch57: net-tools-1.60-netstat-I-fix.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -133,6 +134,7 @@ ifconfig, netstat, route, and others.
 %patch54 -p1 -b .long_iface
 %patch55 -p1 -b .netdevice
 %patch56 -p1 -b .skip
+%patch57 -p1
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -244,6 +246,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Oct  2 2006 Radek Vokal <rvokal@redhat.com> - 1.60-74
+- fix -I option for nestat, works as -I=eth0 again.
+- add dist tag
+
 * Mon Aug  7 2006 Radek Vokal <rvokal@redhat.com> - 1.60-73
 - directory entries . and .. should be skipped
 
