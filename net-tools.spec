@@ -69,6 +69,7 @@ Patch54: net-tools-1.60-ifconfig-long-iface-crasher.patch
 Patch55: net-tools-1.60-netdevice.patch
 Patch56: net-tools-1.60-skip.patch
 Patch57: net-tools-1.60-netstat-I-fix.patch
+Patch58: net-tools-1.60-nameif_strncpy.patch
 
 BuildRoot: %{_tmppath}/%{name}-root
 Requires(post,preun): chkconfig
@@ -135,6 +136,7 @@ ifconfig, netstat, route, and others.
 %patch55 -p1 -b .netdevice
 %patch56 -p1 -b .skip
 %patch57 -p1
+%patch58 -p1 -b .strncpy
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
