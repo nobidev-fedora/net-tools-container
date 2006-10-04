@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 74%{?dist}
+Release: 75%{?dist}
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -248,6 +248,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Oct  4 2006 Radek Vokal <rvokal@redhat.com> - 1.60-75
+- fix nameif crash for 16char long interface names (#209120)
+
 * Mon Oct  2 2006 Radek Vokal <rvokal@redhat.com> - 1.60-74
 - fix -I option for nestat, works as -I=eth0 again.
 - add dist tag
