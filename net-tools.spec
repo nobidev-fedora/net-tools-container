@@ -71,7 +71,7 @@ Patch56: net-tools-1.60-skip.patch
 Patch57: net-tools-1.60-netstat-I-fix.patch
 Patch58: net-tools-1.60-nameif_strncpy.patch
 
-BuildRoot: %{_tmppath}/%{name}-root
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post,preun): chkconfig
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
