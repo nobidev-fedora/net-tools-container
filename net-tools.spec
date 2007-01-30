@@ -3,7 +3,7 @@
 Summary: Basic networking tools.
 Name: net-tools
 Version: 1.60
-Release: 75%{?dist}
+Release: 77%{?dist}
 License: GPL
 Group: System Environment/Base
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -215,6 +215,8 @@ rm %{buildroot}%{_mandir}/de/man8/rarp.8*
 rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
 rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
+touch %{buildroot}%{_sysconfdir}/ethers
+
 %find_lang %{name}
 
 %clean
@@ -246,10 +248,14 @@ exit 0
 %lang(pt)	%{_mandir}/pt/man[158]/*
 %dir	%{_sysconfdir}/netplug
 %config %{_sysconfdir}/netplug/netplugd.conf
+%config %{_sysconfdir}/ethers
 %{_sysconfdir}/netplug.d
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Jan 30 2007 Radek Vokál <rvokal@redhat.com> - 1.60-77
+- touch /etc/ethers (#225381)
+
 * Wed Dec 27 2006 Radek Vokál <rvokal@redhat.com> - 1.60-76
 - fix arp unaligned access (#220438)
 
