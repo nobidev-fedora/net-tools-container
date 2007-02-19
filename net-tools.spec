@@ -1,13 +1,14 @@
 %define npversion	1.2.9
 
-Summary: Basic networking tools.
+Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 77%{?dist}
+Release: 78%{?dist}
 License: GPL
 Group: System Environment/Base
+URL: http://www.tazenda.demon.co.uk/phil/net-tools/
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
-Source1: netplug-%{npversion}.tar.bz2
+Source1: http://www.red-bean.com/~bos/netplug/netplug-%{npversion}.tar.bz2
 Source2: net-tools-%{version}-config.h
 Source3: net-tools-%{version}-config.make
 Source4: ether-wake.c
@@ -28,8 +29,6 @@ Patch11: net-tools-1.60-trailingblank.patch
 Patch12: net-tools-1.60-interface.patch
 Patch14: net-tools-1.60-gcc34.patch
 Patch15: net-tools-1.60-overflow.patch
-#included in netlpug-execshield.patch
-#Patch16: net-tools-1.60-execshield.patch
 Patch19: net-tools-1.60-siunits.patch
 Patch20: net-tools-1.60-trunc.patch
 Patch21: net-tools-1.60-return.patch
@@ -73,7 +72,10 @@ Patch58: net-tools-1.60-nameif_strncpy.patch
 Patch59: net-tools-1.60-arp-unaligned-access.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires(post,preun): chkconfig
+Requires(post): /sbin/chkconfig
+Requires(preun): /sbin/chkconfig
+Requires(preun): /sbin/service
+Requires(postun): /sbin/service
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 
@@ -97,7 +99,6 @@ ifconfig, netstat, route, and others.
 %patch12 -p1 -b .interface
 %patch14 -p1 -b .gcc34
 %patch15 -p1 -b .overflow
-#%patch16 -p1 -b .execshield
 %patch19 -p1 -b .siunits
 %patch20 -p1 -b .trunc
 %patch21 -p1 -b .return
@@ -203,8 +204,8 @@ install -m 755 mii-diag %{buildroot}/sbin
 
 pushd netplug-%{npversion}
 make install prefix=$RPM_BUILD_ROOT \
-        initdir=$RPM_BUILD_ROOT/%{_initrddir} \
-        mandir=$RPM_BUILD_ROOT/%{_mandir}
+	initdir=$RPM_BUILD_ROOT/%{_initrddir} \
+	mandir=$RPM_BUILD_ROOT/%{_mandir}
 mv README README.netplugd
 mv TODO TODO.netplugd
 popd
@@ -216,6 +217,7 @@ rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
 rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
 touch %{buildroot}%{_sysconfdir}/ethers
+echo "# see man ethers for syntax" > %{buildroot}%{_sysconfdir}/ethers
 
 %find_lang %{name}
 
@@ -247,12 +249,15 @@ exit 0
 %lang(fr)	%{_mandir}/fr/man[158]/*
 %lang(pt)	%{_mandir}/pt/man[158]/*
 %dir	%{_sysconfdir}/netplug
-%config %{_sysconfdir}/netplug/netplugd.conf
-%config %{_sysconfdir}/ethers
+%config(noreplace) %{_sysconfdir}/netplug/netplugd.conf
+%config(noreplace) %{_sysconfdir}/ethers
 %{_sysconfdir}/netplug.d
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Feb 19 2007 Radek Vokál <rvokal@redhat.com> - 1.60-78
+- spec file cleanup (#226193)
+
 * Tue Jan 30 2007 Radek Vokál <rvokal@redhat.com> - 1.60-77
 - touch /etc/ethers (#225381)
 
