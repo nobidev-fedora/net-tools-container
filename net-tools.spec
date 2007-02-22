@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 78%{?dist}
+Release: 79%{?dist}
 License: GPL
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -70,6 +70,7 @@ Patch56: net-tools-1.60-skip.patch
 Patch57: net-tools-1.60-netstat-I-fix.patch
 Patch58: net-tools-1.60-nameif_strncpy.patch
 Patch59: net-tools-1.60-arp-unaligned-access.patch
+Patch60: net-tools-1.60-sctp-quiet.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -140,6 +141,7 @@ ifconfig, netstat, route, and others.
 %patch57 -p1
 %patch58 -p1 -b .strncpy
 %patch59 -p1 -b .arp-un-access
+%patch60 -p1 -b .quiet
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -255,6 +257,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Feb 22 2007 Radek Vokál <rvokal@redhat.com> - 1.60-79
+- quiet sctp (#229232)
+
 * Mon Feb 19 2007 Radek Vokál <rvokal@redhat.com> - 1.60-78
 - spec file cleanup (#226193)
 
