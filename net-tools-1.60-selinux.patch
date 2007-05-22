@@ -203,3 +203,23 @@
  	case '?':
  	case 'h':
  	    usage();
+--- net-tools-1.60/netstat.c.sel	2007-05-21 14:02:08.000000000 -0400
++++ net-tools-1.60/netstat.c	2007-05-21 14:03:23.000000000 -0400
+@@ -769,6 +769,9 @@ static void finish_this_one(int uid, uns
+     }
+     if (flag_prg)
+ 	printf("%-" PROGNAME_WIDTHs "s",prg_cache_get(inode));
++    if (flag_selinux)
++	printf("%-" SELINUX_WIDTHs "s",prg_cache_get_con(inode));
++
+     if (flag_opt)
+ 	printf("%s", timers);
+     putchar('\n');
+@@ -2420,6 +2423,7 @@ int main
+ 	    if (flag_exp > 1)
+ 		printf(_(" User       Inode     "));
+ 	    print_progname_banner();
++	    print_selinux_banner();
+ 	    if (flag_opt)
+ 		printf(_(" Timer"));	/* xxx */
+ 	    printf("\n");
