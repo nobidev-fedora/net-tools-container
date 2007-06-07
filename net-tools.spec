@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 81%{?dist}
+Release: 82%{?dist}
 License: GPL
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -261,6 +261,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Jun  7 2007 Radek Vokál <rvokal@redhat.com> - 1.60-82
+- fixed SELinux support by <dwalsh@redhat.com>
+
 * Tue Mar 27 2007 Radek Vokál <rvokal@redhat.com> - 1.60-81
 - fix segfault for empty interface (#234045)
 
