@@ -3,8 +3,8 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 83%{?dist}
-License: GPL
+Release: 84%{?dist}
+License: GPL+
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
@@ -263,6 +263,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Aug 23 2007 Radek Vokál <rvokal@redhat.com> - 1.60-84
+- rebuilt
+
 * Fri Jun  8 2007 Radek Vokál <rvokal@redhat.com> - 1.60-83
 - fix netplugd init script (#242919)
 
