@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 84%{?dist}
+Release: 85%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -263,6 +263,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.60-85
+- Autorebuild for GCC 4.3
+
 * Thu Aug 23 2007 Radek Vokál <rvokal@redhat.com> - 1.60-84
 - rebuilt
 
