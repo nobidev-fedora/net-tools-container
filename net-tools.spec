@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 85%{?dist}
+Release: 86%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -74,6 +74,7 @@ Patch60: net-tools-1.60-sctp-quiet.patch
 Patch61: net-tools-1.60-remove_node.patch
 Patch62: net-tools-1.60-netstat-interfaces-crash.patch
 Patch63: net-tools-1.60-netplugd_init.patch
+Patch64: net-tools-1.60-ec_hw_null.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -148,6 +149,7 @@ ifconfig, netstat, route, and others.
 %patch61 -p1
 %patch62 -p1 -b .iface-crash
 %patch63 -p1
+%patch64 -p1
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -263,6 +265,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Mon Feb 25 2008 Radek Vokal <rvokal@redhat.com> - 1.60-86
+- fix for GCC 4.3
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1.60-85
 - Autorebuild for GCC 4.3
 
