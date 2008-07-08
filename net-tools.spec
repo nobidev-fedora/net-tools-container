@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 87%{?dist}
+Release: 88%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -76,6 +76,7 @@ Patch62: net-tools-1.60-netstat-interfaces-crash.patch
 Patch63: net-tools-1.60-netplugd_init.patch
 Patch64: net-tools-1.60-ec_hw_null.patch
 Patch65: net-tools-1.60-statistics_buffer.patch
+Patch66: net-tools-1.60-sctp-addrs.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -152,6 +153,7 @@ ifconfig, netstat, route, and others.
 %patch63 -p1
 %patch64 -p1
 %patch65 -p1 -b .buffer
+%patch66 -p1 -b .sctp-addrs
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -267,7 +269,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
-* Tue Mar  4 2008 Radek Vokál <rvokal@redhat.com> - 1.80-87
+* Tue Jul  8 2008 Radek Vokál <rvokal@redhat.com> - 1.60-88
+- netstat displays correct sctp statistics (#445535) <zprikryl@redhat.com>
+
+* Tue Mar  4 2008 Radek Vokál <rvokal@redhat.com> - 1.60-87
 - fix buffer for newer kernels (#435554)
 
 * Mon Feb 25 2008 Radek Vokal <rvokal@redhat.com> - 1.60-86
