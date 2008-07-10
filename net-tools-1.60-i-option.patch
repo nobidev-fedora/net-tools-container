@@ -1,0 +1,11 @@
+--- net-tools-1.60/netstat.c.i-option	2008-07-08 10:22:51.000000000 +0200
++++ net-tools-1.60/netstat.c	2008-07-08 10:22:56.000000000 +0200
+@@ -2084,7 +2084,7 @@ int main
+     {
+ 	AFTRANS_OPTS,
+ 	{"version", 0, 0, 'V'},
+-	{"interfaces", 2, 0, 'I'},
++	{"interface", 2, 0, 'I'},
+ 	{"interfaces", 0, 0, 'i'},
+ 	{"help", 0, 0, 'h'},
+ 	{"route", 0, 0, 'r'},
