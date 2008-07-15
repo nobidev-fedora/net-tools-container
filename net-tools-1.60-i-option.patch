@@ -28,3 +28,30 @@
  	    flag_int++;
  	    break;
  	case 'i':
+--- net-tools-1.60/man/en_US/netstat.8.i-option	2008-07-10 13:55:04.000000000 +0200
++++ net-tools-1.60/man/en_US/netstat.8	2008-07-15 12:21:51.000000000 +0200
+@@ -43,10 +43,10 @@ netstat \- Print network connections, ro
+ .RB [delay]
+ .P
+ .B netstat
+-.RB { \-\-interfaces | \-i }
++.RB { \-\-interfaces | \-I | \-i } 
+ .RI [ iface ]
+ .RB [ \-\-all | \-a ]
+-.RB [ \-\-extend | \-e  [ \-\-extend | \-e] ]
++.RB [ \-\-extend | \-e  ]
+ .RB [ \-\-verbose | \-v ]
+ .RB [ \-\-program | \-p ]
+ .RB [ \-\-numeric | \-n ]
+@@ -107,9 +107,8 @@ families will be printed.
+ Display the kernel routing tables.
+ .SS "\-\-groups , \-g"
+ Display multicast group membership information for IPv4 and IPv6.
+-.SS "\-\-interface=\fIiface \fR, \fB\-i"
+-Display a table of all network interfaces, or the specified
+-.IR iface ) .
++.SS "\-\-interfaces=\fIiface \fR, \fB\-I=\fIiface \fR, \fB\-i"
++Display a table of all network interfaces, or the specified \fIiface\fR.
+ .SS "\-\-masquerade , \-M"
+ Display a list of masqueraded connections.
+ .SS "\-\-statistics , \-s"
