@@ -184,9 +184,9 @@
      if (state == TCP_LISTEN) {
  	time_len = 0;
  	retr = 0L;
-@@ -1849,6 +2014,7 @@
+@@ -1880,6 +2045,7 @@
  	    break;
- 	sleep(1);
+ 	sleep(reptimer);
  	prg_cache_clear();
 +	tcp_node_hash_clear();
      }
