@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 89%{?dist}
+Release: 90%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -80,6 +80,7 @@ Patch66: net-tools-1.60-sctp-addrs.patch
 Patch67: net-tools-1.60-i-option.patch
 Patch68: net-tools-1.60-a-option.patch
 Patch69: net-tools-1.60-clear-flag.patch
+Patch70: net-tools-1.60-metric-tunnel-man.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -160,6 +161,7 @@ ifconfig, netstat, route, and others.
 %patch67 -p1 -b .i-option
 %patch68 -p1 -b .a-option
 %patch69 -p1 -b .clear-flag
+%patch70 -p1 -b .metric-tunnel-man
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -275,6 +277,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Sep 25 2008 Zdenek Prikryl <zprikryl@redhat.com> - 1.60-90
+- fixed ifconfig's man page (#454271, #432328)
+
 * Tue Jul 15 2008 Zdenek Prikryl <zprikryl@redhat.com> - 1.60-89
 - fixed man pages for arp (#446195)
 - fixed netstat --interfaces option (#446187)
