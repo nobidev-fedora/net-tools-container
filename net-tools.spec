@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 91%{?dist}
+Release: 92%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://www.tazenda.demon.co.uk/phil/net-tools/
@@ -279,6 +279,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.60-92
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Thu Oct 16 2008 Zdenek Prikryl <zprikryl@redhat.com> - 1.60-91
 - fixed tcp timers info in netstat (#466845)
 
