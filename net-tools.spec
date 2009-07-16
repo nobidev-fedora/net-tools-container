@@ -3,10 +3,10 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 91%{?dist}
+Release: 92%{?dist}
 License: GPL+
 Group: System Environment/Base
-URL: http://www.tazenda.demon.co.uk/phil/net-tools/
+URL: http://net-tools.berlios.de/
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: http://www.red-bean.com/~bos/netplug/netplug-%{npversion}.tar.bz2
 Source2: net-tools-%{version}-config.h
@@ -82,6 +82,7 @@ Patch68: net-tools-1.60-a-option.patch
 Patch69: net-tools-1.60-clear-flag.patch
 Patch70: net-tools-1.60-metric-tunnel-man.patch
 Patch71: net-tools-1.60-netstat-probe.patch
+Patch72: net-tools-1.60-scanf-format.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -164,6 +165,7 @@ ifconfig, netstat, route, and others.
 %patch69 -p1 -b .clear-flag
 %patch70 -p1 -b .metric-tunnel-man
 %patch71 -p1 -b .probe
+%patch72 -p1 -b .scanf-format
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -279,6 +281,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Jul  8 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-92
+- scanf format length fix (non exploitable?) from Fabian Hugelshofer <hugelshofer2006@gmx.ch>
+- URL tag changed to http://net-tools.berlios.de/
+
 * Thu Oct 16 2008 Zdenek Prikryl <zprikryl@redhat.com> - 1.60-91
 - fixed tcp timers info in netstat (#466845)
 
