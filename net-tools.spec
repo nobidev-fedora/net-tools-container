@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 93%{?dist}
+Release: 94%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -281,6 +281,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.60-94
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Wed Jul  8 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-93
 - scanf format length fix (non exploitable?) from Fabian Hugelshofer <hugelshofer2006@gmx.ch>
 - URL tag changed to http://net-tools.berlios.de/
