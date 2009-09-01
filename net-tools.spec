@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 94%{?dist}
+Release: 95%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -15,6 +15,8 @@ Source4: ether-wake.c
 Source5: ether-wake.8
 Source6: mii-diag.c
 Source7: mii-diag.8
+Source8: iptunnel.8
+Source9: ipmaddr.8
 Patch1: net-tools-1.57-bug22040.patch
 Patch2: net-tools-1.60-miiioctl.patch
 Patch3: net-tools-1.60-manydevs.patch
@@ -82,9 +84,25 @@ Patch68: net-tools-1.60-a-option.patch
 Patch69: net-tools-1.60-clear-flag.patch
 Patch70: net-tools-1.60-metric-tunnel-man.patch
 Patch71: net-tools-1.60-netstat-probe.patch
+
+# scanf format length fix (non-exploitable)
 Patch72: net-tools-1.60-scanf-format.patch
 
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+# netstat - avoid name resolution for listening or established sockets (-l) by return fast
+Patch73: net-tools-1.60-avoid-name-resolution.patch
+
+# netstat - --continuous should flush stdout
+Patch74: net-tools-1.60-continous-flush-stdout.patch
+
+# fix some errors so net-tools can be build with DEBUG defined
+Patch75: net-tools-1.60-debug-fix.patch
+
+# let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
+Patch76: net-tools-1.60-ib-warning.patch
+
+# notes in man pages, saying that these tools are obsolete
+Patch77: net-tools-1.60-man-obsolete.patch
+
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
 Requires(preun): /sbin/service
@@ -93,8 +111,9 @@ BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 
 %description
-The net-tools package contains basic networking tools, including
-ifconfig, netstat, route, and others.
+The net-tools package contains basic networking tools,
+including ifconfig, netstat, route, and others.
+Most of them are obsolete. For replacement check iproute package.
 
 %prep
 %setup -q -a 1
@@ -166,6 +185,11 @@ ifconfig, netstat, route, and others.
 %patch70 -p1 -b .metric-tunnel-man
 %patch71 -p1 -b .probe
 %patch72 -p1 -b .scanf-format
+%patch73 -p1 -b .avoid-name-resolution
+%patch74 -p1 -b .continous-flush-stdout
+%patch75 -p1 -b .debug-fix
+%patch76 -p1 -b .ib-warning
+%patch77 -p1 -b .man-obsolete
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -173,6 +197,8 @@ cp %SOURCE4 .
 cp %SOURCE5 ./man/en_US
 cp %SOURCE6 .
 cp %SOURCE7 ./man/en_US
+cp %SOURCE8 ./man/en_US
+cp %SOURCE9 ./man/en_US
 
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
@@ -218,23 +244,27 @@ make
 popd
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 mv man/de_DE man/de
 mv man/fr_FR man/fr
 mv man/pt_BR man/pt
 
-make BASEDIR=$RPM_BUILD_ROOT mandir=%{_mandir} install
+make BASEDIR=%{buildroot} mandir=%{_mandir} install
 
 install -m 755 ether-wake %{buildroot}/sbin
 install -m 755 mii-diag %{buildroot}/sbin
 
 pushd netplug-%{npversion}
-make install prefix=$RPM_BUILD_ROOT \
-	initdir=$RPM_BUILD_ROOT/%{_initrddir} \
-	mandir=$RPM_BUILD_ROOT/%{_mandir}
+make install prefix=%{buildroot} \
+	initdir=%{buildroot}/%{_initrddir} \
+	mandir=%{buildroot}/%{_mandir}
 mv README README.netplugd
 mv TODO TODO.netplugd
 popd
+
+ln -s %{_mandir}/man8/netplugd.8.gz %{buildroot}/%{_mandir}/man5/netplug.5.gz
+ln -s %{_mandir}/man8/netplugd.8.gz %{buildroot}/%{_mandir}/man5/netplug.d.5.gz
+ln -s %{_mandir}/man8/netplugd.8.gz %{buildroot}/%{_mandir}/man5/netplugd.conf.5.gz
 
 rm %{buildroot}/sbin/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
@@ -248,7 +278,7 @@ echo "# see man ethers for syntax" > %{buildroot}%{_sysconfdir}/ethers
 %find_lang %{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
   /sbin/chkconfig --add netplugd
@@ -281,6 +311,13 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Tue Sep 1 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-95
+- netstat - avoid name resolution for listening or established sockets (-l) by return fast. 
+- netstat - --continuous should flush stdout
+- added missing man pages (iptunnel, ipmaddr, netplug, netplug.d, netplugd.conf)
+- added note about obsolete commands to existing man pages 
+- let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.60-94
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
