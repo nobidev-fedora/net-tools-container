@@ -1,22 +1,19 @@
-%define npversion	1.2.9
-
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 95%{?dist}
+Release: 96%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
-Source1: http://www.red-bean.com/~bos/netplug/netplug-%{npversion}.tar.bz2
-Source2: net-tools-%{version}-config.h
-Source3: net-tools-%{version}-config.make
-Source4: ether-wake.c
-Source5: ether-wake.8
-Source6: mii-diag.c
-Source7: mii-diag.8
-Source8: iptunnel.8
-Source9: ipmaddr.8
+Source1: net-tools-%{version}-config.h
+Source2: net-tools-%{version}-config.make
+Source3: ether-wake.c
+Source4: ether-wake.8
+Source5: mii-diag.c
+Source6: mii-diag.8
+Source7: iptunnel.8
+Source8: ipmaddr.8
 Patch1: net-tools-1.57-bug22040.patch
 Patch2: net-tools-1.60-miiioctl.patch
 Patch3: net-tools-1.60-manydevs.patch
@@ -45,10 +42,8 @@ Patch29: net-tools-1.60-num-ports.patch
 Patch30: net-tools-1.60-duplicate-tcp.patch
 Patch31: net-tools-1.60-statalias.patch
 Patch32: net-tools-1.60-isofix.patch
-Patch33: net-tools-1.60-bitkeeper.patch
 Patch34: net-tools-1.60-ifconfig_ib.patch
 Patch35: net-tools-1.60-de.patch
-Patch36: netplug-1.2.9-execshield.patch
 Patch37: net-tools-1.60-pie.patch
 Patch38: net-tools-1.60-ifaceopt.patch
 Patch39: net-tools-1.60-trim_iface.patch
@@ -75,7 +70,6 @@ Patch59: net-tools-1.60-arp-unaligned-access.patch
 Patch60: net-tools-1.60-sctp-quiet.patch
 Patch61: net-tools-1.60-remove_node.patch
 Patch62: net-tools-1.60-netstat-interfaces-crash.patch
-Patch63: net-tools-1.60-netplugd_init.patch
 Patch64: net-tools-1.60-ec_hw_null.patch
 Patch65: net-tools-1.60-statistics_buffer.patch
 Patch66: net-tools-1.60-sctp-addrs.patch
@@ -103,10 +97,21 @@ Patch76: net-tools-1.60-ib-warning.patch
 # notes in man pages, saying that these tools are obsolete
 Patch77: net-tools-1.60-man-obsolete.patch
 
-Requires(post): /sbin/chkconfig
-Requires(preun): /sbin/chkconfig
-Requires(preun): /sbin/service
-Requires(postun): /sbin/service
+# Bug 319981  hostname -s gives hostname: Unknown host when the FQDN does not resolve
+# Bug 322901  Sens negating error in man page translation (arp)
+Patch78: net-tools-1.60-man-RHEL-bugs.patch
+
+# handle raw "IP" masqinfo
+Patch79: net-tools-1.60-masqinfo-raw-ip.patch
+
+# touch up build system to respect normal toolchain env vars rather than requiring people to set random custom ones
+# add missing dependency on version.h to libdir target to fix parallel build failures
+# convert -idirafter to -I
+Patch80: net-tools-1.60-makefile-berlios.patch
+
+# slattach: use fchown() rather than chown() to avoid race between creation and permission changing
+Patch81: net-tools-1.60-slattach-fchown.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 
@@ -116,7 +121,7 @@ including ifconfig, netstat, route, and others.
 Most of them are obsolete. For replacement check iproute package.
 
 %prep
-%setup -q -a 1
+%setup -q
 %patch1 -p1 -b .bug22040
 %patch2 -p1 -b .miiioctl
 %patch3 -p0 -b .manydevs
@@ -145,10 +150,8 @@ Most of them are obsolete. For replacement check iproute package.
 %patch30 -p1 -b .dup-tcp
 %patch31 -p1 -b .statalias
 %patch32 -p1 -b .isofix
-%patch33 -p1 -b .bitkeeper
 %patch34 -p1 -b .ifconfig_ib
 %patch35 -p1 
-%patch36 -p1 -b .execshield
 %patch37 -p1 -b .pie
 %patch38 -p1 -b .ifaceopt
 %patch39 -p1 -b .trim-iface
@@ -175,7 +178,6 @@ Most of them are obsolete. For replacement check iproute package.
 %patch60 -p1 -b .quiet
 %patch61 -p1
 %patch62 -p1 -b .iface-crash
-%patch63 -p1
 %patch64 -p1
 %patch65 -p1 -b .buffer
 %patch66 -p1 -b .sctp-addrs
@@ -190,15 +192,19 @@ Most of them are obsolete. For replacement check iproute package.
 %patch75 -p1 -b .debug-fix
 %patch76 -p1 -b .ib-warning
 %patch77 -p1 -b .man-obsolete
+%patch78 -p1 -b .man-RHEL-bugs
+%patch79 -p1 -b .masqinfo-raw-ip
+%patch80 -p1 -b .makefile-berlios
+%patch81 -p1 -b .slattach-fchown
 
-cp %SOURCE2 ./config.h
-cp %SOURCE3 ./config.make
-cp %SOURCE4 .
-cp %SOURCE5 ./man/en_US
-cp %SOURCE6 .
+cp %SOURCE1 ./config.h
+cp %SOURCE2 ./config.make
+cp %SOURCE3 .
+cp %SOURCE4 ./man/en_US
+cp %SOURCE5 .
+cp %SOURCE6 ./man/en_US
 cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
-cp %SOURCE9 ./man/en_US
 
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
@@ -239,12 +245,8 @@ export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
 make
 gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
 gcc $RPM_OPT_FLAGS -o mii-diag mii-diag.c
-pushd netplug-%{npversion}
-make
-popd
 
 %install
-rm -rf %{buildroot}
 mv man/de_DE man/de
 mv man/fr_FR man/fr
 mv man/pt_BR man/pt
@@ -254,24 +256,13 @@ make BASEDIR=%{buildroot} mandir=%{_mandir} install
 install -m 755 ether-wake %{buildroot}/sbin
 install -m 755 mii-diag %{buildroot}/sbin
 
-pushd netplug-%{npversion}
-make install prefix=%{buildroot} \
-	initdir=%{buildroot}/%{_initrddir} \
-	mandir=%{buildroot}/%{_mandir}
-mv README README.netplugd
-mv TODO TODO.netplugd
-popd
-
-ln -s %{_mandir}/man8/netplugd.8.gz %{buildroot}/%{_mandir}/man5/netplug.5.gz
-ln -s %{_mandir}/man8/netplugd.8.gz %{buildroot}/%{_mandir}/man5/netplug.d.5.gz
-ln -s %{_mandir}/man8/netplugd.8.gz %{buildroot}/%{_mandir}/man5/netplugd.conf.5.gz
-
 rm %{buildroot}/sbin/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
 rm %{buildroot}%{_mandir}/de/man8/rarp.8*
 rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
 rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
+mkdir -p %{buildroot}%{_sysconfdir}
 touch %{buildroot}%{_sysconfdir}/ethers
 echo "# see man ethers for syntax" > %{buildroot}%{_sysconfdir}/ethers
 
@@ -280,37 +271,24 @@ echo "# see man ethers for syntax" > %{buildroot}%{_sysconfdir}/ethers
 %clean
 rm -rf %{buildroot}
 
-%post
-  /sbin/chkconfig --add netplugd
-  exit 0
-
-%preun
-if [ "$1" = "0" ]; then
-  /sbin/chkconfig --del netplugd || :
-  /sbin/service netplugd stop &> /dev/null || :
-fi
-exit 0
-
-%postun
-  /sbin/service netplugd condrestart >/dev/null 2>&1 || :
-  exit 0
-
 %files -f %{name}.lang
 %defattr(-,root,root)
-%doc netplug-%{npversion}/TODO.netplugd netplug-%{npversion}/README.netplugd COPYING
+%doc COPYING
 /bin/*
 /sbin/*
 %{_mandir}/man[158]/*
 %lang(de)	%{_mandir}/de/man[158]/*
 %lang(fr)	%{_mandir}/fr/man[158]/*
 %lang(pt)	%{_mandir}/pt/man[158]/*
-%dir	%{_sysconfdir}/netplug
-%config(noreplace) %{_sysconfdir}/netplug/netplugd.conf
 %config(noreplace) %{_sysconfdir}/ethers
-%{_sysconfdir}/netplug.d
-%{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+
+* Tue Sep 30 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-96
+- netplug moved to separate package
+- #319981 and #322901 - minor man pages changes
+- applied changes from berlios cvs, which fix: Berlios #16232, Gentoo #283759 and polish Makefile and slattach 
+
 * Tue Sep 1 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-95
 - netstat - avoid name resolution for listening or established sockets (-l) by return fast. 
 - netstat - --continuous should flush stdout

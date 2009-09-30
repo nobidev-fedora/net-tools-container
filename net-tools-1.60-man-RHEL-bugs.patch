@@ -1,0 +1,53 @@
+diff -up net-tools-1.60/man/de_DE/arp.8.man-RHEL-bugs net-tools-1.60/man/de/arp.8
+--- net-tools-1.60/man/de_DE/arp.8.man-RHEL-bugs	2009-09-09 15:52:27.000000000 +0200
++++ net-tools-1.60/man/de_DE/arp.8	2009-09-09 15:59:33.000000000 +0200
+@@ -120,11 +120,9 @@ Flagge) kann
+ .B Netmaske
+ f\(:ur ARP-Eintr\(:age f\(:ur ganze Subnetze angegeben werde.  Von dieser
+ Praxis wird abgeraten.  Sie wird von \(:alteren Kerneln unterst\(:utzt, da
+-sie gelegentlich n\(:utzlich ist.  Wird die
+-If the
+-.B temp
+-Flagge nicht angegeben, so werden die erzeugten Eintr\(:age nicht dauerhaft
+-in den ARP-Cache eingetragen.
++sie gelegentlich n\(:utzlich ist.
++Der Eintrag wird permanent im ARP-Cache gespeichert,
++wenn das \fBtemp\fR-Flag nicht angegeben wird.
+ .br
+ .B ANMERKUNG:
+ Ab der Kernelversion 2.2.0 ist es nicht mehr m\(:oglich ARP-Eintr\(:age f\(:ur
+diff -up net-tools-1.60/man/en_US/hostname.1.man-RHEL-bugs net-tools-1.60/man/en_US/hostname.1
+--- net-tools-1.60/man/en_US/hostname.1.man-RHEL-bugs	2009-09-09 15:52:27.000000000 +0200
++++ net-tools-1.60/man/en_US/hostname.1	2009-09-09 15:52:27.000000000 +0200
+@@ -100,11 +100,11 @@ complete FQDN of the system is returned 
+ .LP
+ The function 
+ .BR gethostname(2)
+-is used to get the hostname.  Only when the 
+-.BR "hostname \-s" 
+-is called will 
+-.BR gethostbyname(3)
+-be called.  The difference in 
++is used to get the hostname.
++When \fBhostname\fR
++is called with \fB-s\fR, \fB-a\fR, \fB-i\fR, \fB-f\fR or \fB-d\fR
++the \fBgethostbyname(3)\fR will be called.
++The difference in 
+ .BR gethostname(2)
+ and
+ .BR gethostbyname(3)
+@@ -117,11 +117,9 @@ and
+ to decide whether to read information in
+ .IR /etc/sysconfig/network
+ or
+-.IR /etc/hosts
+-. To add another dimension to this,
+-the 
+-.B hostname 
+-is also set when the network interface is brought up.
++.IR /etc/hosts .
++If \fBgethostbyname(3)\fR cannot resolve host name,
++\fIUnknown host\fR warning is returned.
+ 
+ .SS "SET NAME"
+ When called with one argument or with the 
