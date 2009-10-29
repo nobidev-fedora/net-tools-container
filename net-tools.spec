@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 95%{?dist}
+Release: 96%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -103,6 +103,9 @@ Patch76: net-tools-1.60-ib-warning.patch
 # notes in man pages, saying that these tools are obsolete
 Patch77: net-tools-1.60-man-obsolete.patch
 
+# Bug 531702: make "hostname -s" display host name cut at the first dot (no matter if the host name resolves or not)
+Patch78: net-tools-1.60-hostname-short.patch
+
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
 Requires(preun): /sbin/service
@@ -190,6 +193,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch75 -p1 -b .debug-fix
 %patch76 -p1 -b .ib-warning
 %patch77 -p1 -b .man-obsolete
+%patch78 -p1 -b .hostname-short
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -311,6 +315,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Oct 29 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-96
+- Make "hostname -s" display host name cut at the first dot (no
+  matter if the host name resolves or not) (bug #531702)
+
 * Tue Sep 1 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-95
 - netstat - avoid name resolution for listening or established sockets (-l) by return fast. 
 - netstat - --continuous should flush stdout
