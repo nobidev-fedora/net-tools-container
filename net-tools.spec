@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 96%{?dist}
+Release: 97%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -97,7 +97,6 @@ Patch76: net-tools-1.60-ib-warning.patch
 # notes in man pages, saying that these tools are obsolete
 Patch77: net-tools-1.60-man-obsolete.patch
 
-# Bug 319981  hostname -s gives hostname: Unknown host when the FQDN does not resolve
 # Bug 322901  Sens negating error in man page translation (arp)
 Patch78: net-tools-1.60-man-RHEL-bugs.patch
 
@@ -111,6 +110,9 @@ Patch80: net-tools-1.60-makefile-berlios.patch
 
 # slattach: use fchown() rather than chown() to avoid race between creation and permission changing
 Patch81: net-tools-1.60-slattach-fchown.patch
+
+# Bug 531702: make "hostname -s" display host name cut at the first dot (no matter if the host name resolves or not)
+Patch82: net-tools-1.60-hostname-short.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -196,6 +198,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch79 -p1 -b .masqinfo-raw-ip
 %patch80 -p1 -b .makefile-berlios
 %patch81 -p1 -b .slattach-fchown
+%patch82 -p1 -b .hostname-short
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -283,6 +286,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Thu Oct 29 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-97
+- Make "hostname -s" display host name cut at the first dot (no
+  matter if the host name resolves or not) (bug #531702)
 
 * Tue Sep 30 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-96
 - netplug moved to separate package
