@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 93%{?dist}
+Release: 94%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -83,6 +83,7 @@ Patch69: net-tools-1.60-clear-flag.patch
 Patch70: net-tools-1.60-metric-tunnel-man.patch
 Patch71: net-tools-1.60-netstat-probe.patch
 Patch72: net-tools-1.60-scanf-format.patch
+Patch73: net-tools-1.60-hostname-short.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -166,6 +167,7 @@ ifconfig, netstat, route, and others.
 %patch70 -p1 -b .metric-tunnel-man
 %patch71 -p1 -b .probe
 %patch72 -p1 -b .scanf-format
+%patch73 -p1 -b .hostname-short
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -281,6 +283,10 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Thu Oct 29 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-94
+- Make "hostname -s" display host name cut at the first dot (no
+  matter if the host name resolves or not) (bug #531702)
+
 * Wed Jul  8 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-93
 - scanf format length fix (non exploitable?) from Fabian Hugelshofer <hugelshofer2006@gmx.ch>
 - URL tag changed to http://net-tools.berlios.de/
