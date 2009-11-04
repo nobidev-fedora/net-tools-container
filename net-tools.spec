@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 96%{?dist}
+Release: 97%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -106,6 +106,9 @@ Patch77: net-tools-1.60-man-obsolete.patch
 # Bug 531702: make "hostname -s" display host name cut at the first dot (no matter if the host name resolves or not)
 Patch78: net-tools-1.60-hostname-short.patch
 
+# use <linux/mii.h> instead of "mii.h" and fix Bug #491358
+Patch79: net-tools-1.60-mii-refactor.patch
+
 Requires(post): /sbin/chkconfig
 Requires(preun): /sbin/chkconfig
 Requires(preun): /sbin/service
@@ -194,6 +197,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch76 -p1 -b .ib-warning
 %patch77 -p1 -b .man-obsolete
 %patch78 -p1 -b .hostname-short
+%patch79 -p1 -b .mii-refactor
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -315,6 +319,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Nov  4 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-97
+- in mii-tool.c use <linux/mii.h> instead of "mii.h" and fix Bug #491358
+
 * Thu Oct 29 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-96
 - Make "hostname -s" display host name cut at the first dot (no
   matter if the host name resolves or not) (bug #531702)
