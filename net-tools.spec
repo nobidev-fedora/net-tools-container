@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 94%{?dist}
+Release: 95%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -84,6 +84,7 @@ Patch70: net-tools-1.60-metric-tunnel-man.patch
 Patch71: net-tools-1.60-netstat-probe.patch
 Patch72: net-tools-1.60-scanf-format.patch
 Patch73: net-tools-1.60-hostname-short.patch
+Patch74: net-tools-1.60-mii-refactor.patch
 
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post): /sbin/chkconfig
@@ -168,6 +169,7 @@ ifconfig, netstat, route, and others.
 %patch71 -p1 -b .probe
 %patch72 -p1 -b .scanf-format
 %patch73 -p1 -b .hostname-short
+%patch74 -p1 -b .mii-refactor
 
 cp %SOURCE2 ./config.h
 cp %SOURCE3 ./config.make
@@ -283,6 +285,9 @@ exit 0
 %{_sysconfdir}/rc.d/init.d/netplugd
 
 %changelog
+* Wed Nov  4 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-95
+- in mii-tool.c use <linux/mii.h> instead of "mii.h" and fix Bug #491358
+
 * Thu Oct 29 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-94
 - Make "hostname -s" display host name cut at the first dot (no
   matter if the host name resolves or not) (bug #531702)
