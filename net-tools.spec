@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 97%{?dist}
+Release: 98%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -316,9 +316,12 @@ exit 0
 %config(noreplace) %{_sysconfdir}/netplug/netplugd.conf
 %config(noreplace) %{_sysconfdir}/ethers
 %{_sysconfdir}/netplug.d
-%{_sysconfdir}/rc.d/init.d/netplugd
+%{_initddir}/netplugd
 
 %changelog
+* Tue Nov 10 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-98
+- fix init script to be LSB-compliant (#522888)
+
 * Wed Nov  4 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-97
 - in mii-tool.c use <linux/mii.h> instead of "mii.h" and fix Bug #491358
 
