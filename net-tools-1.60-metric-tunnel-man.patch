@@ -1,3 +1,15 @@
+diff -up net-tools-1.60/man/de_DE/ifconfig.8.metric-tunnel-man net-tools-1.60/man/de_DE/ifconfig.8
+--- net-tools-1.60/man/de_DE/ifconfig.8.metric-tunnel-man	2009-11-13 11:05:18.000000000 +0100
++++ net-tools-1.60/man/de_DE/ifconfig.8	2009-11-13 13:20:40.000000000 +0100
+@@ -98,7 +98,7 @@ F\(:ugt der Schnittstelle eine IPv6-Adre
+ .B "del addr/prefixlen"
+ Entfernt eine IPv6-Adresse von der Schnittstelle.
+ .TP
+-.B "tunnel aa.bb.cc.dd"
++.B "tunnel ::aa.bb.cc.dd"
+ Erzeugt ein neues SIT (IPv6-in-IPv4) Ger\(:at, das Pakete zum angegebenen
+ Ziel tunnelt.
+ .TP
 diff -up net-tools-1.60/man/en_US/ifconfig.8.metric-tunnel-man net-tools-1.60/man/en_US/ifconfig.8
 --- net-tools-1.60/man/en_US/ifconfig.8.metric-tunnel-man	2008-09-18 09:20:49.000000000 +0200
 +++ net-tools-1.60/man/en_US/ifconfig.8	2008-09-18 09:26:41.000000000 +0200

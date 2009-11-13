@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 98%{?dist}
+Release: 99%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -242,6 +242,10 @@ iconv -f iso-8859-1 -t utf-8 -o route.tmp man/de_DE/route.8 && mv route.tmp man/
 iconv -f iso-8859-1 -t utf-8 -o slattach.tmp man/de_DE/slattach.8 && mv slattach.tmp man/de_DE/slattach.8
 
 %build
+
+# code needs a lot of work before strict aliasing is safe
+export RPM_OPT_FLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
+
 export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
 
 make
@@ -312,13 +316,17 @@ exit 0
 %lang(de)	%{_mandir}/de/man[158]/*
 %lang(fr)	%{_mandir}/fr/man[158]/*
 %lang(pt)	%{_mandir}/pt/man[158]/*
-%dir	%{_sysconfdir}/netplug
-%config(noreplace) %{_sysconfdir}/netplug/netplugd.conf
+%config(noreplace) %{_sysconfdir}/netplug.d/netplugd.conf
 %config(noreplace) %{_sysconfdir}/ethers
 %{_sysconfdir}/netplug.d
 %{_initddir}/netplugd
 
 %changelog
+* Fri Nov 13 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-99
+- fixed german man page for arp (#537342)
+- moved /etc/netplug/netplugd.conf to /etc/netplug.d (#231047, comment #5)
+- added -fno-strict-aliasing to the compiler flags to satisfy rpmdiff
+
 * Tue Nov 10 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-98
 - fix init script to be LSB-compliant (#522888)
 

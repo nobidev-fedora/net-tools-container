@@ -65,7 +65,15 @@
  void ifsm_flagchange(struct if_info *info, unsigned int newflags);
 --- net-tools-1.60/netplug-1.2.9/Makefile.execshield	2005-02-28 14:43:05.000000000 +0100
 +++ net-tools-1.60/netplug-1.2.9/Makefile	2005-02-28 14:47:42.123760800 +0100
-@@ -9,8 +9,8 @@
+@@ -2,15 +2,15 @@ version := $(shell awk '/define version/
+ 
+ prefix ?=
+ bindir ?= $(prefix)/sbin
+-etcdir ?= $(prefix)/etc/netplug
++etcdir ?= $(prefix)/etc/netplug.d
+ initdir ?= $(prefix)/etc/rc.d/init.d
+ scriptdir ?= $(prefix)/etc/netplug.d
+ mandir ?= $(prefix)/usr/share/man
  
  install_opts :=
  
