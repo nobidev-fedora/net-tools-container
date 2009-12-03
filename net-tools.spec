@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 98%{?dist}
+Release: 99%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -119,6 +119,7 @@ Patch83: net-tools-1.60-mii-refactor.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 The net-tools package contains basic networking tools,
@@ -254,6 +255,7 @@ gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
 gcc $RPM_OPT_FLAGS -o mii-diag mii-diag.c
 
 %install
+rm -rf %{buildroot}
 mv man/de_DE man/de
 mv man/fr_FR man/fr
 mv man/pt_BR man/pt
@@ -290,6 +292,11 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Thu Dec  3 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-99
+- return defining of BuildRoot even it's no longer necessary
+  (https://fedoraproject.org/wiki/Packaging:Guidelines#BuildRoot_tag)
+  to silent rpmlint false warning
+
 * Wed Nov  4 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-98
 - in mii-tool.c use <linux/mii.h> instead of "mii.h" and fix Bug #491358
 
