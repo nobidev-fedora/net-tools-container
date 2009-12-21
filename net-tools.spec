@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 99%{?dist}
+Release: 100%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -119,6 +119,7 @@ Patch83: net-tools-1.60-mii-refactor.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
+Requires: hostname
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -271,6 +272,17 @@ rm %{buildroot}%{_mandir}/de/man8/rarp.8*
 rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
 rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
+#remove hostname (has its own package)
+rm %{buildroot}/bin/dnsdomainname
+rm %{buildroot}/bin/domainname
+rm %{buildroot}/bin/hostname
+rm %{buildroot}/bin/nisdomainname
+rm %{buildroot}/bin/ypdomainname
+rm -rf %{buildroot}%{_mandir}/de/man1
+rm -rf %{buildroot}%{_mandir}/fr/man1
+rm -rf %{buildroot}%{_mandir}/man1
+rm -rf %{buildroot}%{_mandir}/pt/man1
+
 mkdir -p %{buildroot}%{_sysconfdir}
 touch %{buildroot}%{_sysconfdir}/ethers
 echo "# see man ethers for syntax" > %{buildroot}%{_sysconfdir}/ethers
@@ -283,15 +295,18 @@ rm -rf %{buildroot}
 %files -f %{name}.lang
 %defattr(-,root,root)
 %doc COPYING
-/bin/*
+/bin/netstat
 /sbin/*
-%{_mandir}/man[158]/*
-%lang(de)	%{_mandir}/de/man[158]/*
-%lang(fr)	%{_mandir}/fr/man[158]/*
-%lang(pt)	%{_mandir}/pt/man[158]/*
+%{_mandir}/man[58]/*
+%lang(de)	%{_mandir}/de/man[58]/*
+%lang(fr)	%{_mandir}/fr/man[58]/*
+%lang(pt)	%{_mandir}/pt/man[58]/*
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Mon Dec 21 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-100
+- Move hostname to separate package
+
 * Thu Dec  3 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-99
 - return defining of BuildRoot even it's no longer necessary
   (https://fedoraproject.org/wiki/Packaging:Guidelines#BuildRoot_tag)
