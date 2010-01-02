@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 100%{?dist}
+Release: 101%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -117,6 +117,13 @@ Patch82: net-tools-1.60-hostname-short.patch
 # use <linux/mii.h> instead of "mii.h" and fix Bug #491358
 Patch83: net-tools-1.60-mii-refactor.patch
 
+# Bug 473211: ifconfig interface:0 del <IP> will remove the Aliased IP on IA64
+# interface slip: cast keepalive/outfill to unsigned long to fix warnings on 64bit hosts -- no functional changes since these only have an 8bit range anyways
+Patch84: net-tools-1.60-IA64.patch
+
+# interface: fix IPv6 parsing of interfaces with large indexes (> 255) (Debian #433543)
+Patch85: net-tools-1.60-large-indexes.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -205,6 +212,8 @@ Most of them are obsolete. For replacement check iproute package.
 %patch81 -p1 -b .slattach-fchown
 %patch82 -p1 -b .hostname-short
 %patch83 -p1 -b .mii-refactor
+%patch84 -p1 -b .IA64
+%patch85 -p1 -b .large-indexes
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -304,6 +313,12 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Sat Jan  2 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-101
+- fixed overflow patch (#551625)
+- ifconfig interface:0 del <IP> will remove the Aliased IP on IA64 (#473211)
+- interface slip: cast keepalive/outfill to unsigned long to fix warnings on 64bit hosts -- no functional changes since these only have an 8bit range anyways
+- interface: fix IPv6 parsing of interfaces with large indexes (> 255) (Debian #433543)
+
 * Mon Dec 21 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-100
 - Move hostname to separate package
 
