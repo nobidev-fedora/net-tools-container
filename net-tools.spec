@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 99%{?dist}
+Release: 100%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -322,6 +322,9 @@ exit 0
 %{_initddir}/netplugd
 
 %changelog
+* Fri Mar 19 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-100
+- fixed path to netplugd.conf in initscript (#574775)
+
 * Fri Nov 13 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-99
 - fixed german man page for arp (#537342)
 - moved /etc/netplug/netplugd.conf to /etc/netplug.d (#231047, comment #5)

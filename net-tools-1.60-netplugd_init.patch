@@ -26,7 +26,7 @@ diff -up net-tools-1.60/netplug-1.2.9/scripts/rc.netplugd.netplugd_init net-tool
 -[ -x /sbin/netplugd ] || exit 0
 +prog=netplugd
 +exec=/sbin/netplugd
-+config=/etc/netplug/netplugd.conf
++config=/etc/netplug.d/netplugd.conf
 +lockfile=/var/lock/subsys/netplugd
 +pidfile=/var/run/netplugd.pid
 +
