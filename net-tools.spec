@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 101%{?dist}
+Release: 102%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -124,6 +124,9 @@ Patch84: net-tools-1.60-IA64.patch
 # interface: fix IPv6 parsing of interfaces with large indexes (> 255) (Debian #433543)
 Patch85: net-tools-1.60-large-indexes.patch
 
+# netstat -s (statistics.c) now uses unsigned long long (instead of int) to handle 64 bit integers (Bug #579854, Debian #561161)
+Patch86: net-tools-1.60-statistics-doubleword.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -214,6 +217,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch83 -p1 -b .mii-refactor
 %patch84 -p1 -b .IA64
 %patch85 -p1 -b .large-indexes
+%patch86 -p1 -b .doubleword
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -313,6 +317,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Wed Apr  7 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-102
+- fixed statistics.c to use unsigned long long (instead of int) to handle 64 bit integers (Bug #579854, Debian #561161)
+- fixed typo in statistics.c (Bug #579855)
+
 * Sat Jan  2 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-101
 - fixed overflow patch (#551625)
 - ifconfig interface:0 del <IP> will remove the Aliased IP on IA64 (#473211)

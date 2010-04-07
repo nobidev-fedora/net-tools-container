@@ -47,7 +47,7 @@
 +     { "TCPAbortOnMemory", N_("%u connections aborted due to memory pressure"), opt_number },
 +     { "TCPAbortOnTimeout", N_("%u connections aborted due to timeout"), opt_number },
 +     { "TCPAbortOnLinger", N_("%u connections aborted after user close in linger timeout"), opt_number },
-+     { "TCPAbortFailed", N_("%u times unabled to send RST due to no memory"), opt_number }, 
++     { "TCPAbortFailed", N_("%u times unable to send RST due to no memory"), opt_number }, 
 +     { "TCPMemoryPressures", N_("TCP ran low on memory %u times"), opt_number }, 
 +     { "TCPLoss", N_("%u TCP data loss events") },
  };
