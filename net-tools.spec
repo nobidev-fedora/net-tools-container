@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 102%{?dist}
+Release: 103%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -127,6 +127,9 @@ Patch85: net-tools-1.60-large-indexes.patch
 # netstat -s (statistics.c) now uses unsigned long long (instead of int) to handle 64 bit integers (Bug #579854, Debian #561161)
 Patch86: net-tools-1.60-statistics-doubleword.patch
 
+# update mii-tool to support gigabit links (#539575)
+Patch87: net-tools-1.60-mii-gigabit.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -218,6 +221,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch84 -p1 -b .IA64
 %patch85 -p1 -b .large-indexes
 %patch86 -p1 -b .doubleword
+%patch87 -p1 -b .mii-gigabit
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -317,6 +321,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Mon Jun 14 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-103
+- updated mii-tool to support gigabit links (#539575)
+
 * Wed Apr  7 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-102
 - fixed statistics.c to use unsigned long long (instead of int) to handle 64 bit integers (Bug #579854, Debian #561161)
 - fixed typo in statistics.c (Bug #579855)
