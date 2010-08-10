@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 103%{?dist}
+Release: 104%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -321,6 +321,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Tue Aug 10 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-104
+- improved statistics-doubleword.patch (Bug #579854)
+
 * Mon Jun 14 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-103
 - updated mii-tool to support gigabit links (#539575)
 
