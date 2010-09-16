@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 104%{?dist}
+Release: 105%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -130,6 +130,9 @@ Patch86: net-tools-1.60-statistics-doubleword.patch
 # update mii-tool to support gigabit links (#539575)
 Patch87: net-tools-1.60-mii-gigabit.patch
 
+# fix memory leak in netstat when run with -c option
+Patch88: net-tools-1.60-netstat-leak.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -222,6 +225,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch85 -p1 -b .large-indexes
 %patch86 -p1 -b .doubleword
 %patch87 -p1 -b .mii-gigabit
+%patch88 -p1 -b .netstat-leak
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -321,6 +325,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Thu Sep 16 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-105
+- fixed memory leak in netstat when run with -c option
+
 * Tue Aug 10 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-104
 - improved statistics-doubleword.patch (Bug #579854)
 
