@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 106%{?dist}
+Release: 107%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -329,6 +329,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Wed Sep 29 2010 jkeating - 1.60-107
+- Rebuilt for gcc bug 634757
+
 * Thu Sep 16 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-106
 - HFI support
 
