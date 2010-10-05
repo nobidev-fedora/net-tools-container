@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 105%{?dist}
+Release: 105%{?dist}.1
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -325,6 +325,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Tue Oct 05 2010 jkeating - 1.60-105.1
+- Rebuilt for gcc bug 634757
+
 * Thu Sep 16 2010  Jiri Popelka <jpopelka@redhat.com> - 1.60-105
 - fixed memory leak in netstat when run with -c option
 
