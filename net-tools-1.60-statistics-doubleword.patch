@@ -100,7 +100,7 @@ diff -up net-tools-1.60/statistics.c.doubleword net-tools-1.60/statistics.c
  };
  
  struct entry Tcptab[] =
-@@ -119,131 +119,131 @@ struct entry Tcptab[] =
+@@ -119,131 +119,133 @@ struct entry Tcptab[] =
      {"RtoMin", "", number},
      {"RtoMax", "", number},
      {"MaxConn", "", number},
@@ -136,6 +136,8 @@ diff -up net-tools-1.60/statistics.c.doubleword net-tools-1.60/statistics.c
 +    {"NoPorts", N_("%llu packets to unknown port received."), number},
 +    {"InErrors", N_("%llu packet receive errors"), number},
 +    {"OutDatagrams", N_("%llu packets sent"), number},
++    {"RcvbufErrors", N_("%llu receive buffer errors"), number},
++    {"SndbufErrors", N_("%llu send buffer errors"), number},
  };
  
  struct entry Tcpexttab[] =
