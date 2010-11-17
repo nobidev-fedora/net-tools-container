@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 108%{?dist}
+Release: 109%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -329,6 +329,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Wed Nov 17 2010 Jiri Popelka <jpopelka@redhat.com> - 1.60-109
+- improve netstat(8) man page (#614931)
+
 * Mon Nov 01 2010 Jiri Popelka <jpopelka@redhat.com> - 1.60-108
 - Added netstat(8) support for RcvbufErrors, SndbufErrors (BerliOS #17645)
 

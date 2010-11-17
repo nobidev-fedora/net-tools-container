@@ -130,3 +130,16 @@
  .I "\-s, \-\-short"
  Den Kurznamen anzeigen.  Dies ist der ab dem ersten Punkt abgeschnittene
  Rechnername.
+diff -up net-tools-1.60/man/en_US/netstat.8.man net-tools-1.60/man/en_US/netstat.8
+--- net-tools-1.60/man/en_US/netstat.8.man	2001-01-07 13:43:57.000000000 +0100
++++ net-tools-1.60/man/en_US/netstat.8	2010-11-17 17:46:53.000000000 +0100
+@@ -163,7 +163,8 @@ Show the PID and name of the program to 
+ .SS "\-l, \-\-listening"
+ Show only listening sockets.  (These are omitted by default.)
+ .SS "\-a, \-\-all"
+-Show both listening and non-listening sockets.  With the
++Show both listening and non-listening (for TCP this means established
++connections) sockets.  With the
+ .B --interfaces
+ option, show interfaces that are not marked 
+ .SS "\-F"
