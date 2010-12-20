@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH ETHERWAKE 8 "March 31, 2003" "Scyld"
+.TH ETHER-WAKE 8 "March 31, 2003" "Scyld"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -16,9 +16,9 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-etherwake \- A tool to send a Wake-On-LAN "Magic Packet"
+ether-wake \- A tool to send a Wake-On-LAN "Magic Packet"
 .SH SYNOPSIS
-.B etherwake
+.B ether-wake
 .RI [ options ] " Host-ID"
 .SH DESCRIPTION
 This manual page documents the usage of the
@@ -28,7 +28,7 @@ command.
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
 .\" respectively.
-\fBetherwake\fP is a program that generates and transmits a Wake-On-LAN 
+\fBether-wake\fP is a program that generates and transmits a Wake-On-LAN 
 (WOL) "Magic Packet", used for restarting machines that have been
 soft-powered-down (ACPI D3-warm state). It generates the standard
 AMD Magic Packet format, optionally with a password included.  The
@@ -39,7 +39,7 @@ database specified in
 .BR nsswitch.conf (5)
 .
 .SH OPTIONS
-\fBetherwake\fP needs a single dash (´-´) in front of options.
+\fBether-wake\fP needs a single dash (´-´) in front of options.
 A summary of options is included below.
 .TP
 .B \-b

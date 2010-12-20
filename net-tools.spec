@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 110%{?dist}
+Release: 111%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -35,7 +35,6 @@ Patch22: net-tools-1.60-parse.patch
 Patch23: net-tools-1.60-netmask.patch
 Patch24: net-tools-1.60-ulong.patch
 Patch25: net-tools-1.60-bcast.patch
-Patch26: net-tools-1.60-mii-tool-obsolete.patch
 Patch27: net-tools-1.60-netstat_ulong.patch
 Patch28: net-tools-1.60-note.patch
 Patch29: net-tools-1.60-num-ports.patch
@@ -169,7 +168,6 @@ Most of them are obsolete. For replacement check iproute package.
 %patch23 -p1 -b .netmask
 %patch24 -p1 -b .ulong
 %patch25 -p1 -b .bcast
-%patch26 -p1 -b .obsolete
 %patch27 -p1 -b .netstat_ulong
 %patch28 -p1 -b .note
 %patch29 -p1 -b .num-ports
@@ -329,6 +327,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Thu Dec 16 2010 Jiri Popelka <jpopelka@redhat.com> - 1.60-111
+- fixed mii-diag(8) man page (#663689)
+- fixed route(8) man page (#664171)
+
 * Thu Dec 16 2010 Jiri Popelka <jpopelka@redhat.com> - 1.60-110
 - fixed ifconfig(8) man page (#663469)
 

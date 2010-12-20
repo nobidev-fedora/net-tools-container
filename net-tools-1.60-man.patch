@@ -143,3 +143,38 @@ diff -up net-tools-1.60/man/en_US/netstat.8.man net-tools-1.60/man/en_US/netstat
  .B --interfaces
  option, show interfaces that are not marked 
  .SS "\-F"
+diff -up net-tools-1.60/man/en_US/route.8.man net-tools-1.60/man/en_US/route.8
+--- net-tools-1.60/man/en_US/route.8.man	2000-05-21 20:59:03.000000000 +0200
++++ net-tools-1.60/man/en_US/route.8	2010-12-20 13:17:20.000000000 +0100
+@@ -140,9 +140,10 @@ set the metric field in the routing tabl
+ .B mss M
+ set the TCP Maximum Segment Size (MSS) for connections over this route
+ to M bytes. 
+-The default is the device MTU minus headers, or a lower MTU when path mtu 
+-discovery occured. This setting can be used to force smaller TCP packets on the
+-other end when path mtu discovery does not work (usually because of
++The default is the device MTU minus headers, or a lower MTU when path MTU 
++discovery occurred. This setting can be used to force smaller TCP packets on the
++other end when path MTU discovery does not work (usually because of
++
+ misconfigured firewalls that block ICMP Fragmentation Needed)
+ .TP 
+ .B window W 
+@@ -182,7 +183,7 @@ modifiers (metric - netmask - gw - dev) 
+ .B route add -net 127.0.0.0
+ adds the normal loopback entry, using netmask 255.0.0.0 (class A net,
+ determined from the destination address) and associated with the 
+-"lo" device (assuming this device was prviously set up correctly with
++"lo" device (assuming this device was previously set up correctly with
+ .BR ifconfig (8)). 
+ 
+ .TP 
+@@ -289,7 +290,7 @@ be either route cache misses (-F) or hit
+ Interface to which packets for this route will be sent.
+ .TP
+ .B MSS 
+-Default maximum segement size for TCP connections over this route.
++Default maximum segment size for TCP connections over this route.
+ .TP
+ .B Window  
+ Default window size for TCP connections over this route.
