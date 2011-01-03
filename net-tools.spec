@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 111%{?dist}
+Release: 112%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -135,6 +135,9 @@ Patch88: net-tools-1.60-netstat-leak.patch
 # HFI support
 Patch89: net-tools-1.60-hfi.patch
 
+# Fix the handling of some of the HAVE_* flags ifdef vs if. (BerliOS #17812)
+Patch90: net-tools-1.60-ifdef-vs-if.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -228,6 +231,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch87 -p1 -b .mii-gigabit
 %patch88 -p1 -b .netstat-leak
 %patch89 -p1 -b .hfi
+%patch90 -p1 -b .ifdef-vs-if
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -327,6 +331,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Mon Jan 03 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-112
+- Fix the handling of some of the HAVE_* flags ifdef vs if. (BerliOS #17812)
+
 * Thu Dec 16 2010 Jiri Popelka <jpopelka@redhat.com> - 1.60-111
 - fixed mii-diag(8) man page (#663689)
 - fixed route(8) man page (#664171)
