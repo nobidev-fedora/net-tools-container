@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 112%{?dist}
+Release: 113%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -331,6 +331,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Fri Jan 21 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-113
+- Improve route(8) man page saying that 'route mss' actually sets MTU (#671321)
+
 * Mon Jan 03 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-112
 - Fix the handling of some of the HAVE_* flags ifdef vs if. (BerliOS #17812)
 
