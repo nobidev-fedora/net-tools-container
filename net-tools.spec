@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 113%{?dist}
+Release: 114%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -331,6 +331,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Fri Feb 04 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-114
+- Improve scanf-format.patch (#668047)
+
 * Fri Jan 21 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-113
 - Improve route(8) man page saying that 'route mss' actually sets MTU (#671321)
 
