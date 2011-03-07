@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 115%{?dist}
+Release: 116%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -138,6 +138,10 @@ Patch89: net-tools-1.60-hfi.patch
 # Fix the handling of some of the HAVE_* flags ifdef vs if. (BerliOS #17812)
 Patch90: net-tools-1.60-ifdef-vs-if.patch
 
+# Don't rely on eth0 being default network device name.
+# Since Fedora 15 network devices can have arbitrary names (#682367)
+Patch91: net-tools-1.60-arbitrary-device-names.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -232,6 +236,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch88 -p1 -b .netstat-leak
 %patch89 -p1 -b .hfi
 %patch90 -p1 -b .ifdef-vs-if
+%patch91 -p1 -b .arbitrary-device-names
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -331,6 +336,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Mon Mar 07 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-116
+- Fix mii-tool/mii-diag/ether-wake to not default to eth0 because
+  since Fedora 15 network devices can have arbitrary names (#682367)
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.60-115
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
