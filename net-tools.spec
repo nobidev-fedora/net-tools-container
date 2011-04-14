@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 116%{?dist}
+Release: 117%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -142,6 +142,9 @@ Patch90: net-tools-1.60-ifdef-vs-if.patch
 # Since Fedora 15 network devices can have arbitrary names (#682367)
 Patch91: net-tools-1.60-arbitrary-device-names.patch
 
+# plipconfig man page and usage output fixes. (#694766)
+Patch92: net-tools-1.60-plipconfig.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -237,6 +240,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch89 -p1 -b .hfi
 %patch90 -p1 -b .ifdef-vs-if
 %patch91 -p1 -b .arbitrary-device-names
+%patch92 -p1 -b .plipconfig
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -336,6 +340,9 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Thu Apr 14 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-117
+- plipconfig man page and usage output fixes. (#694766)
+
 * Mon Mar 07 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-116
 - Fix mii-tool/mii-diag/ether-wake to not default to eth0 because
   since Fedora 15 network devices can have arbitrary names (#682367)
