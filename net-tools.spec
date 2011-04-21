@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 117%{?dist}
+Release: 118%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -145,6 +145,10 @@ Patch91: net-tools-1.60-arbitrary-device-names.patch
 # plipconfig man page and usage output fixes. (#694766)
 Patch92: net-tools-1.60-plipconfig.patch
 
+# patch netstat to separate basename of -p only if it is absolute
+# path (in order to make argv[0]="sshd pty/0" display as sshd, and not as /0).
+Patch93: net-tools-1.60-netstat-p-basename.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 Requires: hostname
@@ -241,6 +245,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch90 -p1 -b .ifdef-vs-if
 %patch91 -p1 -b .arbitrary-device-names
 %patch92 -p1 -b .plipconfig
+%patch93 -p1 -b .p-basename
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -340,6 +345,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Thu Apr 21 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-118
+- patch netstat to separate basename of -p only if it is absolute
+  path (in order to make argv[0]="sshd pty/0" display as sshd, and not as /0).
+
 * Thu Apr 14 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-117
 - plipconfig man page and usage output fixes. (#694766)
 
