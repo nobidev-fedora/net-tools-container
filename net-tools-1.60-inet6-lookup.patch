@@ -52,6 +52,15 @@
  	strcpy(flags, "U");
 --- net-tools-1.60/lib/inet6_sr.c.inet6-lookup	2000-05-22 23:18:37.000000000 +0200
 +++ net-tools-1.60/lib/inet6_sr.c	2003-05-21 15:28:50.000000000 +0200
+@@ -32,6 +32,7 @@
+ #include "net-support.h"
+ #include "pathnames.h"
+ #include "intl.h"
++#include "util.h"
+ #include "net-features.h"
+ 
+ 
+
 @@ -63,7 +63,7 @@
      if (*args == NULL)
  	return (usage());

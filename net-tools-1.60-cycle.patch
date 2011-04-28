@@ -274,7 +274,7 @@
  {
      FILE *f;
  
-@@ -347,12 +347,14 @@
+@@ -347,12 +347,15 @@
      f = fopen("/proc/net/snmp", "r");
      if (!f) {
  	perror(_("cannot open /proc/net/snmp"));
@@ -286,12 +286,13 @@
 -    if (ferror(f))
 +    if (ferror(f)) {
  	perror("/proc/net/snmp");
++	fclose(f);
 +	return(1);
 +    }
  
      fclose(f);
  
-@@ -361,12 +363,14 @@
+@@ -361,12 +363,15 @@
      if (f) {
      	process_fd(f);
  
@@ -299,6 +300,7 @@
 -	    perror("/proc/net/netstat");
 +        if (ferror(f)) {
 +	  perror("/proc/net/netstat");
++	  fclose(f);
 +	  return(1);
 +	}
      
