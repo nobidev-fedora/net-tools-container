@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 119%{?dist}
+Release: 120%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -56,10 +56,8 @@ Patch46: net-tools-1.60-selinux.patch
 Patch47: net-tools-1.60-netstat_stop_trim.patch
 Patch48: net-tools-1.60-netstat_inode.patch
 Patch49: net-tools-1.60-fgets.patch
-Patch50: net-tools-1.60-ifconfig_man.patch
 Patch51: net-tools-1.60-x25-proc.patch
 Patch52: net-tools-1.60-sctp.patch
-Patch53: net-tools-1.60-arp_man.patch
 Patch54: net-tools-1.60-ifconfig-long-iface-crasher.patch
 Patch55: net-tools-1.60-netdevice.patch
 Patch56: net-tools-1.60-skip.patch
@@ -73,9 +71,7 @@ Patch64: net-tools-1.60-ec_hw_null.patch
 Patch65: net-tools-1.60-statistics_buffer.patch
 Patch66: net-tools-1.60-sctp-addrs.patch
 Patch67: net-tools-1.60-i-option.patch
-Patch68: net-tools-1.60-a-option.patch
 Patch69: net-tools-1.60-clear-flag.patch
-Patch70: net-tools-1.60-metric-tunnel-man.patch
 Patch71: net-tools-1.60-netstat-probe.patch
 
 # scanf format length fix (non-exploitable)
@@ -92,12 +88,6 @@ Patch75: net-tools-1.60-debug-fix.patch
 
 # let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
 Patch76: net-tools-1.60-ib-warning.patch
-
-# notes in man pages, saying that these tools are obsolete
-Patch77: net-tools-1.60-man-obsolete.patch
-
-# Bug 322901  Sens negating error in man page translation (arp)
-Patch78: net-tools-1.60-man-RHEL-bugs.patch
 
 # handle raw "IP" masqinfo
 Patch79: net-tools-1.60-masqinfo-raw-ip.patch
@@ -206,10 +196,8 @@ Most of them are obsolete. For replacement check iproute package.
 %patch47 -p1 -b .trim
 %patch48 -p1 -b .inode
 %patch49 -p1 -b .fgets
-%patch50 -p1 -b .inet_addr
 %patch51 -p1 -b .x25
 %patch52 -p1 -b .sctp
-%patch53 -p1
 %patch54 -p1 -b .long_iface
 %patch55 -p1 -b .netdevice
 %patch56 -p1 -b .skip
@@ -223,17 +211,13 @@ Most of them are obsolete. For replacement check iproute package.
 %patch65 -p1 -b .buffer
 %patch66 -p1 -b .sctp-addrs
 %patch67 -p1 -b .i-option
-%patch68 -p1 -b .a-option
 %patch69 -p1 -b .clear-flag
-%patch70 -p1 -b .metric-tunnel-man
 %patch71 -p1 -b .probe
 %patch72 -p1 -b .scanf-format
 %patch73 -p1 -b .avoid-name-resolution
 %patch74 -p1 -b .continous-flush-stdout
 %patch75 -p1 -b .debug-fix
 %patch76 -p1 -b .ib-warning
-%patch77 -p1 -b .man-obsolete
-%patch78 -p1 -b .man-RHEL-bugs
 %patch79 -p1 -b .masqinfo-raw-ip
 %patch80 -p1 -b .makefile-berlios
 %patch81 -p1 -b .slattach-fchown
@@ -349,6 +333,10 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/ethers
 
 %changelog
+* Wed May 25 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-120
+- Do not mention /proc/net/socket in ifconfig(8) (#661905)
+- Merge all 'man page only fix' patches into net-tools-1.60-man.patch
+
 * Thu Apr 28 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-119
 - Fix possible problems found by static analysis of code.
 
