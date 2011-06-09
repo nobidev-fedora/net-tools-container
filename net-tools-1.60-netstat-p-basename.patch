@@ -1,7 +1,16 @@
 diff -up net-tools-1.60/netstat.c.p-basename net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.p-basename	2011-04-21 13:52:51.000000000 +0200
-+++ net-tools-1.60/netstat.c	2011-04-21 13:54:03.000000000 +0200
-@@ -484,7 +484,7 @@ static void prg_cache_load(void)
+--- net-tools-1.60/netstat.c.p-basename	2011-06-09 12:01:59.907721330 +0200
++++ net-tools-1.60/netstat.c	2011-06-09 12:02:28.437352480 +0200
+@@ -413,7 +413,7 @@ static void prg_cache_load(void)
+ {
+     char line[LINE_MAX],eacces=0;
+     int procfdlen,fd,cmdllen,lnamelen;
+-    char lname[30],cmdlbuf[512],finbuf[PROGNAME_WIDTH];
++    char lname[30],cmdlbuf[512],finbuf[PROGNAME_WIDTH],*cmdlpend;
+     unsigned long inode;
+     const char *cs,*cmdlp;
+     DIR *dirproc=NULL,*dirfd=NULL;
+@@ -484,10 +484,12 @@ static void prg_cache_load(void)
  		    continue;
  		if (cmdllen < sizeof(cmdlbuf) - 1) 
  		    cmdlbuf[cmdllen]='\0';
@@ -10,3 +19,8 @@ diff -up net-tools-1.60/netstat.c.p-basename net-tools-1.60/netstat.c
  		    cmdlp++;
  		else 
  		    cmdlp = cmdlbuf;
++		if ((cmdlpend = strrchr(cmdlp, ':')) != NULL)
++		    *cmdlpend = '\0';
+ 	    }
+ 
+ 	    snprintf(finbuf, sizeof(finbuf), "%s/%s", direproc->d_name, cmdlp);
