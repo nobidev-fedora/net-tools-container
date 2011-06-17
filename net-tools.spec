@@ -1,10 +1,11 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 120%{?dist}
+Release: 121%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
+
 Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
@@ -14,6 +15,8 @@ Source5: mii-diag.c
 Source6: mii-diag.8
 Source7: iptunnel.8
 Source8: ipmaddr.8
+Source9: arp-ethers.service
+
 Patch1: net-tools-1.57-bug22040.patch
 Patch2: net-tools-1.60-miiioctl.patch
 Patch3: net-tools-1.60-manydevs.patch
@@ -144,8 +147,9 @@ Patch94: net-tools-1.60-coverity.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
+BuildRequires: systemd-units
 Requires: hostname
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires(post): systemd-units
 
 %description
 The net-tools package contains basic networking tools,
@@ -312,14 +316,18 @@ rm -rf %{buildroot}%{_mandir}/fr/man1
 rm -rf %{buildroot}%{_mandir}/man1
 rm -rf %{buildroot}%{_mandir}/pt/man1
 
-mkdir -p %{buildroot}%{_sysconfdir}
-touch %{buildroot}%{_sysconfdir}/ethers
-echo "# see man ethers for syntax" > %{buildroot}%{_sysconfdir}/ethers
+# install systemd unit file
+mkdir -p %{buildroot}%{_unitdir}
+install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 
 %find_lang %{name}
 
-%clean
-rm -rf %{buildroot}
+%post
+# Initial installation
+if [ $1 -eq 1 ] ; then 
+    /bin/systemctl enable arp-ethers.service >/dev/null 2>&1 || :
+fi
+
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -330,9 +338,13 @@ rm -rf %{buildroot}
 %lang(de)	%{_mandir}/de/man[58]/*
 %lang(fr)	%{_mandir}/fr/man[58]/*
 %lang(pt)	%{_mandir}/pt/man[58]/*
-%config(noreplace) %{_sysconfdir}/ethers
+%attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Jun 17 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-121
+- Added arp-ethers.service systemd unit file to run 'arp -f /etc/ethers'
+  on startup of system. Don't ship default /etc/ethers (#713759)
+
 * Wed May 25 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-120
 - Do not mention /proc/net/socket in ifconfig(8) (#661905)
 - Merge all 'man page only fix' patches into net-tools-1.60-man.patch
