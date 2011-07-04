@@ -1,0 +1,22 @@
+diff -up net-tools-1.60/lib/util.c.2digit net-tools-1.60/lib/util.c
+--- net-tools-1.60/lib/util.c.2digit	1999-01-09 16:55:29.000000000 +0100
++++ net-tools-1.60/lib/util.c	2011-07-04 12:35:45.000000000 +0200
+@@ -33,13 +33,14 @@ void *xrealloc(void *oldp, size_t sz)
+ int kernel_version(void)
+ {
+     struct utsname uts;
+-    int major, minor, patch;
++    int ret, major = 0, minor = 0, patch = 0;
+ 
+     if (uname(&uts) < 0)
+ 	return -1;
+-    if (sscanf(uts.release, "%d.%d.%d", &major, &minor, &patch) != 3)
+-	return -1;
+-    return KRELEASE(major, minor, patch);
++    ret = sscanf(uts.release, "%d.%d.%d", &major, &minor, &patch);
++    if (((ret == 3) && (major >= 2)) || ((ret == 2) && (major >= 3)))
++        return KRELEASE(major, minor, patch);
++    return -1;
+ }
+ 
+ 

@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 121%{?dist}
+Release: 122%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -145,6 +145,9 @@ Patch93: net-tools-1.60-netstat-p-basename.patch
 # Possible problems found by static analysis of code.
 Patch94: net-tools-1.60-coverity.patch
 
+# Update for 2 digit Linux version numbers
+Patch95: net-tools-1.60-2digit.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -238,6 +241,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch92 -p1 -b .plipconfig
 %patch93 -p1 -b .p-basename
 %patch94 -p1 -b .coverity
+%patch95 -p1 -b .2digit
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -341,6 +345,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Jul 04 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-122
+- Update for 2 digit Linux version numbers (#718610)
+
 * Fri Jun 17 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-121
 - Added arp-ethers.service systemd unit file to run 'arp -f /etc/ethers'
   on startup of system. Don't ship default /etc/ethers (#713759)
