@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 122%{?dist}
+Release: 123%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -345,6 +345,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Aug 24 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-123
+- Improved netstat_stop_trim.patch to not truncate IPV6 UDP sockets (#732984)
+
 * Mon Jul 04 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-122
 - Update for 2 digit Linux version numbers (#718610)
 
