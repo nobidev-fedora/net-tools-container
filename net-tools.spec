@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 124%{?dist}
+Release: 125%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.berlios.de/
@@ -345,6 +345,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Oct 03 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-125
+- Fixed ether-wake(8) and mii-diag(8) man pages (#742629)
+
 * Mon Sep 19 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-124
 - Improved arp-ethers.service unit file (#735617)
 
