@@ -1,12 +1,12 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 125%{?dist}
+Release: 126%{?dist}
 License: GPL+
 Group: System Environment/Base
-URL: http://net-tools.berlios.de/
+URL: http://net-tools.sourceforge.net
 
-Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
+Source0: http://downloads.sourceforge.net/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
 Source3: ether-wake.c
@@ -345,6 +345,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Oct 18 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-126
+- Upstream is migrating to Sourceforge.
+
 * Mon Oct 03 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-125
 - Fixed ether-wake(8) and mii-diag(8) man pages (#742629)
 
