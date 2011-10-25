@@ -1,6 +1,25 @@
---- net-tools-1.60/netstat.c.num-ports	2004-11-24 12:19:24.000000000 +0100
-+++ net-tools-1.60/netstat.c	2004-11-25 16:00:45.208367104 +0100
-@@ -765,8 +765,8 @@
+diff -up net-tools-1.60/netstat.c.num-ports net-tools-1.60/netstat.c
+--- net-tools-1.60/netstat.c.num-ports	2011-10-21 17:40:53.632829074 +0200
++++ net-tools-1.60/netstat.c	2011-10-21 17:43:39.448756090 +0200
+@@ -600,7 +600,7 @@ static void igmp_do_one(int lnr, const c
+ 	    return;
+ 	}
+ 	safe_strncpy(mcast_addr, ap->sprint((struct sockaddr *) &mcastaddr, 
+-				      flag_not), sizeof(mcast_addr));
++				      flag_not & FLAG_NUM_HOST), sizeof(mcast_addr));
+ 	printf("%-15s %-6d %s\n", device, refcnt, mcast_addr);
+ #endif
+     } else {    /* IPV4 */
+@@ -638,7 +638,7 @@ static void igmp_do_one(int lnr, const c
+ 	    return;
+ 	}
+ 	safe_strncpy(mcast_addr, ap->sprint((struct sockaddr *) &mcastaddr, 
+-				      flag_not), sizeof(mcast_addr));
++				      flag_not & FLAG_NUM_HOST), sizeof(mcast_addr));
+ 	printf("%-15s %-6d %s\n", device, refcnt, mcast_addr );
+ #endif
+     }    /* IPV4 */
+@@ -765,8 +765,8 @@ static void tcp_do_one(int lnr, const ch
  	txq = 0L;
      }
      safe_strncpy(local_addr, ap->sprint((struct sockaddr *) &localaddr, 
@@ -11,7 +30,7 @@
  		 sizeof(rem_addr));
      if (flag_all || (flag_lst && !rem_port) || (!flag_lst && rem_port)) {
  	snprintf(buffer, sizeof(buffer), "%s",
-@@ -921,11 +921,11 @@
+@@ -919,11 +919,11 @@ static void udp_do_one(int lnr, const ch
      if (flag_all || (notnull(remaddr) && !flag_lst) || (!notnull(remaddr) && flag_lst))
      {
          safe_strncpy(local_addr, ap->sprint((struct sockaddr *) &localaddr, 
@@ -25,7 +44,7 @@
  	    local_addr[22 - strlen(buffer)] = '\0';
  	strcat(local_addr, ":");
  	strncat(local_addr, buffer, sizeof(local_addr)-strlen(local_addr)-1);
-@@ -934,8 +934,8 @@
+@@ -931,8 +931,8 @@ static void udp_do_one(int lnr, const ch
  	snprintf(buffer, sizeof(buffer), "%s",
  		 get_sname(htons(rem_port), "udp", flag_not & FLAG_NUM_PORT));
          safe_strncpy(rem_addr, ap->sprint((struct sockaddr *) &remaddr, 
@@ -36,7 +55,7 @@
  	    rem_addr[22 - strlen(buffer)] = '\0';
  	strcat(rem_addr, ":");
  	strncat(rem_addr, buffer, sizeof(rem_addr)-strlen(rem_addr)-1);
-@@ -958,7 +958,7 @@
+@@ -954,7 +954,7 @@ static void udp_do_one(int lnr, const ch
  			 retr, timeout);
  		break;
  	    }
@@ -45,7 +64,7 @@
  	       rxq, txq, local_addr, rem_addr, udp_state);
  
  	finish_this_one(uid,inode,timers);
-@@ -1045,8 +1045,8 @@
+@@ -1041,8 +1041,8 @@ static void raw_do_one(int lnr, const ch
  		 get_sname(htons(local_port), "raw",
  			   flag_not & FLAG_NUM_PORT));
          safe_strncpy(local_addr, ap->sprint((struct sockaddr *) &localaddr, 
@@ -56,7 +75,7 @@
  	    local_addr[22 - strlen(buffer)] = '\0';
  	strcat(local_addr, ":");
  	strncat(local_addr, buffer, sizeof(local_addr)-strlen(local_addr)-1);
-@@ -1055,8 +1055,8 @@
+@@ -1050,8 +1050,8 @@ static void raw_do_one(int lnr, const ch
  	snprintf(buffer, sizeof(buffer), "%s",
  		 get_sname(htons(rem_port), "raw", flag_not & FLAG_NUM_PORT));
          safe_strncpy(rem_addr, ap->sprint((struct sockaddr *) &remaddr, 
@@ -67,7 +86,7 @@
  	    rem_addr[22 - strlen(buffer)] = '\0';
  	strcat(rem_addr, ":");
  	strncat(rem_addr, buffer, sizeof(rem_addr)-strlen(rem_addr)-1);
-@@ -1081,7 +1081,7 @@
+@@ -1075,7 +1075,7 @@ static void raw_do_one(int lnr, const ch
  			 retr, timeout);
  		break;
  	    }
@@ -76,3 +95,19 @@
  	       rxq, txq, local_addr, rem_addr, state);
  
  	finish_this_one(uid,inode,timers);
+@@ -1414,13 +1414,13 @@ static int ipx_info(void)
+ 
+ 	/* Fetch and resolve the Source */
+ 	(void) ap->input(0, sad, &sa);
+-	safe_strncpy(buf, ap->sprint(&sa, flag_not), sizeof(buf));
++	safe_strncpy(buf, ap->sprint(&sa, flag_not & FLAG_NUM_HOST), sizeof(buf));
+ 	snprintf(sad, sizeof(sad), "%s:%04X", buf, sport);
+ 
+ 	if (!nc) {
+ 	    /* Fetch and resolve the Destination */
+ 	    (void) ap->input(0, dad, &sa);
+-	    safe_strncpy(buf, ap->sprint(&sa, flag_not), sizeof(buf));
++	    safe_strncpy(buf, ap->sprint(&sa, flag_not & FLAG_NUM_HOST), sizeof(buf));
+ 	    snprintf(dad, sizeof(dad), "%s:%04X", buf, dport);
+ 	} else
+ 	    strcpy(dad, "-");

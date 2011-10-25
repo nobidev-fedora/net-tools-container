@@ -1,7 +1,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 127%{?dist}
+Release: 128%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -114,21 +114,18 @@ Patch78: net-tools-1.60-mii-gigabit.patch
 # fix memory leak in netstat when run with -c option
 Patch79: net-tools-1.60-netstat-leak.patch
 
-# HFI support
-Patch80: net-tools-1.60-hfi.patch
-
 # Don't rely on eth0 being default network device name.
 # Since Fedora 15 network devices can have arbitrary names (#682367)
-Patch81: net-tools-1.60-arbitrary-device-names.patch
+Patch80: net-tools-1.60-arbitrary-device-names.patch
 
 # plipconfig man page and usage output fixes. (#694766)
-Patch82: net-tools-1.60-plipconfig.patch
+Patch81: net-tools-1.60-plipconfig.patch
 
 # Possible problems found by static analysis of code.
-Patch83: net-tools-1.60-coverity.patch
+Patch82: net-tools-1.60-coverity.patch
 
 # Update for 2 digit Linux version numbers
-Patch84: net-tools-1.60-2digit.patch
+Patch83: net-tools-1.60-2digit.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -210,11 +207,10 @@ Most of them are obsolete. For replacement check iproute package.
 %patch77 -p1 -b .doubleword
 %patch78 -p1 -b .mii-gigabit
 %patch79 -p1 -b .netstat-leak
-%patch80 -p1 -b .hfi
-%patch81 -p1 -b .arbitrary-device-names
-%patch82 -p1 -b .plipconfig
-%patch83 -p1 -b .coverity
-%patch84 -p1 -b .2digit
+%patch80 -p1 -b .arbitrary-device-names
+%patch81 -p1 -b .plipconfig
+%patch82 -p1 -b .coverity
+%patch83 -p1 -b .2digit
 
 
 cp %SOURCE1 ./config.h
@@ -319,6 +315,10 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Oct 25 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-128
+- Removed HFI support.
+- Improved num-ports.patch
+
 * Thu Oct 20 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-127
 - Merge all upstream fixes into net-tools-1.60-upstream.patch
 
