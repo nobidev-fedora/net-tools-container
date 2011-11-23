@@ -77,55 +77,76 @@ Patch67: net-tools-1.60-i-option.patch
 Patch69: net-tools-1.60-clear-flag.patch
 Patch71: net-tools-1.60-netstat-probe.patch
 
-# This patch contains following upstream changes (ported from upstrem CVS/git):
 # scanf format length fix (non-exploitable)
+Patch72: net-tools-1.60-scanf-format.patch
+
 # netstat - avoid name resolution for listening or established sockets (-l) by return fast
+Patch73: net-tools-1.60-avoid-name-resolution.patch
+
 # netstat - --continuous should flush stdout
+Patch74: net-tools-1.60-continous-flush-stdout.patch
+
 # fix some errors so net-tools can be build with DEBUG defined
-# handle raw "IP" masqinfo
-# - touch up build system to respect normal toolchain env vars rather than requiring people to set random custom ones
-#   add missing dependency on version.h to libdir target to fix parallel build failures convert -idirafter to -I
-# slattach: use fchown() rather than chown() to avoid race between creation and permission changing
-# interface: fix IPv6 parsing of interfaces with large indexes (> 255) (Debian #433543)
-# Fix the handling of some of the HAVE_* flags ifdef vs if. (BerliOS #17812)
-# - patch netstat to separate basename of -p only if it is absolute
-#   path (in order to make argv[0]="sshd pty/0" display as sshd, and not as /0).
-# interface slip: cast keepalive/outfill to unsigned long to fix warnings on 64bit hosts -- no functional changes since these only have an 8bit range anyways
-Patch72: net-tools-1.60-upstream.patch
+Patch75: net-tools-1.60-debug-fix.patch
 
 # let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
-Patch73: net-tools-1.60-ib-warning.patch
+Patch76: net-tools-1.60-ib-warning.patch
+
+# handle raw "IP" masqinfo
+Patch79: net-tools-1.60-masqinfo-raw-ip.patch
+
+# touch up build system to respect normal toolchain env vars rather than requiring people to set random custom ones
+# add missing dependency on version.h to libdir target to fix parallel build failures
+# convert -idirafter to -I
+Patch80: net-tools-1.60-makefile-berlios.patch
+
+# slattach: use fchown() rather than chown() to avoid race between creation and permission changing
+Patch81: net-tools-1.60-slattach-fchown.patch
 
 # Bug 531702: make "hostname -s" display host name cut at the first dot (no matter if the host name resolves or not)
-Patch74: net-tools-1.60-hostname-short.patch
+Patch82: net-tools-1.60-hostname-short.patch
 
 # use <linux/mii.h> instead of "mii.h" and fix Bug #491358
-Patch75: net-tools-1.60-mii-refactor.patch
+Patch83: net-tools-1.60-mii-refactor.patch
 
 # Bug 473211: ifconfig interface:0 del <IP> will remove the Aliased IP on IA64
-Patch76: net-tools-1.60-IA64.patch
+# interface slip: cast keepalive/outfill to unsigned long to fix warnings on 64bit hosts -- no functional changes since these only have an 8bit range anyways
+Patch84: net-tools-1.60-IA64.patch
+
+# interface: fix IPv6 parsing of interfaces with large indexes (> 255) (Debian #433543)
+Patch85: net-tools-1.60-large-indexes.patch
 
 # netstat -s (statistics.c) now uses unsigned long long (instead of int) to handle 64 bit integers (Bug #579854, Debian #561161)
-Patch77: net-tools-1.60-statistics-doubleword.patch
+Patch86: net-tools-1.60-statistics-doubleword.patch
 
 # update mii-tool to support gigabit links (#539575)
-Patch78: net-tools-1.60-mii-gigabit.patch
+Patch87: net-tools-1.60-mii-gigabit.patch
 
 # fix memory leak in netstat when run with -c option
-Patch79: net-tools-1.60-netstat-leak.patch
+Patch88: net-tools-1.60-netstat-leak.patch
+
+# HFI support
+Patch89: net-tools-1.60-hfi.patch
+
+# Fix the handling of some of the HAVE_* flags ifdef vs if. (BerliOS #17812)
+Patch90: net-tools-1.60-ifdef-vs-if.patch
 
 # Don't rely on eth0 being default network device name.
 # Since Fedora 15 network devices can have arbitrary names (#682367)
-Patch80: net-tools-1.60-arbitrary-device-names.patch
+Patch91: net-tools-1.60-arbitrary-device-names.patch
 
 # plipconfig man page and usage output fixes. (#694766)
-Patch81: net-tools-1.60-plipconfig.patch
+Patch92: net-tools-1.60-plipconfig.patch
+
+# patch netstat to separate basename of -p only if it is absolute
+# path (in order to make argv[0]="sshd pty/0" display as sshd, and not as /0).
+Patch93: net-tools-1.60-netstat-p-basename.patch
 
 # Possible problems found by static analysis of code.
-Patch82: net-tools-1.60-coverity.patch
+Patch94: net-tools-1.60-coverity.patch
 
 # Update for 2 digit Linux version numbers
-Patch83: net-tools-1.60-2digit.patch
+Patch95: net-tools-1.60-2digit.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -199,19 +220,29 @@ Most of them are obsolete. For replacement check iproute package.
 %patch67 -p1 -b .i-option
 %patch69 -p1 -b .clear-flag
 %patch71 -p1 -b .probe
-%patch72 -p1 -b .upstream
-%patch73 -p1 -b .ib-warning
-%patch74 -p1 -b .hostname-short
-%patch75 -p1 -b .mii-refactor
-%patch76 -p1 -b .IA64
-%patch77 -p1 -b .doubleword
-%patch78 -p1 -b .mii-gigabit
-%patch79 -p1 -b .netstat-leak
-%patch80 -p1 -b .arbitrary-device-names
-%patch81 -p1 -b .plipconfig
-%patch82 -p1 -b .coverity
-%patch83 -p1 -b .2digit
 
+%patch72 -p1 -b .scanf-format
+%patch73 -p1 -b .avoid-name-resolution
+%patch74 -p1 -b .continous-flush-stdout
+%patch75 -p1 -b .debug-fix
+%patch76 -p1 -b .ib-warning
+%patch79 -p1 -b .masqinfo-raw-ip
+%patch80 -p1 -b .makefile-berlios
+%patch81 -p1 -b .slattach-fchown
+%patch82 -p1 -b .hostname-short
+%patch83 -p1 -b .mii-refactor
+%patch84 -p1 -b .IA64
+%patch85 -p1 -b .large-indexes
+%patch86 -p1 -b .doubleword
+%patch87 -p1 -b .mii-gigabit
+%patch88 -p1 -b .netstat-leak
+%patch89 -p1 -b .hfi
+%patch90 -p1 -b .ifdef-vs-if
+%patch91 -p1 -b .arbitrary-device-names
+%patch92 -p1 -b .plipconfig
+%patch93 -p1 -b .p-basename
+%patch94 -p1 -b .coverity
+%patch95 -p1 -b .2digit
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
