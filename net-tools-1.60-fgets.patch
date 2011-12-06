@@ -1,18 +1,7 @@
-Fix for when arp_disp_2() is called without opt_n set.  If there is a DNS lookup, an
-entry is added to /proc/net/arp after fopen(), resulting in a duplicate entry.
-
---- net-tools-1.60/arp.c.fgets	2005-12-10 14:52:04.000000000 -0500
-+++ net-tools-1.60/arp.c	2005-12-11 00:15:59.000000000 -0500
-@@ -528,7 +528,7 @@ static int arp_show(char *name)
-     int type, flags;
-     FILE *fp;
-     char *hostname;
--    int num, entries = 0, showed = 0;
-+    int num, entries, showed = 0;
- 
-     host[0] = '\0';
- 
-@@ -546,18 +546,21 @@ static int arp_show(char *name)
+diff -up net-tools-1.60/arp.c.fgets net-tools-1.60/arp.c
+--- net-tools-1.60/arp.c.fgets	2011-12-05 16:34:16.000000000 +0100
++++ net-tools-1.60/arp.c	2011-12-05 16:54:52.683352733 +0100
+@@ -558,18 +558,21 @@ static int arp_show(char *name)
  	perror(_PATH_PROCNET_ARP);
  	return (-1);
      }
@@ -26,12 +15,12 @@ entry is added to /proc/net/arp after fopen(), resulting in a duplicate entry.
  	strcpy(dev, "-");
  	/* Read the ARP cache entries. */
 -	for (; fgets(line, sizeof(line), fp);) {
--	    num = sscanf(line, "%s 0x%x 0x%x %100s %100s %100s\n",
+-	    num = sscanf(line, "%s 0x%x 0x%x %99s %99s %99s\n",
 -			 ip, &type, &flags, hwa, mask, dev);
 -	    if (num < 4)
 +	for (num = 0; num < entries; num++) {
 +	    fgets(line, sizeof(line), fp);
-+	    if (sscanf(line, "%s 0x%x 0x%x %100s %100s %100s\n",
++	    if (sscanf(line, "%s 0x%x 0x%x %99s %99s %99s\n",
 +			 ip, &type, &flags, hwa, mask, dev) < 4)
  		break;
  

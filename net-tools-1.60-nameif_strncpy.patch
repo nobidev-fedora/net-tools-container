@@ -1,13 +1,14 @@
---- net-tools-1.60/nameif.c.ncpy	2006-10-03 14:24:21.000000000 +0200
-+++ net-tools-1.60/nameif.c	2006-10-03 14:22:43.000000000 +0200
-@@ -100,8 +100,8 @@
+diff -up net-tools-1.60/nameif.c.strncpy net-tools-1.60/nameif.c
+--- net-tools-1.60/nameif.c.strncpy	2011-12-06 12:35:36.123687853 +0100
++++ net-tools-1.60/nameif.c	2011-12-06 12:35:36.270686015 +0100
+@@ -100,8 +100,8 @@ int  setname(char *oldname, char *newnam
  	struct ifreq ifr;
  	opensock(); 
  	memset(&ifr,0,sizeof(struct ifreq));
 -	strcpy(ifr.ifr_name, oldname); 
 -	strcpy(ifr.ifr_newname, newname); 
-+	strncpy(ifr.ifr_name, oldname, IF_NAMESIZE); 
-+	strncpy(ifr.ifr_newname, newname, IF_NAMESIZE); 
++	strncpy(ifr.ifr_name, oldname, IFNAMSIZ);
++	strncpy(ifr.ifr_newname, newname, IFNAMSIZ);
  	return ioctl(ctl_sk, SIOCSIFNAME, &ifr);
  }
  

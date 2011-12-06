@@ -1,6 +1,7 @@
---- net-tools-1.60/Makefile~	2005-12-24 06:56:57.000000000 -0500
-+++ net-tools-1.60/Makefile	2005-12-29 16:54:06.000000000 -0500
-@@ -113,6 +113,12 @@
+diff -up net-tools-1.60/Makefile.selinux net-tools-1.60/Makefile
+--- net-tools-1.60/Makefile.selinux	2011-11-21 02:31:57.000000000 +0100
++++ net-tools-1.60/Makefile	2011-12-05 15:31:48.825659529 +0100
+@@ -114,6 +114,12 @@ endif
  
  NET_LIB = $(NET_LIB_PATH)/lib$(NET_LIB_NAME).a
  
@@ -10,12 +11,13 @@
 +else
 +endif
 +
- CFLAGS	+= $(COPTS) -I. -idirafter ./include/ -I$(NET_LIB_PATH)
- LDFLAGS	+= $(LOPTS) -L$(NET_LIB_PATH)
+ CPPFLAGS += -I. -I$(TOPDIR)/include -I$(NET_LIB_PATH)
+ LDFLAGS  += -L$(NET_LIB_PATH)
  
---- net-tools-1.60/netstat.c~	2005-12-24 06:56:57.000000000 -0500
-+++ net-tools-1.60/netstat.c	2005-12-29 16:54:07.000000000 -0500
-@@ -86,6 +86,11 @@
+diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
+--- net-tools-1.60/netstat.c.selinux	2011-12-05 15:28:23.187230365 +0100
++++ net-tools-1.60/netstat.c	2011-12-05 15:37:31.376377055 +0100
+@@ -89,6 +89,11 @@
  #include <net/if.h>
  #include <dirent.h>
  
@@ -27,15 +29,15 @@
  #include "net-support.h"
  #include "pathnames.h"
  #include "version.h"
-@@ -96,6 +101,7 @@
- #include "util.h"
+@@ -100,6 +105,7 @@
+ #include "proc.h"
  
  #define PROGNAME_WIDTH 20
 +#define SELINUX_WIDTH 50
  
  #if !defined(s6_addr32) && defined(in6a_words)
  #define s6_addr32 in6a_words	/* libinet6			*/
-@@ -150,6 +156,7 @@
+@@ -159,6 +165,7 @@ int flag_wide= 0;
  int flag_prg = 0;
  int flag_arg = 0;
  int flag_ver = 0;
@@ -43,7 +45,7 @@
  
  FILE *procinfo;
  
-@@ -213,12 +220,17 @@
+@@ -222,12 +229,17 @@ FILE *procinfo;
  #define PROGNAME_WIDTH1(s) PROGNAME_WIDTH2(s)
  #define PROGNAME_WIDTH2(s) #s
  
@@ -55,35 +57,35 @@
  
  static struct prg_node {
      struct prg_node *next;
-     int inode;
+     unsigned long inode;
      char name[PROGNAME_WIDTH];
 +    char scon[SELINUX_WIDTH];
  } *prg_hash[PRG_HASH_SIZE];
  
  static char prg_cache_loaded = 0;
-@@ -226,9 +238,12 @@
+@@ -235,9 +247,12 @@ static char prg_cache_loaded = 0;
  #define PRG_HASHIT(x) ((x) % PRG_HASH_SIZE)
  
  #define PROGNAME_BANNER "PID/Program name"
 +#define SELINUX_BANNER "Security Context"
  
- #define print_progname_banner() do { if (flag_prg) printf("%-" PROGNAME_WIDTHs "s"," " PROGNAME_BANNER); } while (0)
+ #define print_progname_banner() do { if (flag_prg) printf(" %-" PROGNAME_WIDTHs "s",PROGNAME_BANNER); } while (0)
  
 +#define print_selinux_banner() do { if (flag_selinux) printf("%-" SELINUX_WIDTHs "s"," " SELINUX_BANNER); } while (0)
 +
  #define PRG_LOCAL_ADDRESS "local_address"
  #define PRG_INODE	 "inode"
  #define PRG_SOCKET_PFX    "socket:["
-@@ -250,7 +265,7 @@
- /* NOT working as of glibc-2.0.7: */
- #undef  DIRENT_HAVE_D_TYPE_WORKS
+@@ -257,7 +272,7 @@ static char prg_cache_loaded = 0;
+ #define PATH_CMDLINE	"cmdline"
+ #define PATH_CMDLINEl       strlen(PATH_CMDLINE)
  
--static void prg_cache_add(int inode, char *name)
-+static void prg_cache_add(int inode, char *name, char *scon)
+-static void prg_cache_add(unsigned long inode, char *name)
++static void prg_cache_add(unsigned long inode, char *name, char *scon)
  {
      unsigned hi = PRG_HASHIT(inode);
      struct prg_node **pnp,*pn;
-@@ -271,6 +286,14 @@
+@@ -278,6 +293,14 @@ static void prg_cache_add(unsigned long
      if (strlen(name)>sizeof(pn->name)-1) 
  	name[sizeof(pn->name)-1]='\0';
      strcpy(pn->name,name);
@@ -98,7 +100,7 @@
  }
  
  static const char *prg_cache_get(unsigned long inode)
-@@ -283,6 +306,16 @@
+@@ -290,6 +313,16 @@ static const char *prg_cache_get(unsigne
      return("-");
  }
  
@@ -115,7 +117,7 @@
  static void prg_cache_clear(void)
  {
      struct prg_node **pnp,*pn;
-@@ -348,6 +381,7 @@
+@@ -367,6 +400,7 @@ static void prg_cache_load(void)
      const char *cs,*cmdlp;
      DIR *dirproc=NULL,*dirfd=NULL;
      struct dirent *direproc,*direfd;
@@ -123,7 +125,7 @@
  
      if (prg_cache_loaded || !flag_prg) return;
      prg_cache_loaded=1;
-@@ -415,7 +449,15 @@
+@@ -428,7 +462,15 @@ static void prg_cache_load(void)
  	    }
  
  	    snprintf(finbuf, sizeof(finbuf), "%s/%s", direproc->d_name, cmdlp);
@@ -140,32 +142,44 @@
  	}
  	closedir(dirfd); 
  	dirfd = NULL;
-@@ -1385,6 +1428,8 @@
- 	printf("-      ");
+@@ -662,6 +704,9 @@ static void finish_this_one(int uid, uns
+     }
      if (flag_prg)
- 	printf("%-" PROGNAME_WIDTHs "s",(has & HAS_INODE?prg_cache_get(inode):"-"));
+ 	printf(" %-" PROGNAME_WIDTHs "s",prg_cache_get(inode));
 +    if (flag_selinux)
-+	printf("%-" SELINUX_WIDTHs "s",(has & HAS_INODE?prg_cache_get_con(inode):"-"));
-     puts(path);
++	printf(" %-" SELINUX_WIDTHs "s",prg_cache_get_con(inode));
++
+     if (flag_opt)
+ 	printf(" %s", timers);
+     putchar('\n');
+@@ -1484,7 +1529,9 @@ static void unix_do_one(int nr, const ch
+ 	printf("-       ");
+     if (flag_prg)
+ 	printf(" %-" PROGNAME_WIDTHs "s",(has & HAS_INODE?prg_cache_get(inode):"-"));
+-	
++    if (flag_selinux)
++	printf(" %-" SELINUX_WIDTHs "s",(has & HAS_INODE?prg_cache_get_con(inode):"-"));
++
+     printf(" %s\n", path);
  }
  
-@@ -1403,6 +1448,7 @@
+@@ -1503,6 +1550,7 @@ static int unix_info(void)
  
-     printf(_("\nProto RefCnt Flags       Type       State         I-Node"));
+     printf(_("\nProto RefCnt Flags       Type       State         I-Node  "));
      print_progname_banner();
 +    print_selinux_banner();
      printf(_(" Path\n"));	/* xxx */
  
      {
-@@ -1682,6 +1728,7 @@
-     fprintf(stderr, _("        -o, --timers               display timers\n"));
-     fprintf(stderr, _("        -F, --fib                  display Forwarding Information Base (default)\n"));
-     fprintf(stderr, _("        -C, --cache                display routing cache instead of FIB\n\n"));
-+    fprintf(stderr, _("        -Z, --context              display SELinux security context for sockets\n\n"));
+@@ -1802,6 +1850,7 @@ static void usage(void)
+     fprintf(stderr, _("        -o, --timers             display timers\n"));
+     fprintf(stderr, _("        -F, --fib                display Forwarding Information Base (default)\n"));
+     fprintf(stderr, _("        -C, --cache              display routing cache instead of FIB\n\n"));
++    fprintf(stderr, _("        -Z, --context            display SELinux security context for sockets\n\n"));
  
-     fprintf(stderr, _("  <Iface>: Name of interface to monitor/list.\n"));
-     fprintf(stderr, _("  <Socket>={-t|--tcp} {-u|--udp} {-w|--raw} {-x|--unix} --ax25 --ipx --netrom\n"));
-@@ -1729,6 +1776,7 @@
+     fprintf(stderr, _("  <Socket>={-t|--tcp} {-u|--udp} {-U|--udplite} {-w|--raw} {-x|--unix} --ax25 --ipx --netrom\n"));
+     fprintf(stderr, _("  <AF>=Use '-6|-4' or '-A <af>' or '--<af>'; default: %s\n"), DFLT_AF);
+@@ -1850,6 +1899,7 @@ int main
  	{"cache", 0, 0, 'C'},
  	{"fib", 0, 0, 'F'},
  	{"groups", 0, 0, 'g'},
@@ -173,16 +187,16 @@
  	{NULL, 0, 0, 0}
      };
  
-@@ -1741,7 +1789,7 @@
+@@ -1861,7 +1911,7 @@ int main
+     getroute_init();		/* Set up AF routing support */
  
      afname[0] = '\0';
- 
--    while ((i = getopt_long(argc, argv, "MCFA:acdegphiI::nNorstuVv?wxl", longopts, &lop)) != EOF)
-+    while ((i = getopt_long(argc, argv, "MCFA:acdegphiI::nNorstuVv?wxlZ", longopts, &lop)) != EOF)
+-    while ((i = getopt_long(argc, argv, "A:CFMacdeghiI::lnNoprsStuUvVWwx64?", longopts, &lop)) != EOF)
++    while ((i = getopt_long(argc, argv, "A:CFMacdeghiI::lnNoprsStuUvVWwx64?Z", longopts, &lop)) != EOF)
  	switch (i) {
  	case -1:
  	    break;
-@@ -1838,6 +1886,20 @@
+@@ -1973,6 +2023,20 @@ int main
  	    if (aftrans_opt("unix"))
  		exit(1);
  	    break;
@@ -203,19 +217,7 @@
  	case '?':
  	case 'h':
  	    usage();
---- net-tools-1.60/netstat.c.sel	2007-05-21 14:02:08.000000000 -0400
-+++ net-tools-1.60/netstat.c	2007-05-21 14:03:23.000000000 -0400
-@@ -769,6 +769,9 @@ static void finish_this_one(int uid, uns
-     }
-     if (flag_prg)
- 	printf("%-" PROGNAME_WIDTHs "s",prg_cache_get(inode));
-+    if (flag_selinux)
-+	printf("%-" SELINUX_WIDTHs "s",prg_cache_get_con(inode));
-+
-     if (flag_opt)
- 	printf("%s", timers);
-     putchar('\n');
-@@ -2420,6 +2423,7 @@ int main
+@@ -2099,6 +2163,7 @@ int main
  	    if (flag_exp > 1)
  		printf(_(" User       Inode     "));
  	    print_progname_banner();

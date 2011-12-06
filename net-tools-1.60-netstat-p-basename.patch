@@ -1,7 +1,7 @@
 diff -up net-tools-1.60/netstat.c.p-basename net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.p-basename	2011-06-09 12:01:59.907721330 +0200
-+++ net-tools-1.60/netstat.c	2011-06-09 12:02:28.437352480 +0200
-@@ -413,7 +413,7 @@ static void prg_cache_load(void)
+--- net-tools-1.60/netstat.c.p-basename	2011-12-06 14:54:17.023662287 +0100
++++ net-tools-1.60/netstat.c	2011-12-06 14:56:27.852026709 +0100
+@@ -395,7 +395,7 @@ static void prg_cache_load(void)
  {
      char line[LINE_MAX],eacces=0;
      int procfdlen,fd,cmdllen,lnamelen;
@@ -10,12 +10,7 @@ diff -up net-tools-1.60/netstat.c.p-basename net-tools-1.60/netstat.c
      unsigned long inode;
      const char *cs,*cmdlp;
      DIR *dirproc=NULL,*dirfd=NULL;
-@@ -484,10 +484,12 @@ static void prg_cache_load(void)
- 		    continue;
- 		if (cmdllen < sizeof(cmdlbuf) - 1) 
- 		    cmdlbuf[cmdllen]='\0';
--		if ((cmdlp = strrchr(cmdlbuf, '/'))) 
-+		if (cmdlbuf[0] == '/' && (cmdlp = strrchr(cmdlbuf, '/')))
+@@ -459,6 +459,8 @@ static void prg_cache_load(void)
  		    cmdlp++;
  		else 
  		    cmdlp = cmdlbuf;
