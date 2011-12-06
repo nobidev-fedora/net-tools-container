@@ -20,250 +20,102 @@ Source7: iptunnel.8
 Source8: ipmaddr.8
 Source9: arp-ethers.service
 
-# Not needed
-#Patch1: net-tools-1.57-bug22040.patch
-
-# We don't use include/mii.h anyway (see mii-refactor.patch)
-#Patch2: net-tools-1.60-miiioctl.patch
-
-# Rewritten upstream, hopefully this won't be needed.
-#Patch3: net-tools-1.60-manydevs.patch
-
 # Fixes formating of 'netstat -i'
-Patch4: net-tools-1.60-virtualname.patch
+Patch1: net-tools-1.60-virtualname.patch
 
 # adds <delay> option that allows netstat to cycle printing through statistics every delay seconds.
-Patch5: net-tools-1.60-cycle.patch
-
-# Merged upstream
-#Patch6: net-tools-1.60-nameif.patch
+Patch2: net-tools-1.60-cycle.patch
 
 # Fixed incorrect address display for ipx (#46434)
-Patch7: net-tools-1.60-ipx.patch
+Patch3: net-tools-1.60-ipx.patch
 
 # hostname lookup problems with route --inet6 (#84108)
-Patch8: net-tools-1.60-inet6-lookup.patch
+Patch4: net-tools-1.60-inet6-lookup.patch
 
 # various man page fixes merged into one patch
-Patch9: net-tools-1.60-man.patch
-
-# Fixed upstream
-#Patch10: net-tools-1.60-gcc33.patch
-
-# hostname patch 
-#Patch11: net-tools-1.60-trailingblank.patch
+Patch5: net-tools-1.60-man.patch
 
 # netstat: interface option now works as described in the man page (#61113, #115987)
-Patch12: net-tools-1.60-interface.patch
-
-# Fixed upstream
-#Patch14: net-tools-1.60-gcc34.patch
-
-# Fixed upstream
-#Patch15: net-tools-1.60-overflow.patch
-
-# Fixed upstream
-#Patch19: net-tools-1.60-siunits.patch
-
-# (#128359) Fixed upstream
-#Patch20: net-tools-1.60-trunc.patch
+Patch6: net-tools-1.60-interface.patch
 
 # The return value of nameif was wrong (#129032) - patch from Fujitsu QA
-Patch21: net-tools-1.60-nameif-return.patch
-
-# (#131539) Fixed upstream
-#Patch22: net-tools-1.60-parse.patch
-
-# Fixed upstream
-#Patch23: net-tools-1.60-netmask.patch
+Patch7: net-tools-1.60-nameif-return.patch
 
 # netstat -s (statistics.c) now uses unsigned long long handle 64 bit integers (Bug #579854, Debian #561161) 
-Patch24: net-tools-1.60-statistics-doubleword.patch
+Patch8: net-tools-1.60-statistics-doubleword.patch
 
 # calculate broadcast only when netmask provided (#60509)
-Patch25: net-tools-1.60-bcast.patch
-
-# Fixed upstream
-#Patch27: net-tools-1.60-netstat_ulong.patch
-
-# hostname man page fix
-#Patch28: net-tools-1.60-note.patch
-
-# fixed --num-ports option for netstat (#115100)
-# fixed upstream
-#Patch29: net-tools-1.60-num-ports.patch
+Patch9: net-tools-1.60-bcast.patch
 
 # filter out duplicate tcp entries (#139407)
-Patch30: net-tools-1.60-duplicate-tcp.patch
+Patch10: net-tools-1.60-duplicate-tcp.patch
 
 # don't report statistics for virtual devices (#143981)
-Patch31: net-tools-1.60-statalias.patch
-
-# translation headers - content type format
-# is it good for anything ?
-#Patch32: net-tools-1.60-isofix.patch
-
-# Merged upstream
-#Patch34: net-tools-1.60-ifconfig_ib.patch
-
-# Fixed upstream
-#Patch35: net-tools-1.60-de.patch
-
-# not needed
-#Patch37: net-tools-1.60-pie.patch
-
-# merged into interface.patch
-#Patch38: net-tools-1.60-ifaceopt.patch
+Patch11: net-tools-1.60-statalias.patch
 
 # stop trimming interface names longer than 9 characters (#152457)
-Patch39: net-tools-1.60-trim_iface.patch
-
-# flush output in mii-tool (#152568)
-# Fixed upstream
-#Patch40: net-tools-1.60-stdo.patch
-
-# netstat has new statistcs (#133032)
-# Fixed upstream
-#Patch41: net-tools-1.60-statistics.patch
-
-# Fixed upstream
-#Patch42: net-tools-1.60-ifconfig.patch
+Patch12: net-tools-1.60-trim_iface.patch
 
 # buffer overflow in arp (#164695)
-Patch43: net-tools-1.60-arp_overflow.patch
-
-# hostname patch
-#Patch44: net-tools-1.60-hostname_man.patch
+Patch13: net-tools-1.60-arp_overflow.patch
 
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch45: net-tools-1.60-interface_stack.patch
+Patch14: net-tools-1.60-interface_stack.patch
 
 # new option for nestat, -Z shows selinux context
-Patch46: net-tools-1.60-selinux.patch
-
-# new option for netstat - -T stops trimming remote and local addresses (#176465)
-# Merged upstream as -W option
-#Patch47: net-tools-1.60-netstat_stop_trim.patch
-
-# show inodes in netstat (#180974)
-# fixed upstream
-#Patch48: net-tools-1.60-netstat_inode.patch
+Patch15: net-tools-1.60-selinux.patch
 
 # remove duplicate arp entries (#185604)
-Patch49: net-tools-1.60-fgets.patch
+Patch16: net-tools-1.60-fgets.patch
 
 # wrong definition of _PATH_PROCNET_X25_ROUTE (#188786)
-Patch51: net-tools-1.60-x25-proc.patch
+Patch17: net-tools-1.60-x25-proc.patch
 
 # statistics for SCTP
-Patch52: net-tools-1.60-sctp-statistics.patch
+Patch18: net-tools-1.60-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch54: net-tools-1.60-ifconfig-long-iface-crasher.patch
-
-# Fixed upstream
-#Patch55: net-tools-1.60-netdevice.patch
-
-# Fixed upstream
-#Patch56: net-tools-1.60-skip.patch
-
-# Merged into interface.patch
-#Patch57: net-tools-1.60-netstat-I-fix.patch
+Patch19: net-tools-1.60-ifconfig-long-iface-crasher.patch
 
 # nameif crash for 16char long interface names (#209120)
-Patch58: net-tools-1.60-nameif_strncpy.patch
-
-# fix arp unaligned access (#220438)
-# Fixed upstream
-#Patch59: net-tools-1.60-arp-unaligned-access.patch
-
-# Fixed upstream
-#Patch60: net-tools-1.60-sctp-quiet.patch
-
-# hostname patch
-#Patch61: net-tools-1.60-remove_node.patch
-
-# merged into interface.patch
-#Patch62: net-tools-1.60-netstat-interfaces-crash.patch
-
-# Fixed upstream
-#Patch64: net-tools-1.60-ec_hw_null.patch
-
-# Fixed upstream
-#Patch65: net-tools-1.60-statistics_buffer.patch
-
-# Rewritten upstream
-#Patch66: net-tools-1.60-sctp-addrs.patch
-
-# merged into interface.patch
-#Patch67: net-tools-1.60-i-option.patch
+Patch20: net-tools-1.60-nameif_strncpy.patch
 
 # fixed clearing flags in ifconfig (#450252)
-Patch69: net-tools-1.60-clear-flag.patch
+Patch21: net-tools-1.60-clear-flag.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch71: net-tools-1.60-netstat-probe.patch
+Patch22: net-tools-1.60-netstat-probe.patch
 
 # prevent 'netstat -nr -A inet6' from smashing stack (#668047)
-Patch72: net-tools-1.60-scanf-format.patch
-
-# upstream
-#Patch73: net-tools-1.60-avoid-name-resolution.patch
-
-# upstream
-#Patch74: net-tools-1.60-continous-flush-stdout.patch
-
-# upstream
-#Patch75: net-tools-1.60-debug-fix.patch
+Patch23: net-tools-1.60-scanf-format.patch
 
 # let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
-Patch76: net-tools-1.60-ib-warning.patch
-
-# upstream
-#Patch79: net-tools-1.60-masqinfo-raw-ip.patch
-
-# upstream
-#Patch80: net-tools-1.60-makefile-berlios.patch
-
-# slattach: use fchown() rather than chown() to avoid race between creation and permission changing
-#Patch81: net-tools-1.60-slattach-fchown.patch
-
-# hostname patch
-#Patch82: net-tools-1.60-hostname-short.patch
+Patch24: net-tools-1.60-ib-warning.patch
 
 # use <linux/mii.h> instead of "mii.h" and fix Bug #491358
-Patch83: net-tools-1.60-mii-refactor.patch
+Patch25: net-tools-1.60-mii-refactor.patch
 
 # ifconfig interface:0 del <IP> will remove the Aliased IP on IA64 (#473211)
-Patch84: net-tools-1.60-IA64.patch
-
-# upstream
-#Patch85: net-tools-1.60-large-indexes.patch
-
-# Fixed upstream
-#Patch87: net-tools-1.60-mii-gigabit.patch
+Patch26: net-tools-1.60-IA64.patch
 
 # fix memory leak in netstat when run with -c option
-Patch88: net-tools-1.60-netstat-leak.patch
-
-# upstream
-#Patch90: net-tools-1.60-ifdef-vs-if.patch
+Patch27: net-tools-1.60-netstat-leak.patch
 
 # Don't rely on eth0 being default network device name.
 # Since Fedora 15 network devices can have arbitrary names (#682367)
-Patch91: net-tools-1.60-arbitrary-device-names.patch
+Patch28: net-tools-1.60-arbitrary-device-names.patch
 
 # plipconfig man page and usage output fixes. (#694766)
-Patch92: net-tools-1.60-plipconfig.patch
+Patch29: net-tools-1.60-plipconfig.patch
 
 # netstat: remove part starting with colon in 'PID/Program name' column (#707427)
-Patch93: net-tools-1.60-netstat-p-basename.patch
+Patch30: net-tools-1.60-netstat-p-basename.patch
 
 # Possible problems found by static analysis of code.
-Patch94: net-tools-1.60-coverity.patch
+Patch31: net-tools-1.60-coverity.patch
 
 # Update for 2 digit Linux version numbers (#718610)
-Patch95: net-tools-1.60-2digit.patch
+Patch32: net-tools-1.60-2digit.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -278,87 +130,38 @@ Most of them are obsolete. For replacement check iproute package.
 
 %prep
 %setup -q -c
-#%%patch1 -p1 -b .bug22040
-#%%patch2 -p1 -b .miiioctl
-#%%patch3 -p0 -b .manydevs
-%patch4 -p1 -b .virtualname
-%patch5 -p1 -b .cycle
-#%%patch6 -p1 -b .nameif
-%patch7 -p1 -b .ipx
-%patch8 -p1 -b .inet6-lookup
-%patch9 -p1 -b .man
-#%%patch10 -p1 -b .gcc33
-#%%patch11 -p1 -b .trailingblank
-%patch12 -p1 -b .interface
-#%%patch14 -p1 -b .gcc34
-#%%patch15 -p1 -b .overflow
-#%%patch19 -p1 -b .siunits
-#%%patch20 -p1 -b .trunc
-%patch21 -p1 -b .return
-#%%patch22 -p1 -b .parse
-#%%patch23 -p1 -b .netmask
-%patch24 -p1 -b .doubleword
-%patch25 -p1 -b .bcast
-#%%patch27 -p1 -b .netstat_ulong
-#%%patch28 -p1 -b .note
-#%%patch29 -p1 -b .num-ports
-%patch30 -p1 -b .dup-tcp
-%patch31 -p1 -b .statalias
-#%%patch32 -p1 -b .isofix
-#%%patch34 -p1 -b .ifconfig_ib
-#%%patch35 -p1
-#%%patch37 -p1 -b .pie
-#%%patch38 -p1 -b .ifaceopt
-%patch39 -p1 -b .trim-iface
-#%%patch40 -p1 -b .stdo
-#%%patch41 -p1 -b .statistics
-#%%patch42 -p1 -b .iface_drop
-%patch43 -p1 -b .overflow
-#%%patch44 -p1 -b .hostname_man
-%patch45 -p1 -b .stack
-%patch46 -p1 -b .selinux
-#%%patch47 -p1 -b .trim
-#%%patch48 -p1 -b .inode
-%patch49 -p1 -b .fgets
-%patch51 -p1 -b .x25
-%patch52 -p1 -b .sctp
-%patch54 -p1 -b .long_iface
-#%%patch55 -p1 -b .netdevice
-#%%patch56 -p1 -b .skip
-#%%patch57 -p1
-%patch58 -p1 -b .strncpy
-#%%patch59 -p1 -b .arp-un-access
-#%%patch60 -p1 -b .quiet
-#%%patch61 -p1
-#%%patch62 -p1 -b .iface-crash
-#%%patch64 -p1
-#%%patch65 -p1 -b .buffer
-#%%patch66 -p1 -b .sctp-addrs
-#%%patch67 -p1 -b .i-option
-%patch69 -p1 -b .clear-flag
-%patch71 -p1 -b .probe
-
-%patch72 -p1 -b .scanf-format
-#%%patch73 -p1 -b .avoid-name-resolution
-#%%patch74 -p1 -b .continous-flush-stdout
-#%%patch75 -p1 -b .debug-fix
-%patch76 -p1 -b .ib-warning
-#%%patch79 -p1 -b .masqinfo-raw-ip
-#%%patch80 -p1 -b .makefile-berlios
-#%%patch81 -p1 -b .slattach-fchown
-#%%patch82 -p1 -b .hostname-short
-%patch83 -p1 -b .mii-refactor
-%patch84 -p1 -b .IA64
-#%%patch85 -p1 -b .large-indexes
-#%%patch87 -p1 -b .mii-gigabit
-%patch88 -p1 -b .netstat-leak
-
-#%%patch90 -p1 -b .ifdef-vs-if
-%patch91 -p1 -b .arbitrary-device-names
-%patch92 -p1 -b .plipconfig
-%patch93 -p1 -b .p-basename
-%patch94 -p1 -b .coverity
-%patch95 -p1 -b .2digit
+%patch1 -p1 -b .virtualname
+%patch2 -p1 -b .cycle
+%patch3 -p1 -b .ipx
+%patch4 -p1 -b .inet6-lookup
+%patch5 -p1 -b .man
+%patch6 -p1 -b .interface
+%patch7 -p1 -b .return
+%patch8 -p1 -b .doubleword
+%patch9 -p1 -b .bcast
+%patch10 -p1 -b .dup-tcp
+%patch11 -p1 -b .statalias
+%patch12 -p1 -b .trim-iface
+%patch13 -p1 -b .overflow
+%patch14 -p1 -b .stack
+%patch15 -p1 -b .selinux
+%patch16 -p1 -b .fgets
+%patch17 -p1 -b .x25
+%patch18 -p1 -b .sctp
+%patch19 -p1 -b .long_iface
+%patch20 -p1 -b .strncpy
+%patch21 -p1 -b .clear-flag
+%patch22 -p1 -b .probe
+%patch23 -p1 -b .scanf-format
+%patch24 -p1 -b .ib-warning
+%patch25 -p1 -b .mii-refactor
+%patch26 -p1 -b .IA64
+%patch27 -p1 -b .netstat-leak
+%patch28 -p1 -b .arbitrary-device-names
+%patch29 -p1 -b .plipconfig
+%patch30 -p1 -b .p-basename
+%patch31 -p1 -b .coverity
+%patch32 -p1 -b .2digit
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -454,15 +257,16 @@ fi
 /bin/netstat
 /sbin/*
 %{_mandir}/man[58]/*
-%lang(de)	%{_mandir}/de/man[58]/*
-%lang(fr)	%{_mandir}/fr/man[58]/*
-%lang(pt)	%{_mandir}/pt/man[58]/*
+%lang(de)  %{_mandir}/de/man[58]/*
+%lang(fr)  %{_mandir}/fr/man[58]/*
+%lang(pt)  %{_mandir}/pt/man[58]/*
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
 * Wed Nov 23 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-129.20111206git
 - upstream git snapshot
 - reduced number of patches from 95 to 32
+- netstat -T/--notrim option is now -W/--wide
 
 * Tue Oct 25 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-128
 - Removed HFI support.
