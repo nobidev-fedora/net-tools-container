@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 129.%{checkout}%{?dist}
+Release: 130.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
