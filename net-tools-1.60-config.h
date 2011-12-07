@@ -63,6 +63,7 @@
 #define HAVE_HWHDLCLAPB 1
 #define HAVE_HWIRDA 1
 #define HAVE_HWEC 1
+#define HAVE_HWEUI64 1
 #define HAVE_HWIB 1
 
 /* 
@@ -73,3 +74,4 @@
 #define HAVE_FW_MASQUERADE 1
 #define HAVE_IP_TOOLS 1
 #define HAVE_MII 1
+#define HAVE_SELINUX 1

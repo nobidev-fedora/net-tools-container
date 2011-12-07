@@ -1,6 +1,14 @@
+diff -up net-tools-1.60/config.in.selinux net-tools-1.60/config.in
+--- net-tools-1.60/config.in.selinux	2011-11-21 02:31:57.000000000 +0100
++++ net-tools-1.60/config.in	2011-12-07 12:24:21.922245784 +0100
+@@ -91,3 +91,4 @@ bool 'InfiniBand hardware support' HAVE_
+ bool 'IP Masquerading support' HAVE_FW_MASQUERADE y
+ bool 'Build iptunnel and ipmaddr' HAVE_IP_TOOLS y
+ bool 'Build mii-tool' HAVE_MII y
++bool 'SELinux support' HAVE_SELINUX n
 diff -up net-tools-1.60/Makefile.selinux net-tools-1.60/Makefile
 --- net-tools-1.60/Makefile.selinux	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/Makefile	2011-12-05 15:31:48.825659529 +0100
++++ net-tools-1.60/Makefile	2011-12-07 12:23:00.078268978 +0100
 @@ -114,6 +114,12 @@ endif
  
  NET_LIB = $(NET_LIB_PATH)/lib$(NET_LIB_NAME).a
@@ -15,8 +23,8 @@ diff -up net-tools-1.60/Makefile.selinux net-tools-1.60/Makefile
  LDFLAGS  += -L$(NET_LIB_PATH)
  
 diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.selinux	2011-12-05 15:28:23.187230365 +0100
-+++ net-tools-1.60/netstat.c	2011-12-05 15:37:31.376377055 +0100
+--- net-tools-1.60/netstat.c.selinux	2011-12-07 12:23:00.040269453 +0100
++++ net-tools-1.60/netstat.c	2011-12-07 12:23:00.079268965 +0100
 @@ -89,6 +89,11 @@
  #include <net/if.h>
  #include <dirent.h>
@@ -196,7 +204,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  	switch (i) {
  	case -1:
  	    break;
-@@ -1973,6 +2023,20 @@ int main
+@@ -1975,6 +2025,20 @@ int main
  	    if (aftrans_opt("unix"))
  		exit(1);
  	    break;
@@ -217,7 +225,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  	case '?':
  	case 'h':
  	    usage();
-@@ -2099,6 +2163,7 @@ int main
+@@ -2101,6 +2165,7 @@ int main
  	    if (flag_exp > 1)
  		printf(_(" User       Inode     "));
  	    print_progname_banner();
