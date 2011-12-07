@@ -1,4 +1,4 @@
-%global checkout 20111206git
+%global checkout 20111207git
 
 Summary: Basic networking tools
 Name: net-tools
@@ -8,8 +8,8 @@ License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
 
-# git archive --format=tar --remote=git://net-tools.git.sourceforge.net/gitroot/net-tools/net-tools master | gzip > net-tools-%%{version}.%%{checkout}.tar.gz
-Source0: net-tools-%{version}.%{checkout}.tar.gz
+# git archive --format=tar --remote=git://net-tools.git.sourceforge.net/gitroot/net-tools/net-tools master | xz > net-tools-%%{version}.%%{checkout}.tar.xz
+Source0: net-tools-%{version}.%{checkout}.tar.xz
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
 Source3: ether-wake.c
@@ -20,8 +20,8 @@ Source7: iptunnel.8
 Source8: ipmaddr.8
 Source9: arp-ethers.service
 
-# Fixes formating of 'netstat -i'
-Patch1: net-tools-1.60-virtualname.patch
+# translation headers - content type format
+Patch1: net-tools-1.60-isofix.patch
 
 # adds <delay> option that allows netstat to cycle printing through statistics every delay seconds.
 Patch2: net-tools-1.60-cycle.patch
@@ -53,7 +53,7 @@ Patch10: net-tools-1.60-duplicate-tcp.patch
 # don't report statistics for virtual devices (#143981)
 Patch11: net-tools-1.60-statalias.patch
 
-# stop trimming interface names longer than 9 characters (#152457)
+# don't trim interface names to 5 characters in 'netstat -i' or 'ifconfig -s' (#152457)
 Patch12: net-tools-1.60-trim_iface.patch
 
 # buffer overflow in arp (#164695)
@@ -93,7 +93,7 @@ Patch23: net-tools-1.60-scanf-format.patch
 Patch24: net-tools-1.60-ib-warning.patch
 
 # use <linux/mii.h> instead of "mii.h" and fix Bug #491358
-Patch25: net-tools-1.60-mii-refactor.patch
+Patch25: net-tools-1.60-mii-registers.patch
 
 # ifconfig interface:0 del <IP> will remove the Aliased IP on IA64 (#473211)
 Patch26: net-tools-1.60-IA64.patch
@@ -130,7 +130,7 @@ Most of them are obsolete. For replacement check iproute package.
 
 %prep
 %setup -q -c
-%patch1 -p1 -b .virtualname
+%patch1 -p1 -b .isofix
 %patch2 -p1 -b .cycle
 %patch3 -p1 -b .ipx
 %patch4 -p1 -b .inet6-lookup
@@ -154,7 +154,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch22 -p1 -b .probe
 %patch23 -p1 -b .scanf-format
 %patch24 -p1 -b .ib-warning
-%patch25 -p1 -b .mii-refactor
+%patch25 -p1 -b .mii-registers
 %patch26 -p1 -b .IA64
 %patch27 -p1 -b .netstat-leak
 %patch28 -p1 -b .arbitrary-device-names
@@ -263,7 +263,12 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
-* Wed Nov 23 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-129.20111206git
+* Wed Dec 07 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-130.20111207git
+- removed virtualname.patch
+- added back isofix.patch
+- improved mii-registers.patch
+
+* Tue Dec 06 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-129.20111206git
 - upstream git snapshot
 - reduced number of patches from 95 to 32
 - netstat -T/--notrim option is now -W/--wide

@@ -1,6 +1,6 @@
 diff -up net-tools-1.60/lib/interface.c.cycle net-tools-1.60/lib/interface.c
---- net-tools-1.60/lib/interface.c.cycle	2011-12-06 16:23:45.051552704 +0100
-+++ net-tools-1.60/lib/interface.c	2011-12-06 16:23:45.115551904 +0100
+--- net-tools-1.60/lib/interface.c.cycle	2011-11-21 02:31:57.000000000 +0100
++++ net-tools-1.60/lib/interface.c	2011-12-07 16:11:38.249768234 +0100
 @@ -93,6 +93,7 @@ int if_list_all = 0;	/* do we have reque
  static struct interface *int_list, *int_last;
  
@@ -69,7 +69,7 @@ diff -up net-tools-1.60/lib/interface.c.cycle net-tools-1.60/lib/interface.c
  { 
 diff -up net-tools-1.60/man/en_US/netstat.8.cycle net-tools-1.60/man/en_US/netstat.8
 --- net-tools-1.60/man/en_US/netstat.8.cycle	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/man/en_US/netstat.8	2011-12-06 16:23:45.115551904 +0100
++++ net-tools-1.60/man/en_US/netstat.8	2011-12-07 16:11:38.249768234 +0100
 @@ -33,6 +33,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-verbose | \-v ]
  .RB [ \-\-continuous | \-c]
@@ -129,8 +129,8 @@ diff -up net-tools-1.60/man/en_US/netstat.8.cycle net-tools-1.60/man/en_US/netst
  .SH OUTPUT
  .P
 diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.cycle	2011-12-06 16:23:45.052552691 +0100
-+++ net-tools-1.60/netstat.c	2011-12-06 16:23:45.116551892 +0100
+--- net-tools-1.60/netstat.c.cycle	2011-11-21 02:31:57.000000000 +0100
++++ net-tools-1.60/netstat.c	2011-12-07 16:13:19.911497288 +0100
 @@ -106,9 +106,9 @@
  #endif
  
@@ -169,9 +169,9 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      }
      if (flag_exp < 2) {
  	ife_short = 1;
--	printf(_("Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
+-	printf(_("Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
 +	if(!(count % 8))
-+	    printf(_("Iface       MTU Met    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
++	    printf(_("Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
      }
  
      if (for_all_interfaces(do_if_print, &flag_all) < 0) {
@@ -293,7 +293,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      return (i);
 diff -up net-tools-1.60/statistics.c.cycle net-tools-1.60/statistics.c
 --- net-tools-1.60/statistics.c.cycle	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/statistics.c	2011-12-06 16:24:24.062065007 +0100
++++ net-tools-1.60/statistics.c	2011-12-07 16:11:38.352766947 +0100
 @@ -502,7 +502,7 @@ void process6_fd(FILE *f)
  
  }
