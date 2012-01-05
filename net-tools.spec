@@ -1,9 +1,9 @@
-%global checkout 20111207git
+%global checkout 20120105git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 130.%{checkout}%{?dist}
+Release: 131.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -20,102 +20,60 @@ Source7: iptunnel.8
 Source8: ipmaddr.8
 Source9: arp-ethers.service
 
-# translation headers - content type format
-Patch1: net-tools-1.60-isofix.patch
-
 # adds <delay> option that allows netstat to cycle printing through statistics every delay seconds.
-Patch2: net-tools-1.60-cycle.patch
+Patch1: net-tools-1.60-cycle.patch
 
 # Fixed incorrect address display for ipx (#46434)
-Patch3: net-tools-1.60-ipx.patch
+Patch2: net-tools-1.60-ipx.patch
 
 # hostname lookup problems with route --inet6 (#84108)
-Patch4: net-tools-1.60-inet6-lookup.patch
+Patch3: net-tools-1.60-inet6-lookup.patch
 
 # various man page fixes merged into one patch
-Patch5: net-tools-1.60-man.patch
+Patch4: net-tools-1.60-man.patch
 
 # netstat: interface option now works as described in the man page (#61113, #115987)
-Patch6: net-tools-1.60-interface.patch
-
-# The return value of nameif was wrong (#129032) - patch from Fujitsu QA
-Patch7: net-tools-1.60-nameif-return.patch
-
-# netstat -s (statistics.c) now uses unsigned long long handle 64 bit integers (Bug #579854, Debian #561161) 
-Patch8: net-tools-1.60-statistics-doubleword.patch
-
-# calculate broadcast only when netmask provided (#60509)
-Patch9: net-tools-1.60-bcast.patch
+Patch5: net-tools-1.60-interface.patch
 
 # filter out duplicate tcp entries (#139407)
-Patch10: net-tools-1.60-duplicate-tcp.patch
+Patch6: net-tools-1.60-duplicate-tcp.patch
 
 # don't report statistics for virtual devices (#143981)
-Patch11: net-tools-1.60-statalias.patch
+Patch7: net-tools-1.60-statalias.patch
 
 # don't trim interface names to 5 characters in 'netstat -i' or 'ifconfig -s' (#152457)
-Patch12: net-tools-1.60-trim_iface.patch
-
-# buffer overflow in arp (#164695)
-Patch13: net-tools-1.60-arp_overflow.patch
+Patch8: net-tools-1.60-trim_iface.patch
 
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch14: net-tools-1.60-interface_stack.patch
+Patch9: net-tools-1.60-interface_stack.patch
 
 # new option for nestat, -Z shows selinux context
-Patch15: net-tools-1.60-selinux.patch
+Patch10: net-tools-1.60-selinux.patch
 
 # remove duplicate arp entries (#185604)
-Patch16: net-tools-1.60-fgets.patch
-
-# wrong definition of _PATH_PROCNET_X25_ROUTE (#188786)
-Patch17: net-tools-1.60-x25-proc.patch
+Patch11: net-tools-1.60-fgets.patch
 
 # statistics for SCTP
-Patch18: net-tools-1.60-sctp-statistics.patch
+Patch12: net-tools-1.60-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch19: net-tools-1.60-ifconfig-long-iface-crasher.patch
-
-# nameif crash for 16char long interface names (#209120)
-Patch20: net-tools-1.60-nameif_strncpy.patch
-
-# fixed clearing flags in ifconfig (#450252)
-Patch21: net-tools-1.60-clear-flag.patch
+Patch13: net-tools-1.60-ifconfig-long-iface-crasher.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch22: net-tools-1.60-netstat-probe.patch
-
-# prevent 'netstat -nr -A inet6' from smashing stack (#668047)
-Patch23: net-tools-1.60-scanf-format.patch
+Patch14: net-tools-1.60-netstat-probe.patch
 
 # let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
-Patch24: net-tools-1.60-ib-warning.patch
+Patch15: net-tools-1.60-ib-warning.patch
 
 # use <linux/mii.h> instead of "mii.h" and fix Bug #491358
-Patch25: net-tools-1.60-mii-registers.patch
-
-# ifconfig interface:0 del <IP> will remove the Aliased IP on IA64 (#473211)
-Patch26: net-tools-1.60-IA64.patch
-
-# fix memory leak in netstat when run with -c option
-Patch27: net-tools-1.60-netstat-leak.patch
+Patch16: net-tools-1.60-mii-registers.patch
 
 # Don't rely on eth0 being default network device name.
 # Since Fedora 15 network devices can have arbitrary names (#682367)
-Patch28: net-tools-1.60-arbitrary-device-names.patch
-
-# plipconfig man page and usage output fixes. (#694766)
-Patch29: net-tools-1.60-plipconfig.patch
-
-# netstat: remove part starting with colon in 'PID/Program name' column (#707427)
-Patch30: net-tools-1.60-netstat-p-basename.patch
-
-# Possible problems found by static analysis of code.
-Patch31: net-tools-1.60-coverity.patch
+Patch17: net-tools-1.60-arbitrary-device-names.patch
 
 # Update for 2 digit Linux version numbers (#718610)
-Patch32: net-tools-1.60-2digit.patch
+Patch18: net-tools-1.60-2digit.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -130,38 +88,24 @@ Most of them are obsolete. For replacement check iproute package.
 
 %prep
 %setup -q -c
-%patch1 -p1 -b .isofix
-%patch2 -p1 -b .cycle
-%patch3 -p1 -b .ipx
-%patch4 -p1 -b .inet6-lookup
-%patch5 -p1 -b .man
-%patch6 -p1 -b .interface
-%patch7 -p1 -b .return
-%patch8 -p1 -b .doubleword
-%patch9 -p1 -b .bcast
-%patch10 -p1 -b .dup-tcp
-%patch11 -p1 -b .statalias
-%patch12 -p1 -b .trim-iface
-%patch13 -p1 -b .overflow
-%patch14 -p1 -b .stack
-%patch15 -p1 -b .selinux
-%patch16 -p1 -b .fgets
-%patch17 -p1 -b .x25
-%patch18 -p1 -b .sctp
-%patch19 -p1 -b .long_iface
-%patch20 -p1 -b .strncpy
-%patch21 -p1 -b .clear-flag
-%patch22 -p1 -b .probe
-%patch23 -p1 -b .scanf-format
-%patch24 -p1 -b .ib-warning
-%patch25 -p1 -b .mii-registers
-%patch26 -p1 -b .IA64
-%patch27 -p1 -b .netstat-leak
-%patch28 -p1 -b .arbitrary-device-names
-%patch29 -p1 -b .plipconfig
-%patch30 -p1 -b .p-basename
-%patch31 -p1 -b .coverity
-%patch32 -p1 -b .2digit
+%patch1 -p1 -b .cycle
+%patch2 -p1 -b .ipx
+%patch3 -p1 -b .inet6-lookup
+%patch4 -p1 -b .man
+%patch5 -p1 -b .interface
+%patch6 -p1 -b .dup-tcp
+%patch7 -p1 -b .statalias
+%patch8 -p1 -b .trim-iface
+%patch9 -p1 -b .stack
+%patch10 -p1 -b .selinux
+%patch11 -p1 -b .fgets
+%patch12 -p1 -b .sctp
+%patch13 -p1 -b .long_iface
+%patch14 -p1 -b .probe
+%patch15 -p1 -b .ib-warning
+%patch16 -p1 -b .mii-registers
+%patch17 -p1 -b .arbitrary-device-names
+%patch18 -p1 -b .2digit
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -219,6 +163,11 @@ mv man/pt_BR man/pt
 
 make BASEDIR=%{buildroot} mandir=%{_mandir} install
 
+# ifconfig and route are installed into /bin by default
+# mv them back to /sbin for now as I (jpopelka) don't think customers would be happy
+mv %{buildroot}/bin/ifconfig %{buildroot}/sbin
+mv %{buildroot}/bin/route %{buildroot}/sbin
+
 install -m 755 ether-wake %{buildroot}/sbin
 install -m 755 mii-diag %{buildroot}/sbin
 
@@ -228,7 +177,7 @@ rm %{buildroot}%{_mandir}/de/man8/rarp.8*
 rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
 rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
-#remove hostname (has its own package)
+# remove hostname (has its own package)
 rm %{buildroot}/bin/dnsdomainname
 rm %{buildroot}/bin/domainname
 rm %{buildroot}/bin/hostname
@@ -255,7 +204,17 @@ fi
 %files -f %{name}.lang
 %doc COPYING
 /bin/netstat
-/sbin/*
+/sbin/ifconfig
+/sbin/route
+/sbin/arp
+/sbin/ether-wake
+/sbin/ipmaddr
+/sbin/iptunnel
+/sbin/mii-diag
+/sbin/mii-tool
+/sbin/nameif
+/sbin/plipconfig
+/sbin/slattach
 %{_mandir}/man[58]/*
 %lang(de)  %{_mandir}/de/man[58]/*
 %lang(fr)  %{_mandir}/fr/man[58]/*
@@ -263,6 +222,12 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Jan 05 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-131.20120105git
+- next 11 patches merged upstream
+- removed bcast.patch (seems to be fixed upstream)
+- removed netstat-p-basename.patch (upstream is not happy with it)
+- netstat-leak.patch merged into duplicate-tcp.patch
+
 * Wed Dec 07 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-130.20111207git
 - removed virtualname.patch
 - added back isofix.patch

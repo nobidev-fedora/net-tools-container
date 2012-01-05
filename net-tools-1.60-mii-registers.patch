@@ -1,6 +1,6 @@
 diff -up net-tools-1.60/mii-tool.c.mii-registers net-tools-1.60/mii-tool.c
---- net-tools-1.60/mii-tool.c.mii-registers	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/mii-tool.c	2011-12-07 17:37:35.810289854 +0100
+--- net-tools-1.60/mii-tool.c.mii-registers	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/mii-tool.c	2012-01-05 13:14:54.462648840 +0100
 @@ -51,10 +51,12 @@ static char Version[] = "$Id: mii-tool.c
  #include <linux/if_arp.h>
  #include <linux/if_ether.h>
@@ -214,10 +214,10 @@ diff -up net-tools-1.60/mii-tool.c.mii-registers net-tools-1.60/mii-tool.c
 -	printf((bmsr & MII_BMSR_LINK_VALID) ? "link ok" : "no link");
 +	printf((bmsr & BMSR_LSTATUS) ? "link ok" : "no link");
  	printf("\n  capabilities:%s", media_list(bmsr >> 6, bmcr2, 0));
- 	printf("\n  advertising: %s", media_list(advert, lpa2 >> 2, 0));
+ 	printf("\n  advertising: %s", media_list(advert, bmcr2, 0));
 -	if (lkpar & MII_AN_ABILITY_MASK)
 +	if (lkpar & LPA_ABILITY_MASK)
- 	    printf("\n  link partner:%s", media_list(lkpar, bmcr2, 0));
+ 	    printf("\n  link partner:%s", media_list(lkpar, lpa2 >> 2, 0));
  	printf("\n");
      }
 @@ -340,7 +370,7 @@ int show_basic_mii(int sock, int phy_id)

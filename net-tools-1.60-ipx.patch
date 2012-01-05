@@ -29,8 +29,3 @@ diff -up net-tools-1.60/netstat.c.ipx net-tools-1.60/netstat.c
  	    safe_strncpy(buf, ap->sprint(&sa, flag_not & FLAG_NUM_HOST), sizeof(buf));
  	    snprintf(dad, sizeof(dad), "%s:%04X", buf, dport);
  	} else
-diff -up net-tools-1.60/version.h.ipx net-tools-1.60/version.h
---- net-tools-1.60/version.h.ipx	2011-12-01 17:02:53.265805240 +0100
-+++ net-tools-1.60/version.h	2011-12-01 17:02:53.265805240 +0100
-@@ -0,0 +1 @@
-+#define RELEASE "net-tools 1.60"

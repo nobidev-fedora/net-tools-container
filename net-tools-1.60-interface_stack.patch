@@ -1,6 +1,6 @@
 diff -up net-tools-1.60/include/interface.h.stack net-tools-1.60/include/interface.h
---- net-tools-1.60/include/interface.h.stack	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/include/interface.h	2011-12-06 16:14:06.477785871 +0100
+--- net-tools-1.60/include/interface.h.stack	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/include/interface.h	2012-01-05 13:00:10.564699085 +0100
 @@ -73,7 +73,7 @@ extern int do_if_print(struct interface
  
  extern int    procnetdev_version(char *buf);
@@ -11,8 +11,8 @@ diff -up net-tools-1.60/include/interface.h.stack net-tools-1.60/include/interfa
  extern void ife_print(struct interface *ptr);
  
 diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
---- net-tools-1.60/lib/interface.c.stack	2011-12-06 16:12:32.515960556 +0100
-+++ net-tools-1.60/lib/interface.c	2011-12-06 16:12:32.520960494 +0100
+--- net-tools-1.60/lib/interface.c.stack	2012-01-05 13:00:10.561699123 +0100
++++ net-tools-1.60/lib/interface.c	2012-01-05 13:03:19.522336790 +0100
 @@ -214,10 +214,11 @@ out:
      return err;
  }
@@ -26,7 +26,7 @@ diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
      while (*p) {
  	if (isspace(*p))
  	    break;
-@@ -320,9 +321,10 @@ int get_dev_fields(char *bp, struct inte
+@@ -320,20 +321,22 @@ int get_dev_fields(char *bp, struct inte
  static int if_readlist_proc(char *target)
  {
      FILE *fh;
@@ -38,21 +38,24 @@ diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
  
      fh = fopen(_PATH_PROCNET_DEV, "r");
      if (!fh) {
-@@ -330,8 +332,11 @@ static int if_readlist_proc(char *target
+ 		fprintf(stderr, _("Warning: cannot open %s (%s). Limited output.\n"),
  			_PATH_PROCNET_DEV, strerror(errno)); 
  		return -2;
- 	}	
--    fgets(buf, sizeof buf, fh);	/* eat line */
--    fgets(buf, sizeof buf, fh);
+-	}	
+-    if (fgets(buf, sizeof buf, fh))
+-		/* eat line */;
+-    if (fgets(buf, sizeof buf, fh))
+-		/* eat line */;
++	}
 +    if (getline(&line, &linelen, fh) == -1 /* eat line */
-+	|| getline(&line, &linelen, fh) == -1) {
++	|| getline(&line, &linelen, fh) == -1) { /* eat line */
 +		err = -1;
 +		goto out;
-+    }
++	}
  
  #if 0				/* pretty, but can't cope with missing fields */
      fmt = proc_gen_fmt(_PATH_PROCNET_DEV, 1, fh,
-@@ -356,13 +361,13 @@ static int if_readlist_proc(char *target
+@@ -358,13 +361,13 @@ static int if_readlist_proc(char *target
      if (!fmt)
  	return -1;
  #else
@@ -70,7 +73,7 @@ diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
  	ife = if_cache_add(name);
  	get_dev_fields(s, ife);
  	ife->statistics_valid = 1;
-@@ -377,6 +382,8 @@ static int if_readlist_proc(char *target
+@@ -379,6 +382,8 @@ static int if_readlist_proc(char *target
  #if 0
      free(fmt);
  #endif
@@ -79,7 +82,7 @@ diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
      fclose(fh);
      return err;
  }
-@@ -384,8 +391,9 @@ static int if_readlist_proc(char *target
+@@ -386,24 +391,28 @@ static int if_readlist_proc(char *target
  static int if_readlist_rep(char *target, struct interface *ife)
  {
      FILE *fh;
@@ -90,17 +93,18 @@ diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
  
      fh = fopen(_PATH_PROCNET_DEV, "r");
      if (!fh) {
-@@ -393,15 +401,18 @@ static int if_readlist_rep(char *target,
+ 		fprintf(stderr, _("Warning: cannot open %s (%s). Limited output.\n"),
  			_PATH_PROCNET_DEV, strerror(errno)); 
  		return if_readconf();
- 	}	
+-	}	
 -    fgets(buf, sizeof buf, fh);	/* eat line */
 -    fgets(buf, sizeof buf, fh);
++	}
 +    if (getline(&line, &linelen, fh) == -1 /* eat line */
-+	|| getline(&line, &linelen, fh) == -1) {
++	|| getline(&line, &linelen, fh) == -1) { /* eat line */
 +		err = -1;
 +		goto out;
-+    }
++	}
  
 -    procnetdev_vsn = procnetdev_version(buf);
 +    procnetdev_vsn = procnetdev_version(line);
@@ -115,7 +119,7 @@ diff -up net-tools-1.60/lib/interface.c.stack net-tools-1.60/lib/interface.c
  	get_dev_fields(s, ife);
  	if (target && !strcmp(target,name))
  	{
-@@ -414,6 +425,8 @@ static int if_readlist_rep(char *target,
+@@ -416,6 +425,8 @@ static int if_readlist_rep(char *target,
  	err = -1;
      }
  

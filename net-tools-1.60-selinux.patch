@@ -1,14 +1,14 @@
 diff -up net-tools-1.60/config.in.selinux net-tools-1.60/config.in
---- net-tools-1.60/config.in.selinux	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/config.in	2011-12-07 12:24:21.922245784 +0100
-@@ -91,3 +91,4 @@ bool 'InfiniBand hardware support' HAVE_
+--- net-tools-1.60/config.in.selinux	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/config.in	2012-01-05 13:04:45.359263680 +0100
+@@ -92,3 +92,4 @@ bool 'InfiniBand hardware support' HAVE_
  bool 'IP Masquerading support' HAVE_FW_MASQUERADE y
  bool 'Build iptunnel and ipmaddr' HAVE_IP_TOOLS y
  bool 'Build mii-tool' HAVE_MII y
 +bool 'SELinux support' HAVE_SELINUX n
 diff -up net-tools-1.60/Makefile.selinux net-tools-1.60/Makefile
---- net-tools-1.60/Makefile.selinux	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/Makefile	2011-12-07 12:23:00.078268978 +0100
+--- net-tools-1.60/Makefile.selinux	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/Makefile	2012-01-05 13:04:45.359263680 +0100
 @@ -114,6 +114,12 @@ endif
  
  NET_LIB = $(NET_LIB_PATH)/lib$(NET_LIB_NAME).a
@@ -23,8 +23,8 @@ diff -up net-tools-1.60/Makefile.selinux net-tools-1.60/Makefile
  LDFLAGS  += -L$(NET_LIB_PATH)
  
 diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.selinux	2011-12-07 12:23:00.040269453 +0100
-+++ net-tools-1.60/netstat.c	2011-12-07 12:23:00.079268965 +0100
+--- net-tools-1.60/netstat.c.selinux	2012-01-05 13:04:45.315264230 +0100
++++ net-tools-1.60/netstat.c	2012-01-05 13:05:42.368550965 +0100
 @@ -89,6 +89,11 @@
  #include <net/if.h>
  #include <dirent.h>
@@ -37,23 +37,23 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  #include "net-support.h"
  #include "pathnames.h"
  #include "version.h"
-@@ -100,6 +105,7 @@
- #include "proc.h"
+@@ -104,6 +109,7 @@
+ #endif
  
  #define PROGNAME_WIDTH 20
 +#define SELINUX_WIDTH 50
  
  #if !defined(s6_addr32) && defined(in6a_words)
  #define s6_addr32 in6a_words	/* libinet6			*/
-@@ -159,6 +165,7 @@ int flag_wide= 0;
- int flag_prg = 0;
- int flag_arg = 0;
+@@ -165,6 +171,7 @@ int flag_arg = 0;
  int flag_ver = 0;
+ int flag_l2cap = 0;
+ int flag_rfcomm = 0;
 +int flag_selinux = 0;
  
  FILE *procinfo;
  
-@@ -222,12 +229,17 @@ FILE *procinfo;
+@@ -228,12 +235,17 @@ FILE *procinfo;
  #define PROGNAME_WIDTH1(s) PROGNAME_WIDTH2(s)
  #define PROGNAME_WIDTH2(s) #s
  
@@ -71,7 +71,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  } *prg_hash[PRG_HASH_SIZE];
  
  static char prg_cache_loaded = 0;
-@@ -235,9 +247,12 @@ static char prg_cache_loaded = 0;
+@@ -241,9 +253,12 @@ static char prg_cache_loaded = 0;
  #define PRG_HASHIT(x) ((x) % PRG_HASH_SIZE)
  
  #define PROGNAME_BANNER "PID/Program name"
@@ -84,7 +84,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  #define PRG_LOCAL_ADDRESS "local_address"
  #define PRG_INODE	 "inode"
  #define PRG_SOCKET_PFX    "socket:["
-@@ -257,7 +272,7 @@ static char prg_cache_loaded = 0;
+@@ -263,7 +278,7 @@ static char prg_cache_loaded = 0;
  #define PATH_CMDLINE	"cmdline"
  #define PATH_CMDLINEl       strlen(PATH_CMDLINE)
  
@@ -93,7 +93,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  {
      unsigned hi = PRG_HASHIT(inode);
      struct prg_node **pnp,*pn;
-@@ -278,6 +293,14 @@ static void prg_cache_add(unsigned long
+@@ -284,6 +299,14 @@ static void prg_cache_add(unsigned long
      if (strlen(name)>sizeof(pn->name)-1) 
  	name[sizeof(pn->name)-1]='\0';
      strcpy(pn->name,name);
@@ -108,7 +108,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  }
  
  static const char *prg_cache_get(unsigned long inode)
-@@ -290,6 +313,16 @@ static const char *prg_cache_get(unsigne
+@@ -296,6 +319,16 @@ static const char *prg_cache_get(unsigne
      return("-");
  }
  
@@ -125,7 +125,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  static void prg_cache_clear(void)
  {
      struct prg_node **pnp,*pn;
-@@ -367,6 +400,7 @@ static void prg_cache_load(void)
+@@ -373,6 +406,7 @@ static void prg_cache_load(void)
      const char *cs,*cmdlp;
      DIR *dirproc=NULL,*dirfd=NULL;
      struct dirent *direproc,*direfd;
@@ -133,7 +133,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  
      if (prg_cache_loaded || !flag_prg) return;
      prg_cache_loaded=1;
-@@ -428,7 +462,15 @@ static void prg_cache_load(void)
+@@ -436,7 +470,15 @@ static void prg_cache_load(void)
  	    }
  
  	    snprintf(finbuf, sizeof(finbuf), "%s/%s", direproc->d_name, cmdlp);
@@ -150,7 +150,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  	}
  	closedir(dirfd); 
  	dirfd = NULL;
-@@ -662,6 +704,9 @@ static void finish_this_one(int uid, uns
+@@ -672,6 +714,9 @@ static void finish_this_one(int uid, uns
      }
      if (flag_prg)
  	printf(" %-" PROGNAME_WIDTHs "s",prg_cache_get(inode));
@@ -160,7 +160,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
      if (flag_opt)
  	printf(" %s", timers);
      putchar('\n');
-@@ -1484,7 +1529,9 @@ static void unix_do_one(int nr, const ch
+@@ -1495,7 +1540,9 @@ static void unix_do_one(int nr, const ch
  	printf("-       ");
      if (flag_prg)
  	printf(" %-" PROGNAME_WIDTHs "s",(has & HAS_INODE?prg_cache_get(inode):"-"));
@@ -171,7 +171,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
      printf(" %s\n", path);
  }
  
-@@ -1503,6 +1550,7 @@ static int unix_info(void)
+@@ -1514,6 +1561,7 @@ static int unix_info(void)
  
      printf(_("\nProto RefCnt Flags       Type       State         I-Node  "));
      print_progname_banner();
@@ -179,7 +179,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
      printf(_(" Path\n"));	/* xxx */
  
      {
-@@ -1802,6 +1850,7 @@ static void usage(void)
+@@ -1927,6 +1975,7 @@ static void usage(void)
      fprintf(stderr, _("        -o, --timers             display timers\n"));
      fprintf(stderr, _("        -F, --fib                display Forwarding Information Base (default)\n"));
      fprintf(stderr, _("        -C, --cache              display routing cache instead of FIB\n\n"));
@@ -187,7 +187,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  
      fprintf(stderr, _("  <Socket>={-t|--tcp} {-u|--udp} {-U|--udplite} {-w|--raw} {-x|--unix} --ax25 --ipx --netrom\n"));
      fprintf(stderr, _("  <AF>=Use '-6|-4' or '-A <af>' or '--<af>'; default: %s\n"), DFLT_AF);
-@@ -1850,6 +1899,7 @@ int main
+@@ -1977,6 +2026,7 @@ int main
  	{"cache", 0, 0, 'C'},
  	{"fib", 0, 0, 'F'},
  	{"groups", 0, 0, 'g'},
@@ -195,7 +195,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  	{NULL, 0, 0, 0}
      };
  
-@@ -1861,7 +1911,7 @@ int main
+@@ -1988,7 +2038,7 @@ int main
      getroute_init();		/* Set up AF routing support */
  
      afname[0] = '\0';
@@ -204,7 +204,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  	switch (i) {
  	case -1:
  	    break;
-@@ -1975,6 +2025,20 @@ int main
+@@ -2108,6 +2158,20 @@ int main
  	    if (aftrans_opt("unix"))
  		exit(1);
  	    break;
@@ -225,7 +225,7 @@ diff -up net-tools-1.60/netstat.c.selinux net-tools-1.60/netstat.c
  	case '?':
  	case 'h':
  	    usage();
-@@ -2101,6 +2165,7 @@ int main
+@@ -2238,6 +2302,7 @@ int main
  	    if (flag_exp > 1)
  		printf(_(" User       Inode     "));
  	    print_progname_banner();

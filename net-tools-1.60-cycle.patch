@@ -1,6 +1,6 @@
 diff -up net-tools-1.60/lib/interface.c.cycle net-tools-1.60/lib/interface.c
---- net-tools-1.60/lib/interface.c.cycle	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/lib/interface.c	2011-12-07 16:11:38.249768234 +0100
+--- net-tools-1.60/lib/interface.c.cycle	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/lib/interface.c	2012-01-05 12:46:55.872634104 +0100
 @@ -93,6 +93,7 @@ int if_list_all = 0;	/* do we have reque
  static struct interface *int_list, *int_last;
  
@@ -25,7 +25,7 @@ diff -up net-tools-1.60/lib/interface.c.cycle net-tools-1.60/lib/interface.c
  	if (err)
  	    return err;
      }
-@@ -376,6 +380,41 @@ static int if_readlist_proc(char *target
+@@ -378,6 +382,41 @@ static int if_readlist_proc(char *target
      fclose(fh);
      return err;
  }
@@ -68,8 +68,8 @@ diff -up net-tools-1.60/lib/interface.c.cycle net-tools-1.60/lib/interface.c
  int if_readlist(void) 
  { 
 diff -up net-tools-1.60/man/en_US/netstat.8.cycle net-tools-1.60/man/en_US/netstat.8
---- net-tools-1.60/man/en_US/netstat.8.cycle	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/man/en_US/netstat.8	2011-12-07 16:11:38.249768234 +0100
+--- net-tools-1.60/man/en_US/netstat.8.cycle	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/man/en_US/netstat.8	2012-01-05 12:46:55.873634091 +0100
 @@ -33,6 +33,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-verbose | \-v ]
  .RB [ \-\-continuous | \-c]
@@ -129,9 +129,9 @@ diff -up net-tools-1.60/man/en_US/netstat.8.cycle net-tools-1.60/man/en_US/netst
  .SH OUTPUT
  .P
 diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.cycle	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/netstat.c	2011-12-07 16:13:19.911497288 +0100
-@@ -106,9 +106,9 @@
+--- net-tools-1.60/netstat.c.cycle	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/netstat.c	2012-01-05 12:49:42.611549580 +0100
+@@ -110,9 +110,9 @@
  #endif
  
  /* prototypes for statistics.c */
@@ -143,7 +143,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  void inittab6(void);
  
  typedef enum {
-@@ -302,10 +302,10 @@ static void prg_cache_clear(void)
+@@ -308,10 +308,10 @@ static void prg_cache_clear(void)
      prg_cache_loaded=0;
  }
  
@@ -156,7 +156,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  }
  
  static int extract_type_1_socket_inode(const char lname[], unsigned long * inode_p) {
-@@ -1610,6 +1610,8 @@ static int ipx_info(void)
+@@ -1734,6 +1734,8 @@ static int rfcomm_info(void)
  
  static int iface_info(void)
  {
@@ -165,7 +165,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      if (skfd < 0) {
  	if ((skfd = sockets_open(0)) < 0) {
  	    perror("socket");
-@@ -1619,20 +1621,21 @@ static int iface_info(void)
+@@ -1743,20 +1745,21 @@ static int iface_info(void)
      }
      if (flag_exp < 2) {
  	ife_short = 1;
@@ -190,7 +190,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      return 0;
  }
  
-@@ -1648,7 +1651,7 @@ static void usage(void)
+@@ -1772,7 +1775,7 @@ static void usage(void)
  {
      fprintf(stderr, _("usage: netstat [-vWeenNcCF] [<Af>] -r         netstat {-V|--version|-h|--help}\n"));
      fprintf(stderr, _("       netstat [-vWnNcaeol] [<Socket> ...]\n"));
@@ -199,7 +199,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  
      fprintf(stderr, _("        -r, --route              display routing table\n"));
      fprintf(stderr, _("        -i, --interfaces         display interface table\n"));
-@@ -1685,6 +1688,7 @@ int main
+@@ -1809,6 +1812,7 @@ int main
   (int argc, char *argv[]) {
      int i;
      int lop;
@@ -207,7 +207,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      static struct option longopts[] =
      {
  	AFTRANS_OPTS,
-@@ -1844,6 +1848,12 @@ int main
+@@ -1976,6 +1980,12 @@ int main
  	    flag_sta++;
  	}
  
@@ -220,7 +220,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      if (flag_int + flag_rou + flag_mas + flag_sta > 1)
  	usage();
  
-@@ -1869,7 +1879,7 @@ int main
+@@ -2005,7 +2015,7 @@ int main
  			     flag_not & FLAG_NUM_PORT, flag_exp);
  	    if (i || !flag_cnt)
  		break;
@@ -229,7 +229,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  	}
  #else
  	ENOSUPP("netstat", "FW_MASQUERADE");
-@@ -1881,18 +1891,18 @@ int main
+@@ -2017,18 +2027,18 @@ int main
      if (flag_sta) {
          if (!afname[0])
              strcpy(afname, DFLT_AF);
@@ -251,7 +251,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  #else
              ENOSUPP("netstat", "AF INET6");
  #endif
-@@ -1900,7 +1910,11 @@ int main
+@@ -2036,7 +2046,11 @@ int main
            printf(_("netstat: No statistics support for specified address family: %s\n"), afname);
            exit(1);
          }
@@ -264,7 +264,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      }
      
      if (flag_rou) {
-@@ -1922,7 +1936,7 @@ int main
+@@ -2058,7 +2072,7 @@ int main
  	    i = route_info(afname, options);
  	    if (i || !flag_cnt)
  		break;
@@ -273,7 +273,7 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  	}
  	return (i);
      }
-@@ -1931,7 +1945,7 @@ int main
+@@ -2067,7 +2081,7 @@ int main
  	    i = iface_info();
  	    if (!flag_cnt || i)
  		break;
@@ -282,8 +282,8 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
  	}
  	return (i);
      }
-@@ -2084,7 +2098,7 @@ int main
- 	            
+@@ -2253,7 +2267,7 @@ int main
+ 
  	if (!flag_cnt || i)
  	    break;
 -        wait_continous();
@@ -292,8 +292,8 @@ diff -up net-tools-1.60/netstat.c.cycle net-tools-1.60/netstat.c
      }
      return (i);
 diff -up net-tools-1.60/statistics.c.cycle net-tools-1.60/statistics.c
---- net-tools-1.60/statistics.c.cycle	2011-11-21 02:31:57.000000000 +0100
-+++ net-tools-1.60/statistics.c	2011-12-07 16:11:38.352766947 +0100
+--- net-tools-1.60/statistics.c.cycle	2012-01-05 12:22:43.000000000 +0100
++++ net-tools-1.60/statistics.c	2012-01-05 12:46:55.877634040 +0100
 @@ -502,7 +502,7 @@ void process6_fd(FILE *f)
  
  }

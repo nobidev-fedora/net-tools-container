@@ -1,7 +1,7 @@
 diff -up net-tools-1.60/netstat.c.dup-tcp net-tools-1.60/netstat.c
---- net-tools-1.60/netstat.c.dup-tcp	2011-12-02 16:24:08.479720425 +0100
-+++ net-tools-1.60/netstat.c	2011-12-02 16:33:51.668429563 +0100
-@@ -449,6 +449,120 @@ static void prg_cache_load(void)
+--- net-tools-1.60/netstat.c.dup-tcp	2011-12-07 19:17:24.162425150 +0100
++++ net-tools-1.60/netstat.c	2011-12-07 19:18:02.161950091 +0100
+@@ -449,6 +449,121 @@ static void prg_cache_load(void)
  			 " will not be shown, you would have to be root to see it all.)\n"));
  }
  
@@ -43,6 +43,7 @@ diff -up net-tools-1.60/netstat.c.dup-tcp net-tools-1.60/netstat.c
 +      }
 +
 +      /* free the bucket itself */
++      free(tcp_node_hash[i]->socket_pair);
 +      free(tcp_node_hash[i]);
 +      tcp_node_hash[i] = NULL;
 +    }
@@ -122,7 +123,7 @@ diff -up net-tools-1.60/netstat.c.dup-tcp net-tools-1.60/netstat.c
  #if HAVE_AFNETROM
  static const char *netrom_state[] =
  {
-@@ -960,6 +1074,12 @@ static void tcp_do_one(int lnr, const ch
+@@ -960,6 +1075,12 @@ static void tcp_do_one(int lnr, const ch
  	return;
      }
  
@@ -135,7 +136,7 @@ diff -up net-tools-1.60/netstat.c.dup-tcp net-tools-1.60/netstat.c
  	addr_do_one(local_addr, sizeof(local_addr), 22, ap, &localaddr, local_port, "tcp");
  	addr_do_one(rem_addr, sizeof(rem_addr), 22, ap, &remaddr, rem_port, "tcp");
  
-@@ -2112,6 +2232,7 @@ int main
+@@ -2114,6 +2235,7 @@ int main
  	    break;
          wait_continous(reptimer);
  	prg_cache_clear();
