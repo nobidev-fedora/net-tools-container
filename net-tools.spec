@@ -1,9 +1,9 @@
-%global checkout 20120105git
+%global checkout 20120111git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 131.%{checkout}%{?dist}
+Release: 132.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -50,30 +50,14 @@ Patch9: net-tools-1.60-interface_stack.patch
 # new option for nestat, -Z shows selinux context
 Patch10: net-tools-1.60-selinux.patch
 
-# remove duplicate arp entries (#185604)
-Patch11: net-tools-1.60-fgets.patch
-
 # statistics for SCTP
-Patch12: net-tools-1.60-sctp-statistics.patch
+Patch11: net-tools-1.60-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch13: net-tools-1.60-ifconfig-long-iface-crasher.patch
+Patch12: net-tools-1.60-ifconfig-long-iface-crasher.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch14: net-tools-1.60-netstat-probe.patch
-
-# let the user know that ifconfig can correctly show only first 8 bytes of Infiniband hw address
-Patch15: net-tools-1.60-ib-warning.patch
-
-# use <linux/mii.h> instead of "mii.h" and fix Bug #491358
-Patch16: net-tools-1.60-mii-registers.patch
-
-# Don't rely on eth0 being default network device name.
-# Since Fedora 15 network devices can have arbitrary names (#682367)
-Patch17: net-tools-1.60-arbitrary-device-names.patch
-
-# Update for 2 digit Linux version numbers (#718610)
-Patch18: net-tools-1.60-2digit.patch
+Patch13: net-tools-1.60-netstat-probe.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -98,14 +82,9 @@ Most of them are obsolete. For replacement check iproute package.
 %patch8 -p1 -b .trim-iface
 %patch9 -p1 -b .stack
 %patch10 -p1 -b .selinux
-%patch11 -p1 -b .fgets
-%patch12 -p1 -b .sctp
-%patch13 -p1 -b .long_iface
-%patch14 -p1 -b .probe
-%patch15 -p1 -b .ib-warning
-%patch16 -p1 -b .mii-registers
-%patch17 -p1 -b .arbitrary-device-names
-%patch18 -p1 -b .2digit
+%patch11 -p1 -b .sctp
+%patch12 -p1 -b .long_iface
+%patch13 -p1 -b .probe
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -120,34 +99,17 @@ cp %SOURCE8 ./man/en_US
 perl -pi -e "s|-O2||" Makefile
 %endif
 
-#man pages conversion
+#man pages conversion to utf-8
 #french 
-iconv -f iso-8859-1 -t utf-8 -o arp.tmp man/fr_FR/arp.8 && mv arp.tmp man/fr_FR/arp.8
-iconv -f iso-8859-1 -t utf-8 -o ethers.tmp man/fr_FR/ethers.5 && mv ethers.tmp man/fr_FR/ethers.5
-iconv -f iso-8859-1 -t utf-8 -o hostname.tmp man/fr_FR/hostname.1 && mv hostname.tmp man/fr_FR/hostname.1
-iconv -f iso-8859-1 -t utf-8 -o ifconfig.tmp man/fr_FR/ifconfig.8 && mv ifconfig.tmp man/fr_FR/ifconfig.8
-iconv -f iso-8859-1 -t utf-8 -o netstat.tmp man/fr_FR/netstat.8 && mv netstat.tmp man/fr_FR/netstat.8
-iconv -f iso-8859-1 -t utf-8 -o plipconfig.tmp man/fr_FR/plipconfig.8 && mv plipconfig.tmp man/fr_FR/plipconfig.8
-iconv -f iso-8859-1 -t utf-8 -o rarp.tmp man/fr_FR/rarp.8 && mv rarp.tmp man/fr_FR/rarp.8
-iconv -f iso-8859-1 -t utf-8 -o route.tmp man/fr_FR/route.8 && mv route.tmp man/fr_FR/route.8
-iconv -f iso-8859-1 -t utf-8 -o slattach.tmp man/fr_FR/slattach.8 && mv slattach.tmp man/fr_FR/slattach.8
+for file in arp.8 ethers.5 ifconfig.8 netstat.8 plipconfig.8 route.8 slattach.8; do
+    iconv -f ISO-8859-1 -t UTF-8 -o ${file}.new man/fr_FR/${file} && \
+    mv ${file}.new man/fr_FR/${file}
+done
 #portugal
-iconv -f iso-8859-1 -t utf-8 -o arp.tmp man/pt_BR/arp.8 && mv arp.tmp man/pt_BR/arp.8
-iconv -f iso-8859-1 -t utf-8 -o hostname.tmp man/pt_BR/hostname.1 && mv hostname.tmp man/pt_BR/hostname.1
-iconv -f iso-8859-1 -t utf-8 -o ifconfig.tmp man/pt_BR/ifconfig.8 && mv ifconfig.tmp man/pt_BR/ifconfig.8
-iconv -f iso-8859-1 -t utf-8 -o netstat.tmp man/pt_BR/netstat.8 && mv netstat.tmp man/pt_BR/netstat.8
-iconv -f iso-8859-1 -t utf-8 -o rarp.tmp man/pt_BR/rarp.8 && mv rarp.tmp man/pt_BR/rarp.8
-iconv -f iso-8859-1 -t utf-8 -o route.tmp man/pt_BR/route.8 && mv route.tmp man/pt_BR/route.8
-#german
-iconv -f iso-8859-1 -t utf-8 -o arp.tmp man/de_DE/arp.8 && mv arp.tmp man/de_DE/arp.8
-iconv -f iso-8859-1 -t utf-8 -o ethers.tmp man/de_DE/ethers.5 && mv ethers.tmp man/de_DE/ethers.5
-iconv -f iso-8859-1 -t utf-8 -o hostname.tmp man/de_DE/hostname.1 && mv hostname.tmp man/de_DE/hostname.1
-iconv -f iso-8859-1 -t utf-8 -o ifconfig.tmp man/de_DE/ifconfig.8 && mv ifconfig.tmp man/de_DE/ifconfig.8
-iconv -f iso-8859-1 -t utf-8 -o netstat.tmp man/de_DE/netstat.8 && mv netstat.tmp man/de_DE/netstat.8
-iconv -f iso-8859-1 -t utf-8 -o plipconfig.tmp man/de_DE/plipconfig.8 && mv plipconfig.tmp man/de_DE/plipconfig.8
-iconv -f iso-8859-1 -t utf-8 -o rarp.tmp man/de_DE/rarp.8 && mv rarp.tmp man/de_DE/rarp.8
-iconv -f iso-8859-1 -t utf-8 -o route.tmp man/de_DE/route.8 && mv route.tmp man/de_DE/route.8
-iconv -f iso-8859-1 -t utf-8 -o slattach.tmp man/de_DE/slattach.8 && mv slattach.tmp man/de_DE/slattach.8
+for file in arp.8 ifconfig.8 netstat.8 route.8; do
+    iconv -f ISO-8859-1 -t UTF-8 -o ${file}.new man/pt_BR/${file} && \
+    mv ${file}.new man/pt_BR/${file}
+done
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
@@ -222,6 +184,11 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Jan 11 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-132.20120111git
+- 3 patches merged upstream
+- removed 2digit.patch (#718610)
+- removed fgets.patch (probably not needed anymore)
+
 * Thu Jan 05 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-131.20120105git
 - next 11 patches merged upstream
 - removed bcast.patch (seems to be fixed upstream)

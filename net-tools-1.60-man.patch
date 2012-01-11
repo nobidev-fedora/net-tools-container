@@ -184,7 +184,7 @@ diff -up net-tools-1.60/man/en_US/mii-tool.8.man net-tools-1.60/man/en_US/mii-to
 +++ net-tools-1.60/man/en_US/mii-tool.8	2011-12-06 13:38:28.400527901 +0100
 @@ -18,6 +18,12 @@ mii\-tool \- view, manipulate media-inde
  [\fB\-F\fR, \fB\-\-force=\fImedia\fR]
- .RI [ "interface\ ..." ]
+ .RI "interface\ ..."
  
 +.SH NOTE
 +.P 
