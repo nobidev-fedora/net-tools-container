@@ -1,9 +1,9 @@
-%global checkout 20120111git
+%global checkout 20120119git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 132.%{checkout}%{?dist}
+Release: 133.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -47,17 +47,14 @@ Patch8: net-tools-1.60-trim_iface.patch
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
 Patch9: net-tools-1.60-interface_stack.patch
 
-# new option for nestat, -Z shows selinux context
-Patch10: net-tools-1.60-selinux.patch
-
 # statistics for SCTP
-Patch11: net-tools-1.60-sctp-statistics.patch
+Patch10: net-tools-1.60-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch12: net-tools-1.60-ifconfig-long-iface-crasher.patch
+Patch11: net-tools-1.60-ifconfig-long-iface-crasher.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch13: net-tools-1.60-netstat-probe.patch
+Patch12: net-tools-1.60-netstat-probe.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -81,10 +78,9 @@ Most of them are obsolete. For replacement check iproute package.
 %patch7 -p1 -b .statalias
 %patch8 -p1 -b .trim-iface
 %patch9 -p1 -b .stack
-%patch10 -p1 -b .selinux
-%patch11 -p1 -b .sctp
-%patch12 -p1 -b .long_iface
-%patch13 -p1 -b .probe
+%patch10 -p1 -b .sctp
+%patch11 -p1 -b .long_iface
+%patch12 -p1 -b .probe
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -154,7 +150,7 @@ rm -rf %{buildroot}%{_mandir}/pt/man1
 mkdir -p %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 
-%find_lang %{name}
+%find_lang %{name} --all-name --with-man
 
 %post
 # Initial installation
@@ -178,12 +174,14 @@ fi
 /sbin/plipconfig
 /sbin/slattach
 %{_mandir}/man[58]/*
-%lang(de)  %{_mandir}/de/man[58]/*
-%lang(fr)  %{_mandir}/fr/man[58]/*
-%lang(pt)  %{_mandir}/pt/man[58]/*
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Jan 19 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-133.20120119git
+- SELinux patch merged upstream
+- several page fixes merged upstream
+- mark localized man pages with %%lang
+
 * Wed Jan 11 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-132.20120111git
 - 3 patches merged upstream
 - removed 2digit.patch (#718610)
