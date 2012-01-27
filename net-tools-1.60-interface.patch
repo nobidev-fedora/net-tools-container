@@ -44,7 +44,7 @@ diff -up net-tools-1.60/netstat.c.interface net-tools-1.60/netstat.c
      if (skfd < 0) {
  	if ((skfd = sockets_open(0)) < 0) {
 @@ -1800,7 +1802,11 @@ static int iface_info(void)
- 	    printf(_("Iface   MTU Met   RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
+ 	    printf(_("Iface      MTU    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
      }
  
 -    if (for_all_interfaces(do_if_print, &flag_all) < 0) {

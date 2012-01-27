@@ -1,9 +1,9 @@
-%global checkout 20120119git
+%global checkout 20120127git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 133.%{checkout}%{?dist}
+Release: 134.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -41,20 +41,17 @@ Patch6: net-tools-1.60-duplicate-tcp.patch
 # don't report statistics for virtual devices (#143981)
 Patch7: net-tools-1.60-statalias.patch
 
-# don't trim interface names to 5 characters in 'netstat -i' or 'ifconfig -s' (#152457)
-Patch8: net-tools-1.60-trim_iface.patch
-
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch9: net-tools-1.60-interface_stack.patch
+Patch8: net-tools-1.60-interface_stack.patch
 
 # statistics for SCTP
-Patch10: net-tools-1.60-sctp-statistics.patch
+Patch9: net-tools-1.60-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch11: net-tools-1.60-ifconfig-long-iface-crasher.patch
+Patch10: net-tools-1.60-ifconfig-long-iface-crasher.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch12: net-tools-1.60-netstat-probe.patch
+Patch11: net-tools-1.60-netstat-probe.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -76,11 +73,10 @@ Most of them are obsolete. For replacement check iproute package.
 %patch5 -p1 -b .interface
 %patch6 -p1 -b .dup-tcp
 %patch7 -p1 -b .statalias
-%patch8 -p1 -b .trim-iface
-%patch9 -p1 -b .stack
-%patch10 -p1 -b .sctp
-%patch11 -p1 -b .long_iface
-%patch12 -p1 -b .probe
+%patch8 -p1 -b .stack
+%patch9 -p1 -b .sctp
+%patch10 -p1 -b .long_iface
+%patch11 -p1 -b .probe
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -94,18 +90,6 @@ cp %SOURCE8 ./man/en_US
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
 %endif
-
-#man pages conversion to utf-8
-#french 
-for file in arp.8 ethers.5 ifconfig.8 netstat.8 plipconfig.8 route.8 slattach.8; do
-    iconv -f ISO-8859-1 -t UTF-8 -o ${file}.new man/fr_FR/${file} && \
-    mv ${file}.new man/fr_FR/${file}
-done
-#portugal
-for file in arp.8 ifconfig.8 netstat.8 route.8; do
-    iconv -f ISO-8859-1 -t UTF-8 -o ${file}.new man/pt_BR/${file} && \
-    mv ${file}.new man/pt_BR/${file}
-done
 
 %build
 export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
@@ -177,6 +161,11 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Jan 27 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-134.20120127git
+- Do not show interface metric in 'ifconfig', 'ifconfig -s' and 'netstat -i'.
+  Spare place is used for interface name so trim_iface.patch is no longer needed.
+- No need to convert man pages to utf-8 as upstream ship them in utf-8 now.
+
 * Thu Jan 19 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-133.20120119git
 - SELinux patch merged upstream
 - several page fixes merged upstream
