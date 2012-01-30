@@ -1,12 +1,12 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 125%{?dist}
+Release: 126%{?dist}
 License: GPL+
 Group: System Environment/Base
-URL: http://net-tools.berlios.de/
+URL: http://net-tools.sourceforge.net
 
-Source0: http://www.tazenda.demon.co.uk/phil/net-tools/net-tools-%{version}.tar.bz2
+Source0: http://downloads.sourceforge.net/net-tools/net-tools-%{version}.tar.bz2
 Source1: net-tools-%{version}-config.h
 Source2: net-tools-%{version}-config.make
 Source3: ether-wake.c
@@ -293,7 +293,6 @@ gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
 gcc $RPM_OPT_FLAGS -o mii-diag mii-diag.c
 
 %install
-rm -rf %{buildroot}
 mv man/de_DE man/de
 mv man/fr_FR man/fr
 mv man/pt_BR man/pt
@@ -334,17 +333,19 @@ fi
 
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc COPYING
 /bin/netstat
 /sbin/*
 %{_mandir}/man[58]/*
-%lang(de)	%{_mandir}/de/man[58]/*
-%lang(fr)	%{_mandir}/fr/man[58]/*
-%lang(pt)	%{_mandir}/pt/man[58]/*
+%lang(de)       %{_mandir}/de/man[58]/*
+%lang(fr)       %{_mandir}/fr/man[58]/*
+%lang(pt)       %{_mandir}/pt/man[58]/*
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Jan 30 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-126
+- Minor spec file changes.
+
 * Mon Oct 03 2011 Jiri Popelka <jpopelka@redhat.com> - 1.60-125
 - Fixed ether-wake(8) and mii-diag(8) man pages (#742629)
 
