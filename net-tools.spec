@@ -1,9 +1,9 @@
-%global checkout 20120127git
+%global checkout 20120509git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 134.%{checkout}%{?dist}
+Release: 135.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -56,7 +56,6 @@ Patch11: net-tools-1.60-netstat-probe.patch
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
-Requires: hostname
 Requires(post): systemd-units
 
 %description
@@ -161,6 +160,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed May 09 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-135.20120509git
+- don't require hostname package
+
 * Fri Jan 27 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-134.20120127git
 - Do not show interface metric in 'ifconfig', 'ifconfig -s' and 'netstat -i'.
   Spare place is used for interface name so trim_iface.patch is no longer needed.
