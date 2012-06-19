@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 135.%{checkout}%{?dist}
+Release: 136.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -160,6 +160,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Jun 19 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-136.20120509git
+- better SCTP support (#826676)
+
 * Wed May 09 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-135.20120509git
 - don't require hostname package
 
