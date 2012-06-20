@@ -51,7 +51,7 @@
 #define HAVE_HWPPP 1
 #define HAVE_HWTUNNEL 1
 #define HAVE_HWSTRIP 1
-#define HAVE_HWTR 1
+#define HAVE_HWTR 0
 #define HAVE_HWAX25 1
 #define HAVE_HWROSE 1
 #define HAVE_HWNETROM 1

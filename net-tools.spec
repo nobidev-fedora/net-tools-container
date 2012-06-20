@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 136.%{checkout}%{?dist}
+Release: 137.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -160,6 +160,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Jun 20 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-137.20120509git
+- compile without Token ring support (http://lwn.net/Articles/497397/)
+
 * Tue Jun 19 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-136.20120509git
 - better SCTP support (#826676)
 
