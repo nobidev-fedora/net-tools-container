@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 139.%{checkout}%{?dist}
+Release: 140.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -136,11 +136,7 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %find_lang %{name} --all-name --with-man
 
 %post
-# Initial installation
-if [ $1 -eq 1 ] ; then 
-    /bin/systemctl enable arp-ethers.service >/dev/null 2>&1 || :
-fi
-
+%systemd_post arp-ethers.service
 
 %files -f %{name}.lang
 %doc COPYING
@@ -160,6 +156,9 @@ fi
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Aug 22 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-140.20120702git
+- use new systemd-rpm macros (#850225)
+
 * Fri Jul 20 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.60-139.20120702git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
