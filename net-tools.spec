@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 142.%{checkout}%{?dist}
+Release: 143.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -95,7 +95,12 @@ perl -pi -e "s|-O2||" Makefile
 %endif
 
 %build
+# Sparc and s390 arches need to use -fPIE
+%ifarch sparcv9 sparc64 s390 s390x
+export CFLAGS="$RPM_OPT_FLAGS $CFLAGS -fPIE"
+%else
 export CFLAGS="$RPM_OPT_FLAGS $CFLAGS -fpie"
+%endif
 # RHBZ #853193
 export LDFLAGS="$LDFLAGS -pie -Wl,-z,relro -Wl,-z,now"
 
@@ -162,6 +167,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Sep 05 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-143.20120702git
+- Sparc and s390 arches need to use -fPIE
+
 * Wed Sep 05 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-142.20120702git
 - compile with PIE and full RELRO flags (#853193)
 
