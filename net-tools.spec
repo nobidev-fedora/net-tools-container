@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 141.%{checkout}%{?dist}
+Release: 142.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -95,7 +95,9 @@ perl -pi -e "s|-O2||" Makefile
 %endif
 
 %build
-export CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
+export CFLAGS="$RPM_OPT_FLAGS $CFLAGS -fpie"
+# RHBZ #853193
+export LDFLAGS="$LDFLAGS -pie -Wl,-z,relro -Wl,-z,now"
 
 make
 gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
@@ -160,6 +162,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Sep 05 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-142.20120702git
+- compile with PIE and full RELRO flags (#853193)
+
 * Wed Aug 22 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-141.20120702git
 - fixed building with kernel-3.6
 
