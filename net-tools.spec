@@ -1,9 +1,9 @@
-%global checkout 20120702git
+%global checkout 20120917git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 143.%{checkout}%{?dist}
+Release: 144.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -167,6 +167,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Sep 17 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-144.20120917git
+- upstream git snapshot
+
 * Wed Sep 05 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-143.20120702git
 - Sparc and s390 arches need to use -fPIE
 

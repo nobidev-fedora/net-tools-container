@@ -1,59 +1,3 @@
-diff -up net-tools-1.60/man/de_DE/arp.8.man net-tools-1.60/man/de_DE/arp.8
---- net-tools-1.60/man/de_DE/arp.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/de_DE/arp.8	2012-01-19 15:15:09.084290679 +0100
-@@ -174,8 +174,10 @@ Flagge.
- .I /etc/hosts
- .br
- .I /etc/ethers
-+
- .SH SIEHE AUCH
--ethers(5), rarp(8), route(8), ifconfig(8), netstat(8)
-+.BR ip(8)
-+
- .SH AUTOREN
- Fred N. van Kempen, <waltje@uwalt.nl.mugnet.org> mit vielen Verbesserungen vom
- Verwalter der Net-Tools Bernd Eckenfels <net-tools@lina.inka.de>.
-diff -up net-tools-1.60/man/de_DE/ifconfig.8.man net-tools-1.60/man/de_DE/ifconfig.8
---- net-tools-1.60/man/de_DE/ifconfig.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/de_DE/ifconfig.8	2012-01-19 15:15:09.085290666 +0100
-@@ -191,7 +191,8 @@ Kommando gemacht werden.
- W\(:ahrend AppleTalk DDP und IPX Adressen angezeigt werden, k\(:onnen sie mit
- diesem Kommando nicht ge\(:andert werden.
- .SH SIEHE AUCH
--route(8), netstat(8), arp(8), rarp(8), iptables(8)
-+.BR ip(8),
-+.BR iptables(8)
- .SH AUTOREN
- Fred N. van Kempen, <waltje@uwalt.nl.mugnet.org>
- .br
-diff -up net-tools-1.60/man/de_DE/netstat.8.man net-tools-1.60/man/de_DE/netstat.8
---- net-tools-1.60/man/de_DE/netstat.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/de_DE/netstat.8	2012-01-19 15:15:09.085290666 +0100
-@@ -475,9 +475,9 @@ Befehl explizite Regeln zugef\(:ugt werd
- 
- .PP
- .SH SIEHE AUCH
--.BR route (8), 
--.BR ifconfig (8), 
--.BR iptables (8)
-+.BR ss(8),
-+.BR ip(8),
-+.BR iptables(8)
- 
- .PP
- .SH PROBLEME
-diff -up net-tools-1.60/man/de_DE/route.8.man net-tools-1.60/man/de_DE/route.8
---- net-tools-1.60/man/de_DE/route.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/de_DE/route.8	2012-01-19 15:15:09.086290653 +0100
-@@ -334,7 +334,7 @@ Nur wenn die Hardwareadresse f\(:ur die
- .I /proc/net/rt_cache
- .LP
- .SH SIEHE AUCH
--.I ifconfig(8), netstat(8), arp(8), rarp(8)
-+.BR ip(8)
- .LP
- .SH GESCHICHTE
- .B Route
 diff -up net-tools-1.60/man/en_US/arp.8.man net-tools-1.60/man/en_US/arp.8
 --- net-tools-1.60/man/en_US/arp.8.man	2012-01-16 15:34:09.000000000 +0100
 +++ net-tools-1.60/man/en_US/arp.8	2012-01-19 15:15:09.086290653 +0100
@@ -167,21 +111,6 @@ diff -up net-tools-1.60/man/en_US/nameif.8.man net-tools-1.60/man/en_US/nameif.8
 diff -up net-tools-1.60/man/en_US/netstat.8.man net-tools-1.60/man/en_US/netstat.8
 --- net-tools-1.60/man/en_US/netstat.8.man	2012-01-19 15:15:09.066290903 +0100
 +++ net-tools-1.60/man/en_US/netstat.8	2012-01-19 15:15:09.088290628 +0100
-@@ -101,6 +101,14 @@ netstat \- Print network connections, ro
- .RB [ \-\-ddp | \-\-appletalk ]
- .RB [ \-\-econet | \-\-ec ]
- 
-+.SH NOTE
-+.P 
-+This program is obsolete.
-+Replacement for \fBnetstat\fR is \fBss\fR.
-+Replacement for \fBnetstat -r\fR is \fBip route\fR.
-+Replacement for \fBnetstat -i\fR is \fBip -s link\fR.
-+Replacement for \fBnetstat -g\fR is \fBip maddr\fR.
-+
- .SH DESCRIPTION
- .B Netstat
- prints information about the Linux networking subsystem.  The type of
 @@ -187,7 +195,8 @@ Show the PID and name of the program to
  .SS "\-l, \-\-listening"
  Show only listening sockets.  (These are omitted by default.)
@@ -192,19 +121,6 @@ diff -up net-tools-1.60/man/en_US/netstat.8.man net-tools-1.60/man/en_US/netstat
  .B \-\-interfaces
  option, show interfaces that are not up
  .SS "\-F"
-@@ -458,9 +467,9 @@ status information via the following fil
- .fi
- .P
- .SH SEE ALSO
--.BR route (8), 
--.BR ifconfig (8), 
--.BR iptables (8),
-+.BR ss(8),
-+.BR ip(8),
-+.BR iptables(8),
- .BR proc (5)
- .P
- .SH BUGS
 diff -up net-tools-1.60/man/en_US/route.8.man net-tools-1.60/man/en_US/route.8
 --- net-tools-1.60/man/en_US/route.8.man	2012-01-16 15:34:09.000000000 +0100
 +++ net-tools-1.60/man/en_US/route.8	2012-01-19 15:15:09.089290616 +0100
@@ -228,84 +144,4 @@ diff -up net-tools-1.60/man/en_US/route.8.man net-tools-1.60/man/en_US/route.8
 +.BR ip(8)
  .LP
  .SH HISTORY
- .B Route
-diff -up net-tools-1.60/man/fr_FR/ifconfig.8.man net-tools-1.60/man/fr_FR/ifconfig.8
---- net-tools-1.60/man/fr_FR/ifconfig.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/fr_FR/ifconfig.8	2012-01-19 15:15:09.089290616 +0100
-@@ -194,7 +194,8 @@ comptabilité particulières pour l'adre
- Même si les adresses appletalk DDP et IPX peuvent être affichées,
- elles ne peuvent être modifiées avec cette commande.
- .SH VOIR AUSSI
--route(8), netstat(8), arp(8), rarp(8), iptables(8)
-+.BR ip(8),
-+.BR iptables(8)
- .SH AUTHORS
- Fred N. van Kempen, <waltje@uwalt.nl.mugnet.org>
- .br
-diff -up net-tools-1.60/man/fr_FR/netstat.8.man net-tools-1.60/man/fr_FR/netstat.8
---- net-tools-1.60/man/fr_FR/netstat.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/fr_FR/netstat.8	2012-01-19 15:15:49.834781228 +0100
-@@ -468,8 +468,8 @@ devez définir des règles spécifiques
- 
- .PP
- .SH VOIR AUSSI
--.BR route (8), 
--.BR ifconfig (8), 
-+.BR ss (8), 
-+.BR ip (8), 
- .BR iptables (8)
- 
- .PP
-diff -up net-tools-1.60/man/fr_FR/route.8.man net-tools-1.60/man/fr_FR/route.8
---- net-tools-1.60/man/fr_FR/route.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/fr_FR/route.8	2012-01-19 15:15:09.090290604 +0100
-@@ -320,7 +320,7 @@ à jour.
- .I /proc/net/rt_cache
- .LP
- .SH VOIR AUSSI
--.I ifconfig(8), netstat(8), arp(8), rarp(8)
-+.BR ip(8)
- .LP
- .SH HISTORIQUE
- .B Route 
-diff -up net-tools-1.60/man/pt_BR/ifconfig.8.man net-tools-1.60/man/pt_BR/ifconfig.8
---- net-tools-1.60/man/pt_BR/ifconfig.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/pt_BR/ifconfig.8	2012-01-19 15:15:09.090290604 +0100
-@@ -158,7 +158,8 @@ endereços usando o comando
- Os endereços appletalk DDP e IPX serão mostrados, mas não podem ser alterados
- com este comando.
- .SH VEJA TAMBÉM
--route(8), netstat(8), arp(8), rarp(8), iptables(8)
-+.BR ip(8),
-+.BR iptables(8)
- .SH AUTORES
- Fred N. van Kempen, <waltje@uwalt.nl.mugnet.org>
- Alan Cox, <Alan.Cox@linux.org>
-diff -up net-tools-1.60/man/pt_BR/netstat.8.man net-tools-1.60/man/pt_BR/netstat.8
---- net-tools-1.60/man/pt_BR/netstat.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/pt_BR/netstat.8	2012-01-19 15:15:09.091290592 +0100
-@@ -434,9 +434,9 @@ configurar regras explícitas usando o c
- 
- .PP
- .SH VEJA TAMBÉM
--.BR route (8), 
--.BR ifconfig (8), 
--.BR iptables (8)
-+.BR ss(8),
-+.BR ip(8),
-+.BR iptables(8)
- 
- .PP
- .SH BUGS
-diff -up net-tools-1.60/man/pt_BR/route.8.man net-tools-1.60/man/pt_BR/route.8
---- net-tools-1.60/man/pt_BR/route.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/pt_BR/route.8	2012-01-19 15:15:09.092290580 +0100
-@@ -312,7 +312,7 @@ parâmetros do protocolo TCP sem esperar
- .I /etc/init.d/network
- .LP
- .SH VEJA TAMBÉM
--.I ifconfig(8), netstat(8), arp(8)
-+.BR ip(8)
- .LP
- .SH HISTÓRICO
  .B Route
