@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 1.60
-Release: 144.%{checkout}%{?dist}
+Release: 145.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
@@ -53,9 +53,6 @@ Patch10: net-tools-1.60-ifconfig-long-iface-crasher.patch
 # fixed tcp timers info in netstat (#466845)
 Patch11: net-tools-1.60-netstat-probe.patch
 
-# kernel 3.6 removes linux/if_strip.h
-Patch12: net-tools-1.60-STRIP.patch
-
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -79,7 +76,6 @@ Most of them are obsolete. For replacement check iproute package.
 %patch9 -p1 -b .sctp
 %patch10 -p1 -b .long_iface
 %patch11 -p1 -b .probe
-%patch12 -p1 -b .STRIP
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -167,6 +163,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Oct 01 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-145.20120917git
+- compile without STRIP (Metricom radio) support
+
 * Mon Sep 17 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-144.20120917git
 - upstream git snapshot
 
