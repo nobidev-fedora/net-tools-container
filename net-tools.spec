@@ -1,17 +1,17 @@
-%global checkout 20120917git
+%global checkout 20121004git
 
 Summary: Basic networking tools
 Name: net-tools
-Version: 1.60
-Release: 145.%{checkout}%{?dist}
+Version: 2.0
+Release: 0.1.%{checkout}%{?dist}
 License: GPL+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
 
 # git archive --format=tar --remote=git://net-tools.git.sourceforge.net/gitroot/net-tools/net-tools master | xz > net-tools-%%{version}.%%{checkout}.tar.xz
 Source0: net-tools-%{version}.%{checkout}.tar.xz
-Source1: net-tools-%{version}-config.h
-Source2: net-tools-%{version}-config.make
+Source1: net-tools-config.h
+Source2: net-tools-config.make
 Source3: ether-wake.c
 Source4: ether-wake.8
 Source5: mii-diag.c
@@ -21,37 +21,41 @@ Source8: ipmaddr.8
 Source9: arp-ethers.service
 
 # adds <delay> option that allows netstat to cycle printing through statistics every delay seconds.
-Patch1: net-tools-1.60-cycle.patch
+Patch1: net-tools-cycle.patch
 
 # Fixed incorrect address display for ipx (#46434)
-Patch2: net-tools-1.60-ipx.patch
+Patch2: net-tools-ipx.patch
 
 # hostname lookup problems with route --inet6 (#84108)
-Patch3: net-tools-1.60-inet6-lookup.patch
+Patch3: net-tools-inet6-lookup.patch
 
 # various man page fixes merged into one patch
-Patch4: net-tools-1.60-man.patch
+Patch4: net-tools-man.patch
 
 # netstat: interface option now works as described in the man page (#61113, #115987)
-Patch5: net-tools-1.60-interface.patch
+Patch5: net-tools-interface.patch
 
 # filter out duplicate tcp entries (#139407)
-Patch6: net-tools-1.60-duplicate-tcp.patch
+Patch6: net-tools-duplicate-tcp.patch
 
 # don't report statistics for virtual devices (#143981)
-Patch7: net-tools-1.60-statalias.patch
+Patch7: net-tools-statalias.patch
 
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch8: net-tools-1.60-interface_stack.patch
+Patch8: net-tools-interface_stack.patch
 
 # statistics for SCTP
-Patch9: net-tools-1.60-sctp-statistics.patch
+Patch9: net-tools-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch10: net-tools-1.60-ifconfig-long-iface-crasher.patch
+Patch10: net-tools-ifconfig-long-iface-crasher.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch11: net-tools-1.60-netstat-probe.patch
+Patch11: net-tools-netstat-probe.patch
+
+# the git snapshot we ship is actually much more a
+# 2.0 pre-release then 1.60 post-release
+Patch12: net-tools-version-bump-to-2.0.patch
 
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -76,6 +80,7 @@ Most of them are obsolete. For replacement check iproute package.
 %patch9 -p1 -b .sctp
 %patch10 -p1 -b .long_iface
 %patch11 -p1 -b .probe
+%patch12 -p1 -b .bump
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -163,6 +168,10 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Oct 04 2012 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.1.20121004git
+- the git snapshot we ship is actually much more a
+  2.0 pre-release then 1.60 post-release
+
 * Mon Oct 01 2012 Jiri Popelka <jpopelka@redhat.com> - 1.60-145.20120917git
 - compile without STRIP (Metricom radio) support
 

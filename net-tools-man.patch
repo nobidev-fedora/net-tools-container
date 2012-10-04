@@ -1,6 +1,6 @@
-diff -up net-tools-1.60/man/en_US/arp.8.man net-tools-1.60/man/en_US/arp.8
---- net-tools-1.60/man/en_US/arp.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/en_US/arp.8	2012-01-19 15:15:09.086290653 +0100
+diff -up net-tools-2.0/man/en_US/arp.8.man net-tools-2.0/man/en_US/arp.8
+--- net-tools-2.0/man/en_US/arp.8.man	2012-10-01 07:40:47.000000000 +0200
++++ net-tools-2.0/man/en_US/arp.8	2012-10-04 11:30:07.668188620 +0200
 @@ -63,6 +63,10 @@ arp \- manipulate the system ARP cache
  .B \-f 
  .RI [ filename ]
@@ -20,9 +20,9 @@ diff -up net-tools-1.60/man/en_US/arp.8.man net-tools-1.60/man/en_US/arp.8
 +.BR ip(8)
  .SH AUTHORS
  Fred N. van Kempen <waltje@uwalt.nl.mugnet.org>, Bernd Eckenfels <net\-tools@lina.inka.de>.
-diff -up net-tools-1.60/man/en_US/ethers.5.man net-tools-1.60/man/en_US/ethers.5
---- net-tools-1.60/man/en_US/ethers.5.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/en_US/ethers.5	2012-01-19 15:15:09.087290640 +0100
+diff -up net-tools-2.0/man/en_US/ethers.5.man net-tools-2.0/man/en_US/ethers.5
+--- net-tools-2.0/man/en_US/ethers.5.man	2012-10-01 07:40:47.000000000 +0200
++++ net-tools-2.0/man/en_US/ethers.5	2012-10-04 11:30:07.669188608 +0200
 @@ -26,6 +26,3 @@ can be resolved by DNS or a dot separate
  .SH FILES \"{{{
  /etc/ethers
@@ -30,9 +30,9 @@ diff -up net-tools-1.60/man/en_US/ethers.5.man net-tools-1.60/man/en_US/ethers.5
 -.SH "SEE ALSO" \"{{{
 -rarp(8)
 -.\"}}}
-diff -up net-tools-1.60/man/en_US/ifconfig.8.man net-tools-1.60/man/en_US/ifconfig.8
---- net-tools-1.60/man/en_US/ifconfig.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/en_US/ifconfig.8	2012-01-19 15:15:09.087290640 +0100
+diff -up net-tools-2.0/man/en_US/ifconfig.8.man net-tools-2.0/man/en_US/ifconfig.8
+--- net-tools-2.0/man/en_US/ifconfig.8.man	2012-10-01 07:40:47.000000000 +0200
++++ net-tools-2.0/man/en_US/ifconfig.8	2012-10-04 11:30:07.669188608 +0200
 @@ -5,6 +5,13 @@ ifconfig \- configure a network interfac
  .B "ifconfig [-v] [-a] [-s] [interface]"
  .br
@@ -47,7 +47,7 @@ diff -up net-tools-1.60/man/en_US/ifconfig.8.man net-tools-1.60/man/en_US/ifconf
  .SH DESCRIPTION
  .B Ifconfig
  is used to configure the kernel-resident network interfaces.  It is
-@@ -225,7 +232,8 @@ package to display link layer informatio
+@@ -222,7 +229,8 @@ package to display link layer informatio
  While appletalk DDP and IPX addresses will be displayed they cannot be
  altered by this command.
  .SH SEE ALSO
@@ -57,9 +57,9 @@ diff -up net-tools-1.60/man/en_US/ifconfig.8.man net-tools-1.60/man/en_US/ifconf
  .br
  http://physics.nist.gov/cuu/Units/binary.html - Prefixes for binary multiples
  .SH AUTHORS
-diff -up net-tools-1.60/man/en_US/mii-tool.8.man net-tools-1.60/man/en_US/mii-tool.8
---- net-tools-1.60/man/en_US/mii-tool.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/en_US/mii-tool.8	2012-01-19 15:15:09.087290640 +0100
+diff -up net-tools-2.0/man/en_US/mii-tool.8.man net-tools-2.0/man/en_US/mii-tool.8
+--- net-tools-2.0/man/en_US/mii-tool.8.man	2012-10-01 07:40:47.000000000 +0200
++++ net-tools-2.0/man/en_US/mii-tool.8	2012-10-04 11:30:07.669188608 +0200
 @@ -18,6 +18,10 @@ mii\-tool \- view, manipulate media-inde
  [\fB\-F\fR, \fB\-\-force=\fImedia\fR]
  .RI "interface\ ..."
@@ -81,9 +81,9 @@ diff -up net-tools-1.60/man/en_US/mii-tool.8.man net-tools-1.60/man/en_US/mii-to
  .SH AUTHORS
  David Hinds \- dhinds@pcmcia.sourceforge.org
  .br
-diff -up net-tools-1.60/man/en_US/nameif.8.man net-tools-1.60/man/en_US/nameif.8
---- net-tools-1.60/man/en_US/nameif.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/en_US/nameif.8	2012-01-19 15:15:09.088290628 +0100
+diff -up net-tools-2.0/man/en_US/nameif.8.man net-tools-2.0/man/en_US/nameif.8
+--- net-tools-2.0/man/en_US/nameif.8.man	2012-10-01 07:40:47.000000000 +0200
++++ net-tools-2.0/man/en_US/nameif.8	2012-10-04 11:30:07.670188596 +0200
 @@ -5,6 +5,12 @@ nameif \- name network interfaces based
  .B "nameif [\-c configfile] [\-s]"
  .br
@@ -108,10 +108,10 @@ diff -up net-tools-1.60/man/en_US/nameif.8.man net-tools-1.60/man/en_US/nameif.8
 +
  .SH BUGS
  Only works for Ethernet currently.
-diff -up net-tools-1.60/man/en_US/netstat.8.man net-tools-1.60/man/en_US/netstat.8
---- net-tools-1.60/man/en_US/netstat.8.man	2012-01-19 15:15:09.066290903 +0100
-+++ net-tools-1.60/man/en_US/netstat.8	2012-01-19 15:15:09.088290628 +0100
-@@ -187,7 +195,8 @@ Show the PID and name of the program to
+diff -up net-tools-2.0/man/en_US/netstat.8.man net-tools-2.0/man/en_US/netstat.8
+--- net-tools-2.0/man/en_US/netstat.8.man	2012-10-04 11:30:07.659188734 +0200
++++ net-tools-2.0/man/en_US/netstat.8	2012-10-04 11:30:07.670188596 +0200
+@@ -196,7 +196,8 @@ Show the PID and name of the program to
  .SS "\-l, \-\-listening"
  Show only listening sockets.  (These are omitted by default.)
  .SS "\-a, \-\-all"
@@ -121,9 +121,9 @@ diff -up net-tools-1.60/man/en_US/netstat.8.man net-tools-1.60/man/en_US/netstat
  .B \-\-interfaces
  option, show interfaces that are not up
  .SS "\-F"
-diff -up net-tools-1.60/man/en_US/route.8.man net-tools-1.60/man/en_US/route.8
---- net-tools-1.60/man/en_US/route.8.man	2012-01-16 15:34:09.000000000 +0100
-+++ net-tools-1.60/man/en_US/route.8	2012-01-19 15:15:09.089290616 +0100
+diff -up net-tools-2.0/man/en_US/route.8.man net-tools-2.0/man/en_US/route.8
+--- net-tools-2.0/man/en_US/route.8.man	2012-10-01 07:40:47.000000000 +0200
++++ net-tools-2.0/man/en_US/route.8	2012-10-04 11:30:07.670188596 +0200
 @@ -52,6 +52,11 @@ If]
  .RB [ \-\-version ]
  .RB [ \-h ]
