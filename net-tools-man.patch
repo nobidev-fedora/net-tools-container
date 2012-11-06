@@ -1,18 +1,18 @@
 diff -up net-tools-2.0/man/en_US/arp.8.man net-tools-2.0/man/en_US/arp.8
---- net-tools-2.0/man/en_US/arp.8.man	2012-10-01 07:40:47.000000000 +0200
-+++ net-tools-2.0/man/en_US/arp.8	2012-10-04 11:30:07.668188620 +0200
+--- net-tools-2.0/man/en_US/arp.8.man	2012-10-17 22:05:59.000000000 +0200
++++ net-tools-2.0/man/en_US/arp.8	2012-11-06 12:54:21.538233131 +0100
 @@ -63,6 +63,10 @@ arp \- manipulate the system ARP cache
- .B \-f 
+ .B \-f
  .RI [ filename ]
  
 +.SH NOTE
-+.P 
++.P
 +This program is obsolete. For replacement check \fBip neigh\fR.
 +
  .SH DESCRIPTION
  .B Arp
  manipulates or displays the kernel's IPv4 network neighbour cache. It can add
-@@ -218,6 +222,6 @@ published proxy ARP entries and permanen
+@@ -219,6 +223,6 @@ published proxy ARP entries and permanen
  .br
  .I /etc/ethers
  .SH SEE ALSO
