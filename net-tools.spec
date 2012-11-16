@@ -3,8 +3,8 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.2.%{checkout}%{?dist}
-License: GPL+
+Release: 0.3.%{checkout}%{?dist}
+License: GPLv2+
 Group: System Environment/Base
 URL: http://net-tools.sourceforge.net
 
@@ -168,6 +168,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Nov 16 2012 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.3.20121106git
+- match actual license
+
 * Tue Nov 06 2012 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.2.20121106git
 - few man page fixes
 
