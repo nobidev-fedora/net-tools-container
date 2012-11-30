@@ -188,7 +188,8 @@ int main(int argc, char *argv[])
 		struct ifreq if_hwaddr;
 		unsigned char *hwaddr = if_hwaddr.ifr_hwaddr.sa_data;
 
-		strcpy(if_hwaddr.ifr_name, ifname);
+		strncpy(if_hwaddr.ifr_name, ifname, IFNAMSIZ);
+		if_hwaddr.ifr_name[IFNAMSIZ-1] = '\0';
 		if (ioctl(s, SIOCGIFHWADDR, &if_hwaddr) < 0) {
 			fprintf(stderr, "SIOCGIFHWADDR on %s failed: %s\n", ifname,
 					strerror(errno));
@@ -225,7 +226,8 @@ int main(int argc, char *argv[])
 #if defined(PF_PACKET)
 	{
 		struct ifreq ifr;
-		strncpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name));
+		strncpy(ifr.ifr_name, ifname, IFNAMSIZ);
+		ifr.ifr_name[IFNAMSIZ-1] = '\0';
 		if (ioctl(s, SIOCGIFINDEX, &ifr) == -1) {
 			fprintf(stderr, "SIOCGIFINDEX on %s failed: %s\n", ifname,
 					strerror(errno));
