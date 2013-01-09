@@ -1,9 +1,9 @@
-%global checkout 20121106git
+%global checkout 20130109git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.4.%{checkout}%{?dist}
+Release: 0.5.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -53,10 +53,6 @@ Patch10: net-tools-ifconfig-long-iface-crasher.patch
 # fixed tcp timers info in netstat (#466845)
 Patch11: net-tools-netstat-probe.patch
 
-# the git snapshot we ship is actually much more a
-# 2.0 pre-release then 1.60 post-release
-Patch12: net-tools-version-bump-to-2.0.patch
-
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -80,7 +76,6 @@ Most of them are obsolete. For replacement check iproute package.
 %patch9 -p1 -b .sctp
 %patch10 -p1 -b .long_iface
 %patch11 -p1 -b .probe
-%patch12 -p1 -b .bump
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -168,6 +163,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Jan 09 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.5.20130109git
+- latest snapshot (#579855)
+
 * Fri Nov 30 2012 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.4.20121106git
 - fix URL
 
