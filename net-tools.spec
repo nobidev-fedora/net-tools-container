@@ -8,7 +8,7 @@ License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
 
-# git archive --format=tar --remote=git://net-tools.git.sourceforge.net/gitroot/net-tools/net-tools master | xz > net-tools-%%{version}.%%{checkout}.tar.xz
+# git archive --format=tar --remote=git://git.code.sf.net/p/net-tools/code master | xz > net-tools-%%{version}.%%{checkout}.tar.xz
 Source0: net-tools-%{version}.%{checkout}.tar.xz
 Source1: net-tools-config.h
 Source2: net-tools-config.make
