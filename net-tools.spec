@@ -1,9 +1,9 @@
-%global checkout 20130109git
+%global checkout 20130425git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.6.%{checkout}%{?dist}
+Release: 0.7.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -163,6 +163,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Apr 25 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.7.20130425git
+- latest snapshot
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-0.6.20130109git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
@@ -355,7 +358,7 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 - Make "hostname -s" display host name cut at the first dot (no
   matter if the host name resolves or not) (bug #531702)
 
-* Tue Sep 30 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-96
+* Wed Sep 30 2009  Jiri Popelka <jpopelka@redhat.com> - 1.60-96
 - netplug moved to separate package
 - #319981 and #322901 - minor man pages changes
 - applied changes from berlios cvs, which fix: Berlios #16232, Gentoo #283759 and polish Makefile and slattach 
@@ -580,7 +583,7 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 * Fri Sep 03 2004 Radek Vokal <rvokal@redhat.com> 1.60-35
 - The return value of nameif was wrong (#129032) - patch from Fujitsu QA 
 
-* Tue Aug 30 2004 Radek Vokal <rvokal@redhat.com> 1.60-34
+* Mon Aug 30 2004 Radek Vokal <rvokal@redhat.com> 1.60-34
 - Trunc patch added (#128359)
 
 * Mon Aug 30 2004 Radek Vokal <rvokal@redhat.com> 1.60-33
@@ -721,7 +724,7 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 * Tue Feb  6 2001 Crutcher Dunnavant <crutcher@redhat.com>
 - fixed man page typo, closing bug #25921
 
-* Fri Feb  1 2001 Crutcher Dunnavant <crutcher@redhat.com>
+* Thu Feb  1 2001 Crutcher Dunnavant <crutcher@redhat.com>
 - applied twaugh's patch to close bug #25474
 - which was a buffer length bug.
 
