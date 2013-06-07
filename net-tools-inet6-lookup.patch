@@ -1,6 +1,6 @@
 diff -up net-tools-2.0/lib/inet6.c.inet6-lookup net-tools-2.0/lib/inet6.c
---- net-tools-2.0/lib/inet6.c.inet6-lookup	2012-10-01 07:40:47.000000000 +0200
-+++ net-tools-2.0/lib/inet6.c	2012-10-04 11:29:22.686750407 +0200
+--- net-tools-2.0/lib/inet6.c.inet6-lookup	2013-06-07 11:56:33.463094292 +0200
++++ net-tools-2.0/lib/inet6.c	2013-06-07 11:57:31.732330709 +0200
 @@ -149,33 +149,9 @@ static const char *INET6_sprint(struct s
  }
  
@@ -19,8 +19,8 @@ diff -up net-tools-2.0/lib/inet6.c.inet6-lookup net-tools-2.0/lib/inet6.c
 -    if (inet_pton(AF_INET6, bufp, sin6->sin6_addr.s6_addr) <= 0)
 -	return (-1);
 -    p = fix_v4_address(bufp, &sin6->sin6_addr);
--    if (p != bufp) 
--        memcpy(bufp, p, strlen(p)+1); 
+-    if (p != bufp)
+-        memcpy(bufp, p, strlen(p)+1);
 -    return 16;			/* ?;) */
 -}
 -
@@ -37,8 +37,8 @@ diff -up net-tools-2.0/lib/inet6.c.inet6-lookup net-tools-2.0/lib/inet6.c
  
  
 diff -up net-tools-2.0/lib/inet6_gr.c.inet6-lookup net-tools-2.0/lib/inet6_gr.c
---- net-tools-2.0/lib/inet6_gr.c.inet6-lookup	2012-10-01 07:40:47.000000000 +0200
-+++ net-tools-2.0/lib/inet6_gr.c	2012-10-04 11:29:22.687750395 +0200
+--- net-tools-2.0/lib/inet6_gr.c.inet6-lookup	2013-05-23 05:27:34.000000000 +0200
++++ net-tools-2.0/lib/inet6_gr.c	2013-06-07 11:56:33.464094279 +0200
 @@ -108,7 +108,7 @@ int rprint_fib6(int ext, int numeric)
  		 addr6p[4], addr6p[5], addr6p[6], addr6p[7]);
  	inet6_aftype.input(1, addr6, (struct sockaddr *) &saddr6);
@@ -58,8 +58,8 @@ diff -up net-tools-2.0/lib/inet6_gr.c.inet6-lookup net-tools-2.0/lib/inet6_gr.c
  	/* Decode the flags. */
  
 diff -up net-tools-2.0/lib/inet6_sr.c.inet6-lookup net-tools-2.0/lib/inet6_sr.c
---- net-tools-2.0/lib/inet6_sr.c.inet6-lookup	2012-10-01 07:40:47.000000000 +0200
-+++ net-tools-2.0/lib/inet6_sr.c	2012-10-04 11:29:22.687750395 +0200
+--- net-tools-2.0/lib/inet6_sr.c.inet6-lookup	2013-05-23 05:27:34.000000000 +0200
++++ net-tools-2.0/lib/inet6_sr.c	2013-06-07 11:56:33.464094279 +0200
 @@ -32,6 +32,7 @@
  #include "net-support.h"
  #include "pathnames.h"
