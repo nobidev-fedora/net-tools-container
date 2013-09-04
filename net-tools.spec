@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.9.%{checkout}%{?dist}
+Release: 0.10.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -53,6 +53,9 @@ Patch10: net-tools-ifconfig-long-iface-crasher.patch
 # fixed tcp timers info in netstat (#466845)
 Patch11: net-tools-netstat-probe.patch
 
+# use all interfaces instead of default (#1003875)
+Patch20: ether-wake-interfaces.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -86,9 +89,13 @@ cp %SOURCE6 ./man/en_US
 cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
+%patch20 -p1 -b .interfaces
+
 %ifarch alpha
 perl -pi -e "s|-O2||" Makefile
 %endif
+
+touch ./config.h
 
 %build
 # Sparc and s390 arches need to use -fPIE
@@ -101,7 +108,7 @@ export CFLAGS="$RPM_OPT_FLAGS $CFLAGS -fpie"
 export LDFLAGS="$LDFLAGS -pie -Wl,-z,relro -Wl,-z,now"
 
 make
-gcc $RPM_OPT_FLAGS -o ether-wake ether-wake.c
+make ether-wake
 gcc $RPM_OPT_FLAGS -o mii-diag mii-diag.c
 
 %install
@@ -163,6 +170,10 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Sep 04 2013 Jaromír Končický <jkoncick@redhat.com> - 2.0-0.10.20130607git
+- use all interfaces instead of default (#1003875)
+- reverted all changes on ether-wake.c and put original file
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-0.9.20130607git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
