@@ -1,24 +1,11 @@
 --- a/ether-wake.c	2013-09-03 18:15:13.000000000 +0200
 +++ b/ether-wake.c	2013-09-03 17:39:02.000000000 +0200
-@@ -3,10 +3,10 @@
- static char version_msg[] =
- "ether-wake.c: v1.09 11/12/2003 Donald Becker, http://www.scyld.com/";
- static char brief_usage_msg[] =
--"usage: ether-wake [-i <ifname>] [-p aa:bb:cc:dd[:ee:ff]] 00:11:22:33:44:55\n"
-+"usage: ether-wake -i <ifname> [-p aa:bb:cc:dd[:ee:ff]] 00:11:22:33:44:55\n"
- "   Use '-u' to see the complete set of options.\n";
- static char usage_msg[] =
--"usage: ether-wake [-i <ifname>] [-p aa:bb:cc:dd[:ee:ff]] 00:11:22:33:44:55\n"
-+"usage: ether-wake -i <ifname> [-p aa:bb:cc:dd[:ee:ff]] 00:11:22:33:44:55\n"
- "\n"
- "	This program generates and transmits a Wake-On-LAN (WOL)\n"
- "	\"Magic Packet\", used for restarting machines that have been\n"
 @@ -22,7 +22,7 @@
  "	Options:\n"
  "		-b	Send wake-up packet to the broadcast address.\n"
  "		-D	Increase the debug level.\n"
 -"		-i ifname	Use interface IFNAME instead of the default 'eth0'.\n"
-+"		-i ifname	Use interface IFNAME.\n"
++"		-i ifname	Use interface ifname instead of sending a wake packet to all interfaces.\n"
  "		-p <pw>		Append the four or six byte password PW to the packet.\n"
  "					A password is only required for a few adapter types.\n"
  "					The password may be specified in ethernet hex format\n"
