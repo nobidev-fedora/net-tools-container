@@ -1,9 +1,9 @@
-%global checkout 20130607git
+%global checkout 20130910git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.11.%{checkout}%{?dist}
+Release: 0.12.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -170,6 +170,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Sep 10 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.12.20130910git
+- latest snapshot
+
 * Wed Sep 04 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.11.20130607git
 - amend ether-wake-interfaces.patch
 

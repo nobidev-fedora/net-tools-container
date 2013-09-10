@@ -1,6 +1,6 @@
 diff -up net-tools-2.0/lib/interface.c.cycle net-tools-2.0/lib/interface.c
---- net-tools-2.0/lib/interface.c.cycle	2013-05-23 05:27:34.000000000 +0200
-+++ net-tools-2.0/lib/interface.c	2013-06-07 11:55:07.966208687 +0200
+--- net-tools-2.0/lib/interface.c.cycle	2013-08-30 14:30:25.000000000 +0200
++++ net-tools-2.0/lib/interface.c	2013-09-10 12:31:03.930309225 +0200
 @@ -93,6 +93,7 @@ int if_list_all = 0;	/* do we have reque
  static struct interface *int_list, *int_last;
  
@@ -68,8 +68,8 @@ diff -up net-tools-2.0/lib/interface.c.cycle net-tools-2.0/lib/interface.c
  int if_readlist(void)
  {
 diff -up net-tools-2.0/man/en_US/netstat.8.cycle net-tools-2.0/man/en_US/netstat.8
---- net-tools-2.0/man/en_US/netstat.8.cycle	2013-05-23 05:27:34.000000000 +0200
-+++ net-tools-2.0/man/en_US/netstat.8	2013-06-07 11:48:06.168552352 +0200
+--- net-tools-2.0/man/en_US/netstat.8.cycle	2013-08-30 14:30:25.000000000 +0200
++++ net-tools-2.0/man/en_US/netstat.8	2013-09-10 12:31:03.930309225 +0200
 @@ -33,6 +33,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-verbose | \-v ]
  .RB [ \-\-continuous | \-c]
@@ -129,8 +129,8 @@ diff -up net-tools-2.0/man/en_US/netstat.8.cycle net-tools-2.0/man/en_US/netstat
  .SH OUTPUT
  .P
 diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
---- net-tools-2.0/netstat.c.cycle	2013-05-23 05:27:34.000000000 +0200
-+++ net-tools-2.0/netstat.c	2013-06-07 11:54:22.615796530 +0200
+--- net-tools-2.0/netstat.c.cycle	2013-08-30 14:30:25.000000000 +0200
++++ net-tools-2.0/netstat.c	2013-09-10 12:32:32.460124531 +0200
 @@ -115,9 +115,9 @@
  #endif
  
@@ -143,7 +143,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  void inittab6(void);
  
  typedef enum {
-@@ -343,10 +343,10 @@ static void prg_cache_clear(void)
+@@ -341,10 +341,10 @@ static void prg_cache_clear(void)
      prg_cache_loaded = 0;
  }
  
@@ -231,7 +231,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  	ENOSUPP("netstat", "FW_MASQUERADE");
 @@ -2085,17 +2095,18 @@ int main
          if (!afname[0])
-             strcpy(afname, DFLT_AF);
+             safe_strncpy(afname, DFLT_AF, sizeof(afname));
  
 +        for (;;) {
          if (!strcmp(afname, "inet")) {
@@ -291,8 +291,8 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      }
      return (i);
 diff -up net-tools-2.0/statistics.c.cycle net-tools-2.0/statistics.c
---- net-tools-2.0/statistics.c.cycle	2013-05-23 05:27:34.000000000 +0200
-+++ net-tools-2.0/statistics.c	2013-06-07 11:49:35.234451789 +0200
+--- net-tools-2.0/statistics.c.cycle	2013-08-30 14:30:25.000000000 +0200
++++ net-tools-2.0/statistics.c	2013-09-10 12:31:03.932309198 +0200
 @@ -502,7 +502,7 @@ void process6_fd(FILE *f)
  
  }
