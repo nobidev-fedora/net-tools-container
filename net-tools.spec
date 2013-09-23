@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.12.%{checkout}%{?dist}
+Release: 0.13.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -91,10 +91,6 @@ cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
 
-%ifarch alpha
-perl -pi -e "s|-O2||" Makefile
-%endif
-
 touch ./config.h
 
 %build
@@ -170,6 +166,10 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Sep 23 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.13.20130910git
+- remove %%ifarch alpha condition from %%prep
+- improve sctp-statistics.patch (#982638#c10)
+
 * Tue Sep 10 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.12.20130910git
 - latest snapshot
 
