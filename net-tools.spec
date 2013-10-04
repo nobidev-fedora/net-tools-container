@@ -1,9 +1,9 @@
-%global checkout 20130910git
+%global checkout 20131004git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.13.%{checkout}%{?dist}
+Release: 0.14.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -26,32 +26,29 @@ Patch1: net-tools-cycle.patch
 # Fixed incorrect address display for ipx (#46434)
 Patch2: net-tools-ipx.patch
 
-# hostname lookup problems with route --inet6 (#84108)
-Patch3: net-tools-inet6-lookup.patch
-
 # various man page fixes merged into one patch
-Patch4: net-tools-man.patch
+Patch3: net-tools-man.patch
 
 # netstat: interface option now works as described in the man page (#61113, #115987)
-Patch5: net-tools-interface.patch
+Patch4: net-tools-interface.patch
 
 # filter out duplicate tcp entries (#139407)
-Patch6: net-tools-duplicate-tcp.patch
+Patch5: net-tools-duplicate-tcp.patch
 
 # don't report statistics for virtual devices (#143981)
-Patch7: net-tools-statalias.patch
+Patch6: net-tools-statalias.patch
 
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch8: net-tools-interface_stack.patch
+Patch7: net-tools-interface_stack.patch
 
 # statistics for SCTP
-Patch9: net-tools-sctp-statistics.patch
+Patch8: net-tools-sctp-statistics.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch10: net-tools-ifconfig-long-iface-crasher.patch
+Patch9: net-tools-ifconfig-long-iface-crasher.patch
 
 # fixed tcp timers info in netstat (#466845)
-Patch11: net-tools-netstat-probe.patch
+Patch10: net-tools-netstat-probe.patch
 
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
@@ -70,15 +67,14 @@ Most of them are obsolete. For replacement check iproute package.
 %setup -q -c
 %patch1 -p1 -b .cycle
 %patch2 -p1 -b .ipx
-%patch3 -p1 -b .inet6-lookup
-%patch4 -p1 -b .man
-%patch5 -p1 -b .interface
-%patch6 -p1 -b .dup-tcp
-%patch7 -p1 -b .statalias
-%patch8 -p1 -b .stack
-%patch9 -p1 -b .sctp
-%patch10 -p1 -b .long_iface
-%patch11 -p1 -b .probe
+%patch3 -p1 -b .man
+%patch4 -p1 -b .interface
+%patch5 -p1 -b .dup-tcp
+%patch6 -p1 -b .statalias
+%patch7 -p1 -b .stack
+%patch8 -p1 -b .sctp
+%patch9 -p1 -b .long_iface
+%patch10 -p1 -b .probe
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -166,6 +162,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Oct 04 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.14.20131004git
+- latest snapshot
+
 * Mon Sep 23 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.13.20130910git
 - remove %%ifarch alpha condition from %%prep
 - improve sctp-statistics.patch (#982638#c10)
