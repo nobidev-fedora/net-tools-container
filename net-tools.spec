@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.14.%{checkout}%{?dist}
+Release: 0.15.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -53,6 +53,9 @@ Patch10: net-tools-netstat-probe.patch
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
 
+# install binaries into /usr/bin and /usr/sbin (#1016674)
+Patch21: net-tools-install-to-usr-bin.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -86,6 +89,7 @@ cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
+%patch21 -p1 -b .usr_bin
 
 touch ./config.h
 
@@ -108,28 +112,23 @@ mv man/de_DE man/de
 mv man/fr_FR man/fr
 mv man/pt_BR man/pt
 
-make BASEDIR=%{buildroot} mandir=%{_mandir} install
+make BASEDIR=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} install
 
-# ifconfig and route are installed into /bin by default
-# mv them back to /sbin for now as I (jpopelka) don't think customers would be happy
-mv %{buildroot}/bin/ifconfig %{buildroot}/sbin
-mv %{buildroot}/bin/route %{buildroot}/sbin
+install -m 755 ether-wake %{buildroot}%{_sbindir}
+install -m 755 mii-diag %{buildroot}%{_sbindir}
 
-install -m 755 ether-wake %{buildroot}/sbin
-install -m 755 mii-diag %{buildroot}/sbin
-
-rm %{buildroot}/sbin/rarp
+rm %{buildroot}%{_sbindir}/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
 rm %{buildroot}%{_mandir}/de/man8/rarp.8*
 rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
 rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
 # remove hostname (has its own package)
-rm %{buildroot}/bin/dnsdomainname
-rm %{buildroot}/bin/domainname
-rm %{buildroot}/bin/hostname
-rm %{buildroot}/bin/nisdomainname
-rm %{buildroot}/bin/ypdomainname
+rm %{buildroot}%{_bindir}/dnsdomainname
+rm %{buildroot}%{_bindir}/domainname
+rm %{buildroot}%{_bindir}/hostname
+rm %{buildroot}%{_bindir}/nisdomainname
+rm %{buildroot}%{_bindir}/ypdomainname
 rm -rf %{buildroot}%{_mandir}/de/man1
 rm -rf %{buildroot}%{_mandir}/fr/man1
 rm -rf %{buildroot}%{_mandir}/man1
@@ -146,22 +145,25 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 
 %files -f %{name}.lang
 %doc COPYING
-/bin/netstat
-/sbin/ifconfig
-/sbin/route
-/sbin/arp
-/sbin/ether-wake
-/sbin/ipmaddr
-/sbin/iptunnel
-/sbin/mii-diag
-/sbin/mii-tool
-/sbin/nameif
-/sbin/plipconfig
-/sbin/slattach
+%{_bindir}/netstat
+%{_bindir}/ifconfig
+%{_bindir}/route
+%{_sbindir}/arp
+%{_sbindir}/ether-wake
+%{_sbindir}/ipmaddr
+%{_sbindir}/iptunnel
+%{_sbindir}/mii-diag
+%{_sbindir}/mii-tool
+%{_sbindir}/nameif
+%{_sbindir}/plipconfig
+%{_sbindir}/slattach
 %{_mandir}/man[58]/*
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Oct 10 2013 Jaromír Končický <jkoncick@redhat.com> - 2.0-0.15.20131004git
+- install binaries into /usr/bin and /usr/sbin (#1016674)
+
 * Fri Oct 04 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.14.20131004git
 - latest snapshot
 
