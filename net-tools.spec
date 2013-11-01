@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.15.%{checkout}%{?dist}
+Release: 0.16.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -96,16 +96,16 @@ touch ./config.h
 %build
 # Sparc and s390 arches need to use -fPIE
 %ifarch sparcv9 sparc64 s390 s390x
-export CFLAGS="$RPM_OPT_FLAGS $CFLAGS -fPIE"
+export CFLAGS="%{optflags} $CFLAGS -fPIE"
 %else
-export CFLAGS="$RPM_OPT_FLAGS $CFLAGS -fpie"
+export CFLAGS="%{optflags} $CFLAGS -fpie"
 %endif
 # RHBZ #853193
-export LDFLAGS="$LDFLAGS -pie -Wl,-z,relro -Wl,-z,now"
+export LDFLAGS="%{__global_ldflags} -pie -Wl,-z,now"
 
 make
 make ether-wake
-gcc $RPM_OPT_FLAGS -o mii-diag mii-diag.c
+gcc %{optflags} -o mii-diag mii-diag.c
 
 %install
 mv man/de_DE man/de
@@ -161,6 +161,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Nov 01 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.16.20131004git
+- use different compiler/linker flags macros
+
 * Thu Oct 10 2013 Jaromír Končický <jkoncick@redhat.com> - 2.0-0.15.20131004git
 - install binaries into /usr/bin and /usr/sbin (#1016674)
 
