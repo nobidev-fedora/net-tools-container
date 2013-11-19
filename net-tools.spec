@@ -1,9 +1,9 @@
-%global checkout 20131004git
+%global checkout 20131119git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.16.%{checkout}%{?dist}
+Release: 0.17.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -53,9 +53,6 @@ Patch10: net-tools-netstat-probe.patch
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
 
-# install binaries into /usr/bin and /usr/sbin (#1016674)
-Patch21: net-tools-install-to-usr-bin.patch
-
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -89,7 +86,6 @@ cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
-%patch21 -p1 -b .usr_bin
 
 touch ./config.h
 
@@ -161,6 +157,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Nov 19 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.17.20131119git
+- latest snapshot (#1021109)
+
 * Fri Nov 01 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.16.20131004git
 - use different compiler/linker flags macros
 
