@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.17.%{checkout}%{?dist}
+Release: 0.18.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -157,6 +157,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Dec 03 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.18.20131119git
+- make mii-diag compile with -Werror=format-security (#1037218)
+
 * Tue Nov 19 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.17.20131119git
 - latest snapshot (#1021109)
 
