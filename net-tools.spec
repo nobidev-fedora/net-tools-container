@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.18.%{checkout}%{?dist}
+Release: 0.19.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -110,6 +110,11 @@ mv man/pt_BR man/pt
 
 make BASEDIR=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} install
 
+# ifconfig and route are installed into /usr/bin by default
+# mv them back to /usr/sbin (#1045445)
+mv %{buildroot}%{_bindir}/ifconfig %{buildroot}%{_sbindir}
+mv %{buildroot}%{_bindir}/route %{buildroot}%{_sbindir}
+
 install -m 755 ether-wake %{buildroot}%{_sbindir}
 install -m 755 mii-diag %{buildroot}%{_sbindir}
 
@@ -142,8 +147,8 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %files -f %{name}.lang
 %doc COPYING
 %{_bindir}/netstat
-%{_bindir}/ifconfig
-%{_bindir}/route
+%{_sbindir}/ifconfig
+%{_sbindir}/route
 %{_sbindir}/arp
 %{_sbindir}/ether-wake
 %{_sbindir}/ipmaddr
@@ -157,6 +162,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Dec 20 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.19.20131119git
+- move ifconfig and route back to sbin (#1045445)
+
 * Tue Dec 03 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.18.20131119git
 - make mii-diag compile with -Werror=format-security (#1037218)
 
