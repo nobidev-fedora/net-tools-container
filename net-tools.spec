@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.19.%{checkout}%{?dist}
+Release: 0.20.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -53,6 +53,9 @@ Patch10: net-tools-netstat-probe.patch
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
 
+# make sctp quiet on systems without sctp (#1063906)
+Patch21: net-tools-sctp-quiet.patch
+
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -86,6 +89,7 @@ cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
+%patch21 -p1 -b .sctp-quiet
 
 touch ./config.h
 
@@ -162,6 +166,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Feb 11 2014 Jaromír Končický <jkoncick@redhat.com> - 2.0-0.20.20131119git
+- make sctp quiet on systems without sctp (#1063906)
+
 * Fri Dec 20 2013 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.19.20131119git
 - move ifconfig and route back to sbin (#1045445)
 
