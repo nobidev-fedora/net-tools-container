@@ -10,7 +10,7 @@ diff -up net-tools-2.0/netstat.c.sctp net-tools-2.0/netstat.c
  void inittab(void);
  int parsesnmp6(int, int, int);
  void inittab6(void);
-@@ -888,161 +888,271 @@ static int igmp_info(void)
+@@ -888,159 +888,269 @@ static int igmp_info(void)
  	       igmp_do_one, "igmp", "igmp6");
  }
  
@@ -409,19 +409,13 @@ diff -up net-tools-2.0/netstat.c.sctp net-tools-2.0/netstat.c
 +            sctp_assoc_do_one, "sctp", "sctp6");
  }
  
--static int sctp_info(void) {
--  int  res;
+ static int sctp_info(void) {
+   int  res;
 -  res = sctp_info_epts();
--  if(res)  return  res;
--  return  sctp_info_assocs();
-+static int sctp_info(void)
-+{
-+    if(flag_all)
-+	sctp_info_eps();
-+    return sctp_info_assocs();
++  res = sctp_info_eps();
+   if(res)  return  res;
+   return  sctp_info_assocs();
  }
- 
- static void addr_do_one(char *buf, size_t buf_len, size_t short_len, struct aftype *ap,
 @@ -2234,7 +2344,7 @@ int main
          if (!strcmp(afname, "inet")) {
  #if HAVE_AFINET
