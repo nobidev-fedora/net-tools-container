@@ -105,7 +105,7 @@ export LDFLAGS="${RPM_LD_FLAGS} -pie -Wl,-z,now"
 
 make
 make ether-wake
-gcc %{optflags} -o mii-diag mii-diag.c
+gcc ${RPM_OPT_FLAGS} -o mii-diag mii-diag.c
 
 %install
 mv man/de_DE man/de
