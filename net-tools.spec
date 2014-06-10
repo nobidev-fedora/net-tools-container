@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.23.%{checkout}%{?dist}
+Release: 0.24.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -96,12 +96,12 @@ touch ./config.h
 %build
 # Sparc and s390 arches need to use -fPIE
 %ifarch sparcv9 sparc64 s390 s390x
-export CFLAGS="%{optflags} $CFLAGS -fPIE"
+export CFLAGS="${RPM_OPT_FLAGS} -fPIE"
 %else
-export CFLAGS="%{optflags} $CFLAGS -fpie"
+export CFLAGS="${RPM_OPT_FLAGS} -fpie"
 %endif
 # RHBZ #853193
-export LDFLAGS="%{__global_ldflags} -pie -Wl,-z,now"
+export LDFLAGS="${RPM_LD_FLAGS} -pie -Wl,-z,now"
 
 make
 make ether-wake
@@ -166,6 +166,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Jun 10 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.24.20131119git
+- __global_ldflags -> RPM_LD_FLAGS, optflags -> RPM_OPT_FLAGS
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-0.23.20131119git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
