@@ -1,9 +1,9 @@
-%global checkout 20131119git
+%global checkout 20140707git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.24.%{checkout}%{?dist}
+Release: 0.25.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -166,6 +166,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Jul 07 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.25.20140707git
+- latest upstream snapshot
+
 * Tue Jun 10 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.24.20131119git
 - __global_ldflags -> RPM_LD_FLAGS, optflags -> RPM_OPT_FLAGS
 

@@ -1,6 +1,6 @@
 diff -up net-tools-2.0/man/en_US/arp.8.man net-tools-2.0/man/en_US/arp.8
---- net-tools-2.0/man/en_US/arp.8.man	2013-02-19 10:28:11.000000000 +0100
-+++ net-tools-2.0/man/en_US/arp.8	2013-04-25 10:52:01.704114832 +0200
+--- net-tools-2.0/man/en_US/arp.8.man	2014-04-26 02:45:16.000000000 +0200
++++ net-tools-2.0/man/en_US/arp.8	2014-07-07 14:51:31.378459439 +0200
 @@ -63,6 +63,10 @@ arp \- manipulate the system ARP cache
  .B \-f
  .RI [ filename ]
@@ -21,8 +21,8 @@ diff -up net-tools-2.0/man/en_US/arp.8.man net-tools-2.0/man/en_US/arp.8
  .SH AUTHORS
  Fred N. van Kempen <waltje@uwalt.nl.mugnet.org>, Bernd Eckenfels <net\-tools@lina.inka.de>.
 diff -up net-tools-2.0/man/en_US/ethers.5.man net-tools-2.0/man/en_US/ethers.5
---- net-tools-2.0/man/en_US/ethers.5.man	2013-02-19 10:28:11.000000000 +0100
-+++ net-tools-2.0/man/en_US/ethers.5	2013-04-25 10:52:01.704114832 +0200
+--- net-tools-2.0/man/en_US/ethers.5.man	2014-04-26 02:45:16.000000000 +0200
++++ net-tools-2.0/man/en_US/ethers.5	2014-07-07 14:51:31.378459439 +0200
 @@ -26,6 +26,3 @@ can be resolved by DNS or a dot separate
  .SH FILES \"{{{
  /etc/ethers
@@ -31,8 +31,8 @@ diff -up net-tools-2.0/man/en_US/ethers.5.man net-tools-2.0/man/en_US/ethers.5
 -rarp(8)
 -.\"}}}
 diff -up net-tools-2.0/man/en_US/ifconfig.8.man net-tools-2.0/man/en_US/ifconfig.8
---- net-tools-2.0/man/en_US/ifconfig.8.man	2013-02-19 10:28:11.000000000 +0100
-+++ net-tools-2.0/man/en_US/ifconfig.8	2013-04-25 10:52:01.704114832 +0200
+--- net-tools-2.0/man/en_US/ifconfig.8.man	2014-04-26 02:45:16.000000000 +0200
++++ net-tools-2.0/man/en_US/ifconfig.8	2014-07-07 14:51:31.379459422 +0200
 @@ -5,6 +5,13 @@ ifconfig \- configure a network interfac
  .B "ifconfig [-v] [-a] [-s] [interface]"
  .br
@@ -58,8 +58,8 @@ diff -up net-tools-2.0/man/en_US/ifconfig.8.man net-tools-2.0/man/en_US/ifconfig
  http://physics.nist.gov/cuu/Units/binary.html - Prefixes for binary multiples
  .SH AUTHORS
 diff -up net-tools-2.0/man/en_US/mii-tool.8.man net-tools-2.0/man/en_US/mii-tool.8
---- net-tools-2.0/man/en_US/mii-tool.8.man	2013-02-19 10:28:11.000000000 +0100
-+++ net-tools-2.0/man/en_US/mii-tool.8	2013-04-25 10:52:52.198414912 +0200
+--- net-tools-2.0/man/en_US/mii-tool.8.man	2014-04-26 02:45:16.000000000 +0200
++++ net-tools-2.0/man/en_US/mii-tool.8	2014-07-07 14:51:31.379459422 +0200
 @@ -18,6 +18,10 @@ mii\-tool \- view, manipulate media-inde
  [\fB\-p\fR, \fB\-\-phy=\fIaddr\fR]
  .RI "interface\ ..."
@@ -82,8 +82,8 @@ diff -up net-tools-2.0/man/en_US/mii-tool.8.man net-tools-2.0/man/en_US/mii-tool
  David Hinds \- dhinds@pcmcia.sourceforge.org
  .br
 diff -up net-tools-2.0/man/en_US/nameif.8.man net-tools-2.0/man/en_US/nameif.8
---- net-tools-2.0/man/en_US/nameif.8.man	2013-02-19 10:28:11.000000000 +0100
-+++ net-tools-2.0/man/en_US/nameif.8	2013-04-25 10:52:01.705114818 +0200
+--- net-tools-2.0/man/en_US/nameif.8.man	2014-04-26 02:45:16.000000000 +0200
++++ net-tools-2.0/man/en_US/nameif.8	2014-07-07 14:51:31.379459422 +0200
 @@ -5,6 +5,12 @@ nameif \- name network interfaces based
  .B "nameif [\-c configfile] [\-s]"
  .br
@@ -109,9 +109,9 @@ diff -up net-tools-2.0/man/en_US/nameif.8.man net-tools-2.0/man/en_US/nameif.8
  .SH BUGS
  Only works for Ethernet currently.
 diff -up net-tools-2.0/man/en_US/netstat.8.man net-tools-2.0/man/en_US/netstat.8
---- net-tools-2.0/man/en_US/netstat.8.man	2013-04-25 10:52:01.693114984 +0200
-+++ net-tools-2.0/man/en_US/netstat.8	2013-04-25 10:52:01.705114818 +0200
-@@ -196,7 +196,8 @@ Show the PID and name of the program to
+--- net-tools-2.0/man/en_US/netstat.8.man	2014-07-07 14:51:31.370459575 +0200
++++ net-tools-2.0/man/en_US/netstat.8	2014-07-07 14:51:31.380459405 +0200
+@@ -198,7 +198,8 @@ Show the PID and name of the program to
  .SS "\-l, \-\-listening"
  Show only listening sockets.  (These are omitted by default.)
  .SS "\-a, \-\-all"
@@ -122,9 +122,9 @@ diff -up net-tools-2.0/man/en_US/netstat.8.man net-tools-2.0/man/en_US/netstat.8
  option, show interfaces that are not up
  .SS "\-F"
 diff -up net-tools-2.0/man/en_US/route.8.man net-tools-2.0/man/en_US/route.8
---- net-tools-2.0/man/en_US/route.8.man	2013-02-19 10:28:11.000000000 +0100
-+++ net-tools-2.0/man/en_US/route.8	2013-04-25 10:52:01.706114804 +0200
-@@ -52,6 +52,11 @@ If]
+--- net-tools-2.0/man/en_US/route.8.man	2014-04-26 02:45:16.000000000 +0200
++++ net-tools-2.0/man/en_US/route.8	2014-07-07 14:52:58.766977905 +0200
+@@ -57,6 +57,11 @@ family
  .RB [ \-\-version ]
  .RB [ \-h ]
  .RB [ \-\-help ]
@@ -136,12 +136,14 @@ diff -up net-tools-2.0/man/en_US/route.8.man net-tools-2.0/man/en_US/route.8
  .SH DESCRIPTION
  .B Route
  manipulates the kernel's IP routing tables.  Its primary use is to set
-@@ -314,7 +319,7 @@ Whether or not the hardware address for
+@@ -330,10 +335,6 @@ Whether or not the hardware address for
  .I /proc/net/rt_cache
  .LP
- .SH SEE ALSO
--.I ifconfig(8), netstat(8), arp(8), rarp(8)
-+.BR ip(8)
+ .SH "SEE ALSO"
+-.IR ifconfig (8),
+-.IR netstat (8), 
+-.IR arp (8), 
+-.IR rarp (8),
+ .IR ip (8)
  .LP
  .SH HISTORY
- .B Route
