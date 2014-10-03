@@ -57,6 +57,7 @@ Patch20: ether-wake-interfaces.patch
 Patch21: net-tools-sctp-quiet.patch
 
 # Fix bluetooth bitrot. Set to net-tools-devel@ on 2013/10/03
+# From: https://github.com/lkundrak/net-tools/commits/lr-bluetooth-fixes
 Patch22: net-tools-bluetooth.patch
 
 BuildRequires: bluez-libs-devel
