@@ -38,7 +38,7 @@
 #define HAVE_AFECONET 1
 #define HAVE_AFDECnet 0
 #define HAVE_AFASH 1
-#define HAVE_AFBLUETOOTH 0
+#define HAVE_AFBLUETOOTH 1
 
 /* 
  * 

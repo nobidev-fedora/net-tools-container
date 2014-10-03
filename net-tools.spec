@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.27.%{checkout}%{?dist}
+Release: 0.28.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -56,6 +56,10 @@ Patch20: ether-wake-interfaces.patch
 # make sctp quiet on systems without sctp (#1063906)
 Patch21: net-tools-sctp-quiet.patch
 
+# Fix bluetooth bitrot. Set to net-tools-devel@ on 2013/10/03
+Patch22: net-tools-bluetooth.patch
+
+BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -90,6 +94,7 @@ cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
 %patch21 -p1 -b .sctp-quiet
+%patch22 -p1 -b .bluetooth
 
 touch ./config.h
 
@@ -167,6 +172,9 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Oct 03 2014 Lubomir Rintel <lkundrak@v3.sk> - 2.0-0.28.20140707git
+- Enable bluetooth
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-0.27.20140707git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
