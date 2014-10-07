@@ -1,9 +1,9 @@
-%global checkout 20140707git
+%global checkout 20141007git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.27.%{checkout}%{?dist}
+Release: 0.29.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -56,6 +56,7 @@ Patch20: ether-wake-interfaces.patch
 # make sctp quiet on systems without sctp (#1063906)
 Patch21: net-tools-sctp-quiet.patch
 
+BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
 BuildRequires: systemd-units
@@ -119,8 +120,8 @@ make BASEDIR=%{buildroot} BINDIR=%{_bindir} SBINDIR=%{_sbindir} install
 mv %{buildroot}%{_bindir}/ifconfig %{buildroot}%{_sbindir}
 mv %{buildroot}%{_bindir}/route %{buildroot}%{_sbindir}
 
-install -m 755 ether-wake %{buildroot}%{_sbindir}
-install -m 755 mii-diag %{buildroot}%{_sbindir}
+install -p -m 755 ether-wake %{buildroot}%{_sbindir}
+install -p -m 755 mii-diag %{buildroot}%{_sbindir}
 
 rm %{buildroot}%{_sbindir}/rarp
 rm %{buildroot}%{_mandir}/man8/rarp.8*
@@ -140,8 +141,7 @@ rm -rf %{buildroot}%{_mandir}/man1
 rm -rf %{buildroot}%{_mandir}/pt/man1
 
 # install systemd unit file
-mkdir -p %{buildroot}%{_unitdir}
-install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
+install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 
 %find_lang %{name} --all-name --with-man
 
@@ -167,6 +167,12 @@ install -m 644 %{SOURCE9} %{buildroot}%{_unitdir}
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Oct 07 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.29.20141007git
+- latest upstream snapshot (#1149405)
+
+* Fri Oct 03 2014 Lubomir Rintel <lkundrak@v3.sk> - 2.0-0.28.20140707git
+- Enable bluetooth
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.0-0.27.20140707git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
