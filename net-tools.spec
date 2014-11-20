@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.29.%{checkout}%{?dist}
+Release: 0.30.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -167,6 +167,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Nov 20 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.30.20141007git
+- ether-wake: apply Debian's hardening patch
+
 * Tue Oct 07 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.29.20141007git
 - latest upstream snapshot (#1149405)
 
