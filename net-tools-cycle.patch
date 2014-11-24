@@ -1,15 +1,15 @@
 diff -up net-tools-2.0/lib/interface.c.cycle net-tools-2.0/lib/interface.c
---- net-tools-2.0/lib/interface.c.cycle	2014-04-26 02:45:16.000000000 +0200
-+++ net-tools-2.0/lib/interface.c	2014-07-07 14:41:47.304361493 +0200
+--- net-tools-2.0/lib/interface.c.cycle	2014-11-11 14:38:03.000000000 +0100
++++ net-tools-2.0/lib/interface.c	2014-11-24 14:45:46.128480980 +0100
 @@ -93,6 +93,7 @@ int if_list_all = 0;	/* do we have reque
  static struct interface *int_list, *int_last;
  
- static int if_readlist_proc(char *);
-+static int if_readlist_rep(char *, struct interface *);
+ static int if_readlist_proc(const char *);
++static int if_readlist_rep(const char *, struct interface *);
  
- static struct interface *if_cache_add(char *name)
+ static struct interface *if_cache_add(const char *name)
  {
-@@ -138,11 +139,14 @@ struct interface *lookup_interface(char
+@@ -138,11 +139,14 @@ struct interface *lookup_interface(const
  int for_all_interfaces(int (*doit) (struct interface *, void *), void *cookie)
  {
      struct interface *ife;
@@ -25,12 +25,12 @@ diff -up net-tools-2.0/lib/interface.c.cycle net-tools-2.0/lib/interface.c
  	if (err)
  	    return err;
      }
-@@ -378,6 +382,41 @@ static int if_readlist_proc(char *target
+@@ -379,6 +383,41 @@ static int if_readlist_proc(const char *
      fclose(fh);
      return err;
  }
 +
-+static int if_readlist_rep(char *target, struct interface *ife)
++static int if_readlist_rep(const char *target, struct interface *ife)
 +{
 +    FILE *fh;
 +    char buf[512];
@@ -68,48 +68,48 @@ diff -up net-tools-2.0/lib/interface.c.cycle net-tools-2.0/lib/interface.c
  int if_readlist(void)
  {
 diff -up net-tools-2.0/man/en_US/netstat.8.cycle net-tools-2.0/man/en_US/netstat.8
---- net-tools-2.0/man/en_US/netstat.8.cycle	2014-04-26 02:45:16.000000000 +0200
-+++ net-tools-2.0/man/en_US/netstat.8	2014-07-07 14:50:03.018957435 +0200
-@@ -34,6 +34,7 @@ netstat \- Print network connections, ro
+--- net-tools-2.0/man/en_US/netstat.8.cycle	2014-11-11 14:38:03.000000000 +0100
++++ net-tools-2.0/man/en_US/netstat.8	2014-11-24 14:47:36.140944944 +0100
+@@ -36,6 +36,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-verbose | \-v ]
  .RB [ \-\-continuous | \-c]
- .RB [ \-\-wide | \-W]
+ .RB [ \-\-wide | \-W ]
 +.RB [delay]
  .P
  .B netstat 
  .RB { \-\-route | \-r }
-@@ -43,6 +44,7 @@ netstat \- Print network connections, ro
+@@ -45,6 +46,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-numeric | \-n ]
  .RB [ \-\-numeric\-hosts "] [" \-\-numeric\-ports "] [" \-\-numeric\-users ]
- .RB [ \-\-continuous | \-c]
+ .RB [ \-\-continuous | \-c ]
 +.RB [delay]
  .P
  .B netstat
  .RB { \-\-interfaces | \-i }
-@@ -53,12 +55,14 @@ netstat \- Print network connections, ro
+@@ -55,12 +57,14 @@ netstat \- Print network connections, ro
  .RB [ \-\-numeric | \-n ]
  .RB [ \-\-numeric-hosts "] [" \-\-numeric-ports "] [" \-\-numeric-users ]
- .RB [ \-\-continuous | \-c]
+ .RB [ \-\-continuous | \-c ]
 +.RB [delay]
  .P
  .B netstat
  .RB { \-\-groups | \-g }
  .RB [ \-\-numeric | \-n ]
  .RB [ \-\-numeric\-hosts "] [" \-\-numeric\-ports "] [" \-\-numeric\-users ]
- .RB [ \-\-continuous | \-c]
+ .RB [ \-\-continuous | \-c ]
 +.RB [delay]
  .P
  .B netstat
  .RB { \-\-masquerade | \-M }
-@@ -66,6 +70,7 @@ netstat \- Print network connections, ro
+@@ -68,6 +72,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-numeric | \-n ]
  .RB [ \-\-numeric\-hosts "] [" \-\-numeric\-ports "] [" \-\-numeric\-users ]
- .RB [ \-\-continuous | \-c]
+ .RB [ \-\-continuous | \-c ]
 +.RB [delay]
  .P
  .B netstat
  .RB { \-\-statistics | -s }
-@@ -74,6 +79,7 @@ netstat \- Print network connections, ro
+@@ -76,6 +81,7 @@ netstat \- Print network connections, ro
  .RB [ \-\-udplite | \-U ]
  .RB [ \-\-sctp | \-S ]
  .RB [ \-\-raw | \-w ]
@@ -117,7 +117,7 @@ diff -up net-tools-2.0/man/en_US/netstat.8.cycle net-tools-2.0/man/en_US/netstat
  .P
  .B netstat 
  .RB { \-\-version | \-V }
-@@ -199,6 +205,10 @@ option, show interfaces that are not up
+@@ -208,6 +214,10 @@ option, show interfaces that are not up
  Print routing information from the FIB.  (This is the default.)
  .SS "\-C"
  Print routing information from the route cache.
@@ -129,8 +129,8 @@ diff -up net-tools-2.0/man/en_US/netstat.8.cycle net-tools-2.0/man/en_US/netstat
  .SH OUTPUT
  .P
 diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
---- net-tools-2.0/netstat.c.cycle	2014-04-26 02:45:16.000000000 +0200
-+++ net-tools-2.0/netstat.c	2014-07-07 14:41:47.305361476 +0200
+--- net-tools-2.0/netstat.c.cycle	2014-11-11 14:38:03.000000000 +0100
++++ net-tools-2.0/netstat.c	2014-11-24 14:44:24.948614445 +0100
 @@ -115,9 +115,9 @@
  #endif
  
@@ -143,7 +143,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  void inittab6(void);
  
  typedef enum {
-@@ -341,10 +341,10 @@ static void prg_cache_clear(void)
+@@ -342,10 +342,10 @@ static void prg_cache_clear(void)
      prg_cache_loaded = 0;
  }
  
@@ -156,7 +156,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  }
  
  static int extract_type_1_socket_inode(const char lname[], unsigned long * inode_p) {
-@@ -1781,6 +1781,8 @@ static int rfcomm_info(void)
+@@ -1787,6 +1787,8 @@ static int rfcomm_info(void)
  
  static int iface_info(void)
  {
@@ -165,7 +165,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      if (skfd < 0) {
  	if ((skfd = sockets_open(0)) < 0) {
  	    perror("socket");
-@@ -1790,20 +1792,21 @@ static int iface_info(void)
+@@ -1796,20 +1798,21 @@ static int iface_info(void)
      }
      if (flag_exp < 2) {
  	ife_short = 1;
@@ -190,7 +190,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      return 0;
  }
  
-@@ -1819,7 +1822,7 @@ static void usage(void)
+@@ -1825,7 +1828,7 @@ static void usage(void)
  {
      fprintf(stderr, _("usage: netstat [-vWeenNcCF] [<Af>] -r         netstat {-V|--version|-h|--help}\n"));
      fprintf(stderr, _("       netstat [-vWnNcaeol] [<Socket> ...]\n"));
@@ -199,7 +199,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  
      fprintf(stderr, _("        -r, --route              display routing table\n"));
      fprintf(stderr, _("        -i, --interfaces         display interface table\n"));
-@@ -1861,6 +1864,7 @@ int main
+@@ -1867,6 +1870,7 @@ int main
   (int argc, char *argv[]) {
      int i;
      int lop;
@@ -207,7 +207,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      static struct option longopts[] =
      {
  	AFTRANS_OPTS,
-@@ -2043,6 +2047,12 @@ int main
+@@ -2049,6 +2053,12 @@ int main
  	    flag_sta++;
  	}
  
@@ -220,7 +220,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      if (flag_int + flag_rou + flag_mas + flag_sta > 1)
  	usage();
  
-@@ -2072,7 +2082,7 @@ int main
+@@ -2078,7 +2088,7 @@ int main
  			     flag_not & FLAG_NUM_PORT, flag_exp);
  	    if (i || !flag_cnt)
  		break;
@@ -229,7 +229,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  	}
  #else
  	ENOSUPP("netstat", "FW_MASQUERADE");
-@@ -2085,17 +2095,18 @@ int main
+@@ -2091,17 +2101,18 @@ int main
          if (!afname[0])
              safe_strncpy(afname, DFLT_AF, sizeof(afname));
  
@@ -250,7 +250,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  #else
              ENOSUPP("netstat", "AF INET6");
  #endif
-@@ -2103,7 +2114,11 @@ int main
+@@ -2109,7 +2120,11 @@ int main
            printf(_("netstat: No statistics support for specified address family: %s\n"), afname);
            exit(1);
          }
@@ -263,7 +263,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      }
  
      if (flag_rou) {
-@@ -2125,7 +2140,7 @@ int main
+@@ -2131,7 +2146,7 @@ int main
  	    i = route_info(afname, options);
  	    if (i || !flag_cnt)
  		break;
@@ -272,7 +272,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  	}
  	return (i);
      }
-@@ -2134,7 +2149,7 @@ int main
+@@ -2140,7 +2155,7 @@ int main
  	    i = iface_info();
  	    if (!flag_cnt || i)
  		break;
@@ -281,7 +281,7 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
  	}
  	return (i);
      }
-@@ -2321,7 +2336,7 @@ int main
+@@ -2327,7 +2342,7 @@ int main
  
  	if (!flag_cnt || i)
  	    break;
@@ -291,8 +291,8 @@ diff -up net-tools-2.0/netstat.c.cycle net-tools-2.0/netstat.c
      }
      return (i);
 diff -up net-tools-2.0/statistics.c.cycle net-tools-2.0/statistics.c
---- net-tools-2.0/statistics.c.cycle	2014-04-26 02:45:16.000000000 +0200
-+++ net-tools-2.0/statistics.c	2014-07-07 14:41:47.306361459 +0200
+--- net-tools-2.0/statistics.c.cycle	2014-11-11 14:38:03.000000000 +0100
++++ net-tools-2.0/statistics.c	2014-11-24 14:44:24.949614431 +0100
 @@ -502,7 +502,7 @@ void process6_fd(FILE *f)
  
  }

@@ -1,9 +1,9 @@
-%global checkout 20141007git
+%global checkout 20141124git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.30.%{checkout}%{?dist}
+Release: 0.31.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -47,14 +47,8 @@ Patch8: net-tools-sctp-statistics.patch
 # ifconfig crash when interface name is too long (#190703)
 Patch9: net-tools-ifconfig-long-iface-crasher.patch
 
-# fixed tcp timers info in netstat (#466845)
-Patch10: net-tools-netstat-probe.patch
-
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
-
-# make sctp quiet on systems without sctp (#1063906)
-Patch21: net-tools-sctp-quiet.patch
 
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
@@ -78,7 +72,6 @@ Most of them are obsolete. For replacement check iproute package.
 %patch7 -p1 -b .stack
 %patch8 -p1 -b .sctp
 %patch9 -p1 -b .long_iface
-%patch10 -p1 -b .probe
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -90,7 +83,6 @@ cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
-%patch21 -p1 -b .sctp-quiet
 
 touch ./config.h
 
@@ -167,6 +159,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Mon Nov 24 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.31.20141124git
+- latest upstream snapshot (#1162284)
+
 * Thu Nov 20 2014 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.30.20141007git
 - ether-wake: apply Debian's hardening patch
 

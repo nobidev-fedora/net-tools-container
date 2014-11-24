@@ -1,6 +1,6 @@
 diff -up net-tools-2.0/man/en_US/netstat.8.interface net-tools-2.0/man/en_US/netstat.8
---- net-tools-2.0/man/en_US/netstat.8.interface	2014-10-07 11:42:22.683785562 +0200
-+++ net-tools-2.0/man/en_US/netstat.8	2014-10-07 11:42:22.686785520 +0200
+--- net-tools-2.0/man/en_US/netstat.8.interface	2014-11-24 14:52:45.648623478 +0100
++++ net-tools-2.0/man/en_US/netstat.8	2014-11-24 14:53:32.294972184 +0100
 @@ -49,9 +49,9 @@ netstat \- Print network connections, ro
  .RB [delay]
  .P
@@ -15,18 +15,18 @@ diff -up net-tools-2.0/man/en_US/netstat.8.interface net-tools-2.0/man/en_US/net
  .RB [ \-\-numeric | \-n ]
 @@ -134,8 +134,8 @@ and
  produce the same output.
- .SS "\-\-groups , \-g"
+ .SS "\-\-groups, \-g"
  Display multicast group membership information for IPv4 and IPv6.
 -.SS "\-\-interfaces, \-i"
 -Display a table of all network interfaces.
 +.SS "\-\-interfaces=\fIiface \fR, \fB\-I=\fIiface \fR, \fB\-i"
 +Display a table of all network interfaces, or the specified \fIiface\fR.
- .SS "\-\-masquerade , \-M"
+ .SS "\-\-masquerade, \-M"
  Display a list of masqueraded connections.
- .SS "\-\-statistics , \-s"
+ .SS "\-\-statistics, \-s"
 diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
---- net-tools-2.0/netstat.c.interface	2014-10-07 11:42:22.681785591 +0200
-+++ net-tools-2.0/netstat.c	2014-10-07 11:44:07.227294118 +0200
+--- net-tools-2.0/netstat.c.interface	2014-11-24 14:52:45.644623534 +0100
++++ net-tools-2.0/netstat.c	2014-11-24 14:52:45.652623422 +0100
 @@ -144,6 +144,7 @@ static char *Release = RELEASE, *Signatu
  #define E_IOCTL -3
  
@@ -35,7 +35,7 @@ diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
  int flag_rou = 0;
  int flag_mas = 0;
  int flag_sta = 0;
-@@ -1782,6 +1783,7 @@ static int rfcomm_info(void)
+@@ -1788,6 +1789,7 @@ static int rfcomm_info(void)
  static int iface_info(void)
  {
      static int count=0;
@@ -43,7 +43,7 @@ diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
  
      if (skfd < 0) {
  	if ((skfd = sockets_open(0)) < 0) {
-@@ -1796,7 +1798,11 @@ static int iface_info(void)
+@@ -1802,7 +1804,11 @@ static int iface_info(void)
  	    printf(_("Iface      MTU    RX-OK RX-ERR RX-DRP RX-OVR    TX-OK TX-ERR TX-DRP TX-OVR Flg\n"));
      }
  
@@ -56,7 +56,7 @@ diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
  	perror(_("missing interface information"));
  	exit(1);
      }
-@@ -1822,9 +1828,10 @@ static void usage(void)
+@@ -1828,9 +1834,10 @@ static void usage(void)
  {
      fprintf(stderr, _("usage: netstat [-vWeenNcCF] [<Af>] -r         netstat {-V|--version|-h|--help}\n"));
      fprintf(stderr, _("       netstat [-vWnNcaeol] [<Socket> ...]\n"));
@@ -68,7 +68,7 @@ diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
      fprintf(stderr, _("        -i, --interfaces         display interface table\n"));
      fprintf(stderr, _("        -g, --groups             display multicast group memberships\n"));
      fprintf(stderr, _("        -s, --statistics         display networking statistics (like SNMP)\n"));
-@@ -1869,7 +1876,7 @@ int main
+@@ -1875,7 +1882,7 @@ int main
      {
  	AFTRANS_OPTS,
  	{"version", 0, 0, 'V'},
@@ -77,7 +77,7 @@ diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
  	{"help", 0, 0, 'h'},
  	{"route", 0, 0, 'r'},
  #if HAVE_FW_MASQUERADE
-@@ -1913,7 +1920,7 @@ int main
+@@ -1919,7 +1926,7 @@ int main
      getroute_init();		/* Set up AF routing support */
  
      afname[0] = '\0';
@@ -86,7 +86,7 @@ diff -up net-tools-2.0/netstat.c.interface net-tools-2.0/netstat.c
  	switch (i) {
  	case -1:
  	    break;
-@@ -1954,6 +1961,13 @@ int main
+@@ -1960,6 +1967,13 @@ int main
  	case 'p':
  	    flag_prg++;
  	    break;
