@@ -1,9 +1,9 @@
-%global checkout 20150715git
+%global checkout 20150915git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.34.%{checkout}%{?dist}
+Release: 0.35.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -23,29 +23,23 @@ Source9: arp-ethers.service
 # adds <delay> option that allows netstat to cycle printing through statistics every delay seconds.
 Patch1: net-tools-cycle.patch
 
-# Fixed incorrect address display for ipx (#46434)
-Patch2: net-tools-ipx.patch
-
 # various man page fixes merged into one patch
-Patch3: net-tools-man.patch
+Patch2: net-tools-man.patch
 
 # netstat: interface option now works as described in the man page (#61113, #115987)
-Patch4: net-tools-interface.patch
+Patch3: net-tools-interface.patch
 
 # filter out duplicate tcp entries (#139407)
-Patch5: net-tools-duplicate-tcp.patch
+Patch4: net-tools-duplicate-tcp.patch
 
 # don't report statistics for virtual devices (#143981)
-Patch6: net-tools-statalias.patch
+Patch5: net-tools-statalias.patch
 
 # clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch7: net-tools-interface_stack.patch
-
-# statistics for SCTP
-Patch8: net-tools-sctp-statistics.patch
+Patch6: net-tools-interface_stack.patch
 
 # ifconfig crash when interface name is too long (#190703)
-Patch9: net-tools-ifconfig-long-iface-crasher.patch
+Patch7: net-tools-ifconfig-long-iface-crasher.patch
 
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
@@ -64,14 +58,12 @@ Most of them are obsolete. For replacement check iproute package.
 %prep
 %setup -q -c
 %patch1 -p1 -b .cycle
-%patch2 -p1 -b .ipx
-%patch3 -p1 -b .man
-%patch4 -p1 -b .interface
-%patch5 -p1 -b .dup-tcp
-%patch6 -p1 -b .statalias
-%patch7 -p1 -b .stack
-%patch8 -p1 -b .sctp
-%patch9 -p1 -b .long_iface
+%patch2 -p1 -b .man
+%patch3 -p1 -b .interface
+%patch4 -p1 -b .dup-tcp
+%patch5 -p1 -b .statalias
+%patch6 -p1 -b .stack
+%patch7 -p1 -b .long_iface
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -159,6 +151,10 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Sep 15 2015 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.35.20150915git
+- ether-wake: add interface into message (#1149502)
+- latest upstream snapshot (ipx.patch & sctp-statistics.patch merged)
+
 * Wed Jul 15 2015 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.34.20150715git
 - latest upstream snapshot
 

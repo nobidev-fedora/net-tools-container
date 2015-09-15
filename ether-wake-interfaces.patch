@@ -1,6 +1,6 @@
 diff -up net-tools-2.0/ether-wake.c.interfaces net-tools-2.0/ether-wake.c
---- net-tools-2.0/ether-wake.c.interfaces	2014-11-20 11:06:36.945067589 +0100
-+++ net-tools-2.0/ether-wake.c	2014-11-20 11:07:22.984416283 +0100
+--- net-tools-2.0/ether-wake.c.interfaces	2015-09-15 18:02:18.595968129 +0200
++++ net-tools-2.0/ether-wake.c	2015-09-15 18:02:18.607968095 +0200
 @@ -22,7 +22,7 @@ static char usage_msg[] =
  "	Options:\n"
  "		-b	Send wake-up packet to the broadcast address.\n"
@@ -134,21 +134,39 @@ diff -up net-tools-2.0/ether-wake.c.interfaces net-tools-2.0/ether-wake.c
  		if (ioctl(s, SIOCGIFINDEX, &ifr) == -1) {
  			fprintf(stderr, "SIOCGIFINDEX on %s failed: %s\n", ifname,
  					strerror(errno));
+@@ -240,11 +285,14 @@ int main(int argc, char *argv[])
+ 	strcpy(whereto.sa_data, ifname);
+ #endif
+ 
++	char senderrmsg[IFNAMSIZ+16] = "'";
++	strcat(senderrmsg, ifname);
++	strcat(senderrmsg, "', sendto");
+ 	if ((i = sendto(s, outpack, pktsize, 0, (struct sockaddr *)&whereto,
+ 					sizeof(whereto))) < 0)
+-		perror("sendto");
++		perror(senderrmsg);
+ 	else if (debug)
+-		printf("Sendto worked ! %d.\n", i);
++		printf("'%s', Sendto worked ! %d.\n", ifname, i);
+ 
+ #ifdef USE_SEND
+ 	if (bind(s, (struct sockaddr *)&whereto, sizeof(whereto)) < 0)
 diff -up net-tools-2.0/Makefile.interfaces net-tools-2.0/Makefile
---- net-tools-2.0/Makefile.interfaces	2014-10-07 03:26:10.000000000 +0200
-+++ net-tools-2.0/Makefile	2014-11-20 11:06:36.955067448 +0100
-@@ -193,6 +193,8 @@ ipmaddr:	$(NET_LIB) ipmaddr.o
+--- net-tools-2.0/Makefile.interfaces	2015-09-15 18:02:18.608968093 +0200
++++ net-tools-2.0/Makefile	2015-09-15 18:04:06.273668275 +0200
+@@ -193,6 +193,9 @@ ipmaddr:	$(NET_LIB) ipmaddr.o
  mii-tool:	$(NET_LIB) mii-tool.o
- 		$(CC) $(CFLAGS) $(LDFLAGS) -o $@ mii-tool.o $(NLIB) $(RESLIB)
+ 		$(CC) $(CFLAGS) $(LDFLAGS) -o $@ mii-tool.o $(NLIB)
  
 +ether-wake:	$(NET_LIB) ether-wake.o
-+		$(CC) $(LDFLAGS) -o ether-wake ether-wake.o $(NLIB)
++		$(CC) $(CFLAGS) $(LDFLAGS) -o ether-wake ether-wake.o $(NLIB)
++
  installbin:
  	@echo
  	@echo "######################################################"
 diff -up net-tools-2.0/man/en_US/ether-wake.8.interfaces net-tools-2.0/man/en_US/ether-wake.8
---- net-tools-2.0/man/en_US/ether-wake.8.interfaces	2014-11-20 11:06:36.947067561 +0100
-+++ net-tools-2.0/man/en_US/ether-wake.8	2014-11-20 11:06:36.955067448 +0100
+--- net-tools-2.0/man/en_US/ether-wake.8.interfaces	2015-09-15 18:02:18.597968123 +0200
++++ net-tools-2.0/man/en_US/ether-wake.8	2015-09-15 18:02:18.608968093 +0200
 @@ -49,7 +49,7 @@ Send the wake-up packet to the broadcast
  Increase the Debug Level.
  .TP
