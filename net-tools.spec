@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.35.%{checkout}%{?dist}
+Release: 0.36.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -151,6 +151,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.36.20150915git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
+
 * Tue Sep 15 2015 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.35.20150915git
 - ether-wake: add interface into message (#1149502)
 - latest upstream snapshot (ipx.patch & sctp-statistics.patch merged)
