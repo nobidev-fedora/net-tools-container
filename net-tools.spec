@@ -133,7 +133,6 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %systemd_post arp-ethers.service
 
 %files -f %{name}.lang
-%{!?_licensedir:%global license %%doc}
 %license COPYING
 %{_bindir}/netstat
 %{_sbindir}/ifconfig
