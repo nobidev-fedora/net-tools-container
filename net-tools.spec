@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.37.%{checkout}%{?dist}
+Release: 0.38.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -88,16 +88,16 @@ install -p -m 755 ether-wake %{buildroot}%{_sbindir}
 install -p -m 755 mii-diag %{buildroot}%{_sbindir}
 
 rm %{buildroot}%{_sbindir}/rarp
-#rm %{buildroot}%{_mandir}/man8/rarp.8*
-#rm %{buildroot}%{_mandir}/de/man8/rarp.8*
-#rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
-#rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
+rm %{buildroot}%{_mandir}/man8/rarp.8*
+rm %{buildroot}%{_mandir}/de/man8/rarp.8*
+rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
+rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
+# otherwise %%find_lang finds them even they're empty
 rm -rf %{buildroot}%{_mandir}/de/man1
 rm -rf %{buildroot}%{_mandir}/fr/man1
 rm -rf %{buildroot}%{_mandir}/man1
 rm -rf %{buildroot}%{_mandir}/pt/man1
-#it's empty for this snapshot (Wed 30 2016)
 rm -rf %{buildroot}%{_mandir}/pt/man5
 
 # install systemd unit file
@@ -127,6 +127,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Mar 30 2016 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.38.20160329git
+- just few nitpicks :)
+
 * Tue Mar 29 2016 Zdenek Dohnal <zdohnal@redhat.com> - 2.0-0.37.20160329git
 - latest upstream snapshot
 - adding HAVE_PLIP_TOOLS=1, HAVE_SERIAL_TOOLS=1, HAVE_ARP_TOOLS=1 into net-tools-config.h and net-tools-config.make
