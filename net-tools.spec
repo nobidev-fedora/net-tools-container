@@ -1,9 +1,9 @@
-%global checkout 20150915git
+%global checkout 20160329git
 
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.36.%{checkout}%{?dist}
+Release: 0.37.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -26,21 +26,6 @@ Patch1: net-tools-cycle.patch
 # various man page fixes merged into one patch
 Patch2: net-tools-man.patch
 
-# netstat: interface option now works as described in the man page (#61113, #115987)
-Patch3: net-tools-interface.patch
-
-# filter out duplicate tcp entries (#139407)
-Patch4: net-tools-duplicate-tcp.patch
-
-# don't report statistics for virtual devices (#143981)
-Patch5: net-tools-statalias.patch
-
-# clear static buffers in interface.c by Ulrich Drepper (#176714)
-Patch6: net-tools-interface_stack.patch
-
-# ifconfig crash when interface name is too long (#190703)
-Patch7: net-tools-ifconfig-long-iface-crasher.patch
-
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
 
@@ -59,11 +44,6 @@ Most of them are obsolete. For replacement check iproute package.
 %setup -q -c
 %patch1 -p1 -b .cycle
 %patch2 -p1 -b .man
-%patch3 -p1 -b .interface
-%patch4 -p1 -b .dup-tcp
-%patch5 -p1 -b .statalias
-%patch6 -p1 -b .stack
-%patch7 -p1 -b .long_iface
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -108,21 +88,17 @@ install -p -m 755 ether-wake %{buildroot}%{_sbindir}
 install -p -m 755 mii-diag %{buildroot}%{_sbindir}
 
 rm %{buildroot}%{_sbindir}/rarp
-rm %{buildroot}%{_mandir}/man8/rarp.8*
-rm %{buildroot}%{_mandir}/de/man8/rarp.8*
-rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
-rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
+#rm %{buildroot}%{_mandir}/man8/rarp.8*
+#rm %{buildroot}%{_mandir}/de/man8/rarp.8*
+#rm %{buildroot}%{_mandir}/fr/man8/rarp.8*
+#rm %{buildroot}%{_mandir}/pt/man8/rarp.8*
 
-# remove hostname (has its own package)
-rm %{buildroot}%{_bindir}/dnsdomainname
-rm %{buildroot}%{_bindir}/domainname
-rm %{buildroot}%{_bindir}/hostname
-rm %{buildroot}%{_bindir}/nisdomainname
-rm %{buildroot}%{_bindir}/ypdomainname
 rm -rf %{buildroot}%{_mandir}/de/man1
 rm -rf %{buildroot}%{_mandir}/fr/man1
 rm -rf %{buildroot}%{_mandir}/man1
 rm -rf %{buildroot}%{_mandir}/pt/man1
+#it's empty for this snapshot (Wed 30 2016)
+rm -rf %{buildroot}%{_mandir}/pt/man5
 
 # install systemd unit file
 install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
@@ -148,9 +124,16 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %{_sbindir}/plipconfig
 %{_sbindir}/slattach
 %{_mandir}/man[58]/*
+
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Mar 29 2016 Zdenek Dohnal <zdohnal@redhat.com> - 2.0-0.37.20160329git
+- latest upstream snapshot
+- adding HAVE_PLIP_TOOLS=1, HAVE_SERIAL_TOOLS=1, HAVE_ARP_TOOLS=1 into net-tools-config.h and net-tools-config.make
+- commenting out "%{buildroot}%{_mandir}/man8/rarp.8*" and its language alternatives in spec
+- adding "rm -rf %{buildroot}%{_mandir}/pt/man5" in spec
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.36.20150915git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
