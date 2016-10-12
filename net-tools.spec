@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.39.%{checkout}%{?dist}
+Release: 0.40.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -26,6 +26,9 @@ Patch1: net-tools-cycle.patch
 # various man page fixes merged into one patch
 Patch2: net-tools-man.patch
 
+# linux-4.8
+Patch3: net-tools-linux48.patch
+
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
 
@@ -44,6 +47,7 @@ Most of them are obsolete. For replacement check iproute package.
 %setup -q -c
 %patch1 -p1 -b .cycle
 %patch2 -p1 -b .man
+%patch3 -p1 -b .linux48
 
 cp %SOURCE1 ./config.h
 cp %SOURCE2 ./config.make
@@ -127,6 +131,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Oct 12 2016 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.40.20160912git
+- fix build on linux-4.8
+
 * Mon Sep 12 2016 mruprich <mruprich@redhat.com> - 2.0-0.39.20160912git
 - latest upstream snapshot
 
