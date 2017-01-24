@@ -62,7 +62,7 @@ cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
-%patch20 -p1 -b .ifconfig-EiB
+%patch21 -p1 -b .ifconfig-EiB
 
 touch ./config.h
 
