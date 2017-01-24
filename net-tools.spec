@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.39.%{checkout}%{?dist}
+Release: 0.40.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -32,6 +32,9 @@ Patch3: net-tools-linux48.patch
 # use all interfaces instead of default (#1003875)
 Patch20: ether-wake-interfaces.patch
 
+# use all interfaces instead of default (#1003875)
+Patch21: net-tools-ifconfig-EiB.patch
+
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
@@ -59,6 +62,7 @@ cp %SOURCE7 ./man/en_US
 cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
+%patch20 -p1 -b .ifconfig-EiB
 
 touch ./config.h
 
@@ -131,6 +135,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Jan 24 2017 Michal Ruprich <mruprich@redhat.com> - 2.0-0.40.20160329git
+- Resolves: #1414765 -  ifconfig inaccurately rounds exabytes
+
 * Wed Oct 12 2016 Jiri Popelka <jpopelka@redhat.com> - 2.0-0.39.20160329git
 - fix build on linux-4.8
 
