@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.42.%{checkout}%{?dist}
+Release: 0.43.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -34,6 +34,7 @@ Patch20: ether-wake-interfaces.patch
 
 # use all interfaces instead of default (#1003875)
 Patch21: net-tools-ifconfig-EiB.patch
+Patch22: net-tools-timer-man.patch
 
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
@@ -63,6 +64,7 @@ cp %SOURCE8 ./man/en_US
 
 %patch20 -p1 -b .interfaces
 %patch21 -p1 -b .ifconfig-EiB
+%patch22 -p1 -b .timer-man
 
 touch ./config.h
 
@@ -135,6 +137,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Nov 24 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.43.20160912git
+- Resolves: #1478868 - netstat(8) portion on Timer needs writing
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.42.20160912git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
