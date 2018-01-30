@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.43.%{checkout}%{?dist}
+Release: 0.44.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -39,8 +39,8 @@ Patch22: net-tools-timer-man.patch
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
-BuildRequires: systemd-units
-Requires(post): systemd-units
+BuildRequires: systemd
+%{?systemd_requires}
 
 %description
 The net-tools package contains basic networking tools,
@@ -137,6 +137,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Tue Jan 30 2018 Michal Ruprich <mruprich@redhat.com> - 2.0-0.44.20160912git
+- removing dependencies on systemd-units from spec file
+
 * Fri Nov 24 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.43.20160912git
 - Resolves: #1478868 - netstat(8) portion on Timer needs writing
 
