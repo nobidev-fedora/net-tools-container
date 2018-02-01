@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.46.%{checkout}%{?dist}
+Release: 0.47.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -80,7 +80,7 @@ export LDFLAGS="${RPM_LD_FLAGS} -pie -Wl,-z,now"
 
 make
 make ether-wake
-gcc ${RPM_OPT_FLAGS} -o mii-diag mii-diag.c
+gcc ${RPM_OPT_FLAGS} ${RPM_LD_FLAGS} -o mii-diag mii-diag.c
 
 %install
 mv man/de_DE man/de
@@ -137,6 +137,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Thu Feb  1 2018 Florian Weimer <fweimer@redhat.com> - 2.0-0.47.20160912git
+- Link mii-diag with $RPM_LD_FLAGS
+
 * Tue Jan 30 2018 Michal Ruprich <mruprich@redhat.com> - 2.0-0.46.20160912git
 - removing dependencies on systemd-units from spec file
 
