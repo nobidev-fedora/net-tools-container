@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.48.%{checkout}%{?dist}
+Release: 0.49.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -137,6 +137,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 2.0-0.49.20160912git
+- Escape macros in %%changelog
+
 * Thu Feb 08 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.48.20160912git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
@@ -173,8 +176,8 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 * Tue Mar 29 2016 Zdenek Dohnal <zdohnal@redhat.com> - 2.0-0.37.20160329git
 - latest upstream snapshot
 - adding HAVE_PLIP_TOOLS=1, HAVE_SERIAL_TOOLS=1, HAVE_ARP_TOOLS=1 into net-tools-config.h and net-tools-config.make
-- commenting out "%{buildroot}%{_mandir}/man8/rarp.8*" and its language alternatives in spec
-- adding "rm -rf %{buildroot}%{_mandir}/pt/man5" in spec
+- commenting out "%%{buildroot}%%{_mandir}/man8/rarp.8*" and its language alternatives in spec
+- adding "rm -rf %%{buildroot}%%{_mandir}/pt/man5" in spec
 
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.36.20150915git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
