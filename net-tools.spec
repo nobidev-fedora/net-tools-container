@@ -5,7 +5,6 @@ Name: net-tools
 Version: 2.0
 Release: 0.52.%{checkout}%{?dist}
 License: GPLv2+
-Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
 
 # git archive --format=tar --remote=git://git.code.sf.net/p/net-tools/code master | xz > net-tools-%%{version}.%%{checkout}.tar.xz
