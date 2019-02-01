@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.52.%{checkout}%{?dist}
+Release: 0.53.%{checkout}%{?dist}
 License: GPLv2+
 URL: http://sourceforge.net/projects/net-tools/
 
@@ -139,6 +139,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Fri Feb 01 2019 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.53.20160912git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Mon Jul 23 2018 Michal Ruprich <mruprich@redhat.com> - 2.0-0.52.20160912git
 - Resolves: #1604937 - net-tools: FTBFS in Fedora rawhide
 
