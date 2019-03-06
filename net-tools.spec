@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.52.%{checkout}%{?dist}
+Release: 0.53.%{checkout}%{?dist}
 License: GPLv2+
 Group: System Environment/Base
 URL: http://sourceforge.net/projects/net-tools/
@@ -36,6 +36,7 @@ Patch20: ether-wake-interfaces.patch
 Patch21: net-tools-ifconfig-EiB.patch
 Patch22: net-tools-timer-man.patch
 Patch23: net-tools-interface-name-len.patch
+Patch24: net-tools-correct-exit-code.patch
 
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
@@ -68,6 +69,7 @@ cp %SOURCE8 ./man/en_US
 %patch21 -p1 -b .ifconfig-EiB
 %patch22 -p1 -b .timer-man
 %patch23 -p1 -b .interface-name-len
+%patch24 -p1 -b .exit-codes
 
 touch ./config.h
 
@@ -140,6 +142,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Mar 06 2019 Michal Ruprich <mruprich@redhat.com> - 2.0-0.53.20160912git
+- Resolves: #1670779 - Exit code on wrong parameter is zero for many net-tools binaries
+
 * Mon Jul 23 2018 Michal Ruprich <mruprich@redhat.com> - 2.0-0.52.20160912git
 - Resolves: #1604937 - net-tools: FTBFS in Fedora rawhide
 
