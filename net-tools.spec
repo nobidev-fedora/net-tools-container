@@ -38,6 +38,7 @@ Patch23: net-tools-interface-name-len.patch
 Patch24: net-tools-correct-exit-code.patch
 Patch25: net-tools-spelling-error.patch
 
+BuildRequires: make
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
