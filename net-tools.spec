@@ -3,7 +3,7 @@
 Summary: Basic networking tools
 Name: net-tools
 Version: 2.0
-Release: 0.62.%{checkout}%{?dist}
+Release: 0.63.%{checkout}%{?dist}
 License: GPLv2+
 URL: http://sourceforge.net/projects/net-tools/
 
@@ -37,6 +37,7 @@ Patch22: net-tools-timer-man.patch
 Patch23: net-tools-interface-name-len.patch
 Patch24: net-tools-correct-exit-code.patch
 Patch25: net-tools-spelling-error.patch
+Patch26: net-tools-route-inet6-output.patch
 
 BuildRequires: make
 BuildRequires: bluez-libs-devel
@@ -72,6 +73,7 @@ cp %SOURCE8 ./man/en_US
 %patch23 -p1 -b .interface-name-len
 %patch24 -p1 -b .exit-codes
 %patch25 -p1 -b .spelling
+%patch26 -p1 -b .inet6-output
 
 touch ./config.h
 
@@ -144,6 +146,9 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
+* Wed Aug 03 2022 Michal Ruprich <mruprich@redhat.com> - 2.0-0.63.20160912git
+- Resolves: #2114821 - The output of `route -A inet6` does not display properly when the 'Use' column output is over 6 digits
+
 * Fri Jul 22 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.62.20160912git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
