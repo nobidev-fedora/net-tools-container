@@ -1,7 +1,7 @@
 %global checkout 20160912git
 
 Summary: Basic networking tools
-Name: net-tools
+Name: net-tools-container
 Version: 2.0
 Release: 0.69.%{checkout}%{?dist}
 License: GPL-2.0-or-later
@@ -17,7 +17,6 @@ Source5: mii-diag.c
 Source6: mii-diag.8
 Source7: iptunnel.8
 Source8: ipmaddr.8
-Source9: arp-ethers.service
 
 # adds <delay> option that allows netstat to cycle printing through statistics every delay seconds.
 Patch1: net-tools-cycle.patch
@@ -44,9 +43,7 @@ BuildRequires: make
 BuildRequires: bluez-libs-devel
 BuildRequires: gettext, libselinux
 BuildRequires: libselinux-devel
-BuildRequires: systemd
 BuildRequires: gcc
-%{?systemd_requires}
 
 %description
 The net-tools package contains basic networking tools,
@@ -121,13 +118,7 @@ rm -rf %{buildroot}%{_mandir}/man1
 rm -rf %{buildroot}%{_mandir}/pt/man1
 rm -rf %{buildroot}%{_mandir}/pt/man5
 
-# install systemd unit file
-install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
-
 %find_lang %{name} --all-name --with-man
-
-%post
-%systemd_post arp-ethers.service
 
 %files -f %{name}.lang
 %license COPYING
@@ -144,8 +135,6 @@ install -D -p -m 644 %{SOURCE9} %{buildroot}%{_unitdir}/arp-ethers.service
 %{_sbindir}/plipconfig
 %{_sbindir}/slattach
 %{_mandir}/man[58]/*
-
-%attr(0644,root,root)   %{_unitdir}/arp-ethers.service
 
 %changelog
 * Thu Jan 25 2024 Fedora Release Engineering <releng@fedoraproject.org> - 2.0-0.69.20160912git
